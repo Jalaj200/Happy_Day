@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Final Surprise 🌹💖{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/final_surprise.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════
+     FINAL SURPRISE BACKGROUND ENGINE
+     ═══════════════════════════════════════════════ -->
+<div class="surprise-bg-engine" aria-hidden="true">
+    <div class="surprise-radial-glow"></div>
+    <div class="surprise-bokeh-particles"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STAGE 1: THE ENTRANCE TRIGGER SCREEN
+     ═══════════════════════════════════════════════ -->
+<section id="stageEntrance" class="surprise-section d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9 col-12 text-center">
+                <div class="surprise-entrance-card glass-strong animate-card-enter p-5">
+                    
+                    <div class="entrance-icon-wrap mb-4" aria-hidden="true">
+                        <span class="entrance-emoji">🎁</span>
+                        <div class="entrance-sparkles">✨ 🌹 💖 🌹 ✨</div>
+                    </div>
+
+                    <h1 class="entrance-title font-romantic text-gradient mb-3">{{ config.hero_title }}</h1>
+                    <p class="entrance-subtitle font-elegant lead mb-5">
+                        {{ config.hero_subtitle }}
+                    </p>
+
+                    <div class="trigger-btn-wrap my-3">
+                        <button type="button" id="triggerSurpriseBtn" class="btn-romantic btn-giant animate-pulse-slow">
+                            <i class="fa-solid fa-gift me-2"></i>
+                            {{ config.trigger_button_text }}
+                        </button>
+                    </div>
+
+                    <div class="mt-5 pt-2 text-secondary small">
+                        <i class="fa-solid fa-heart-pulse text-accent me-1"></i>
+                        The culmination of our journey • Girlfriend's Day
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STAGE 2: THE PROPOSAL REVEAL & RUNAWAY BUTTON
+     ═══════════════════════════════════════════════ -->
+<section id="stageProposal" class="surprise-section d-flex align-items-center justify-content-center" style="display: none; opacity: 0;">
+    
+    <!-- Fireworks & Confetti Canvases -->
+    <canvas id="surpriseFireworksCanvas" class="surprise-canvas"></canvas>
+    <canvas id="surpriseConfettiCanvas" class="surprise-canvas"></canvas>
+
+    <!-- Floating Hearts Engine Layer -->
+    <div id="surpriseHeartsContainer" class="surprise-floating-hearts" aria-hidden="true"></div>
+
+    <div class="container position-relative" style="z-index: 20;">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8 col-12 text-center">
+                
+                <div class="proposal-card glass-strong p-5 animate-zoom-in">
+                    
+                    <!-- Huge Animated Heart -->
+                    <div class="giant-heart-wrap animate-heartbeat my-3" aria-hidden="true">
+                        <span class="giant-heart-emoji">💖</span>
+                        <div class="heart-glow"></div>
+                    </div>
+
+                    <!-- Giant Confession Message -->
+                    <h1 class="surprise-love-msg font-romantic text-gradient mb-3">
+                        {{ config.love_message }}
+                    </h1>
+
+                    <!-- The Eternal Question -->
+                    <h2 class="surprise-question-msg font-romantic text-white my-4">
+                        {{ config.question_message }}
+                    </h2>
+
+                    <div class="proposal-divider my-4">
+                        <span></span>
+                        <i class="fa-solid fa-rings-wedding text-warning mx-3"></i>
+                        <span></span>
+                    </div>
+
+                    <!-- Interactive Proposal Buttons -->
+                    <div class="proposal-buttons-wrap mt-5 d-flex justify-content-center align-items-center gap-4 flex-wrap" id="buttonsWrap">
+                        
+                        <button type="button" class="btn-romantic btn-yes animate-bounce" id="yesBtn">
+                            <i class="fa-solid fa-heart me-1"></i>
+                            {{ config.yes_button_text }}
+                        </button>
+
+                        <button type="button" class="btn-romantic btn-always-yes animate-bounce" id="alwaysYesBtn" style="animation-delay: 0.2s;">
+                            <i class="fa-solid fa-infinity me-1"></i>
+                            {{ config.always_yes_button_text }}
+                        </button>
+
+                        <!-- The Runaway NO Button -->
+                        <button type="button" class="btn-glass btn-no" id="runawayNoBtn">
+                            {{ config.no_button_text }}
+                        </button>
+
+                    </div>
+
+                    <div class="mt-5 pt-3 text-secondary small">
+                        <i class="fa-solid fa-shield-heart text-accent me-1"></i>
+                        Hint: There's only one right answer to this question 😉💕
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════
+     STAGE 3: THE CELEBRATION (SHE SAID YES!)
+     ═══════════════════════════════════════════════ -->
+<section id="stageSuccess" class="surprise-section d-flex align-items-center justify-content-center" style="display: none; opacity: 0;">
+    <div class="container position-relative" style="z-index: 30;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10 col-12 text-center">
+                <div class="success-card glass-strong p-5 animate-zoom-in">
+                    
+                    <div class="success-crown-wrap mb-4" aria-hidden="true">
+                        <span class="success-emoji animate-bounce">💍👑💖</span>
+                    </div>
+
+                    <span class="glass-pill mb-3 text-warning">
+                        <i class="fa-solid fa-sparkles me-2"></i>
+                        Forever & Always Confirmed
+                    </span>
+
+                    <h1 class="success-title font-romantic text-gradient my-3">
+                        She Said YES! 💖✨
+                    </h1>
+
+                    <div class="proposal-divider my-4">
+                        <span></span>
+                        <i class="fa-solid fa-heart text-accent mx-3"></i>
+                        <span></span>
+                    </div>
+
+                    <p class="success-text font-elegant lead my-4">
+                        {{ config.success_message }}
+                    </p>
+
+                    <!-- Synthesized Audio Fanfare Box -->
+                    <div class="success-audio-pill glass-pill my-4 d-inline-flex align-items-center gap-2">
+                        <i class="fa-solid fa-music text-accent animate-pulse"></i>
+                        <span>Playing Forever Celebration Symphony 🎵</span>
+                    </div>
+
+                    <div class="mt-4 pt-3">
+                        <button type="button" id="replaySurpriseBtn" class="btn-glass">
+                            <i class="fa-solid fa-rotate-right me-2"></i>
+                            Replay Proposal Surprise
+                        </button>
+                    </div>
+
+                    <div class="mt-4 pt-2">
+                        <a href="{% url 'love:home' %}" class="text-secondary small text-decoration-none hover-text-white">
+                            <i class="fa-solid fa-house-heart me-1"></i> Return to Our Home Page
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/final_surprise.js' %}" defer></script>
+{% endblock %}

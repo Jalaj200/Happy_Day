@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — 20 Reasons I Love You 💖{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/reasons.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════
+     HERO BANNER — Reasons I Love You
+     ═══════════════════════════════════════════════ -->
+<section class="reasons-hero">
+    <div class="reasons-hero-bg" aria-hidden="true">
+        <div class="reasons-hero-gradient"></div>
+        <div class="reasons-hero-stars"></div>
+    </div>
+    <div class="container position-relative" style="z-index: 5;">
+        <div class="text-center">
+            <span class="reasons-hero-emoji animate-fade-in" aria-hidden="true">💝</span>
+            <h1 class="reasons-hero-title font-romantic animate-fade-in" data-delay="1">
+                20 Reasons Why I Love You
+            </h1>
+            <p class="reasons-hero-subtitle font-elegant animate-fade-in" data-delay="2">
+                If I had a flower for every reason I love you, I could walk in my garden forever. Hover over each card to reveal what my heart holds ✨
+            </p>
+            <div class="reasons-hero-divider animate-fade-in" data-delay="3">
+                <span class="divider-heart">💖</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     INTERACTIVE CONTROLS BAR
+     ═══════════════════════════════════════════════ -->
+<section class="reasons-controls-section">
+    <div class="container">
+        <div class="reasons-controls glass-strong">
+            <div class="reasons-status font-elegant">
+                <i class="fa-solid fa-heart-pulse text-primary me-2"></i>
+                <span>Discovered: <strong id="flipCount" class="text-primary">0</strong> / {{ total_reasons }} Reasons</span>
+            </div>
+            <div class="reasons-actions">
+                <button type="button" class="control-btn" id="flipAllBtn" title="Reveal all reasons">
+                    <i class="fa-solid fa-layer-group me-1"></i> Flip All Cards
+                </button>
+                <button type="button" class="control-btn control-btn--outline" id="resetAllBtn" title="Reset all cards">
+                    <i class="fa-solid fa-rotate-left me-1"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     3D FLIP CARDS GRID
+     ═══════════════════════════════════════════════ -->
+<section class="reasons-grid-section" id="reasonsSection">
+    <div class="container">
+        <div class="reasons-grid" id="reasonsGrid">
+
+            {% for reason in reasons %}
+            <!-- Card {{ forloop.counter }} -->
+            <div class="reason-card-wrapper animate-card-entrance" style="--card-index: {{ forloop.counter0 }};">
+                <div class="reason-card {{ reason.gradient_class|default:'gradient-card-1' }}" data-reason-id="{{ reason.id|default:forloop.counter }}">
+                    
+                    <!-- ── FRONT OF CARD ── -->
+                    <div class="reason-card-front glass-card">
+                        <div class="reason-front-header">
+                            <span class="reason-number font-elegant">#{{ reason.order|default:forloop.counter }}</span>
+                            <span class="reason-front-emoji" aria-hidden="true">{{ reason.emoji|default:'💖' }}</span>
+                        </div>
+                        <div class="reason-icon-wrap">
+                            <i class="{{ reason.icon|default:'fa-solid fa-heart' }} reason-icon"></i>
+                            <div class="reason-icon-glow" aria-hidden="true"></div>
+                        </div>
+                        <h3 class="reason-title font-romantic">{{ reason.title }}</h3>
+                        <div class="reason-front-footer">
+                            <span class="reason-hint">Hover or tap to reveal <i class="fa-solid fa-arrow-rotate-right ms-1"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- ── BACK OF CARD ── -->
+                    <div class="reason-card-back glass-card">
+                        <div class="reason-back-header">
+                            <span class="reason-back-emoji" aria-hidden="true">{{ reason.emoji|default:'💖' }}</span>
+                            <span class="reason-number-back">#{{ reason.order|default:forloop.counter }} of {{ total_reasons }}</span>
+                        </div>
+                        <h4 class="reason-back-title font-romantic">{{ reason.title }}</h4>
+                        <div class="reason-divider"></div>
+                        <p class="reason-desc font-elegant">{{ reason.description }}</p>
+                        <div class="reason-back-footer">
+                            <span class="reason-back-hint"><i class="fa-solid fa-heart me-1"></i> Forever Us</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     BOTTOM CTA SECTION
+     ═══════════════════════════════════════════════ -->
+<section class="reasons-cta-section">
+    <div class="container">
+        <div class="reasons-cta glass-card text-center reveal-scale">
+            <span class="reasons-cta-emoji" aria-hidden="true">💌</span>
+            <h2 class="reasons-cta-title font-romantic text-gradient">And A Million More Reasons...</h2>
+            <p class="reasons-cta-text">
+                These 20 reasons are just the beginning. I fall in love with you all over again every single day, for a million new reasons that words could never describe.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'love:our_story' %}" class="btn-romantic">
+                    <i class="fa-solid fa-book-heart me-2"></i>
+                    Read Our Story
+                </a>
+                <a href="{% url 'love:gallery' %}" class="btn-glass">
+                    <i class="fa-solid fa-images me-2"></i>
+                    View Gallery
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/reasons.js' %}" defer></script>
+{% endblock %}

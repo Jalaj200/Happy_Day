@@ -1,0 +1,591 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Our Cinematic Love Story 💕{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}?v=20260727_unique_themes">
+{% endblock %}
+
+<!-- ── Suppress Footer for Storytelling Experience ── -->
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="story-container-wrapper" id="storyWrapper">
+
+    <!-- ── Ambient Background Lighting (Optimized for 60 FPS) ── -->
+    <div class="story-bg-lighting" aria-hidden="true">
+        <div class="light-orb orb-primary"></div>
+        <div class="light-orb orb-secondary"></div>
+        <div class="light-orb orb-tertiary"></div>
+    </div>
+
+    <!-- ── Reduced & Optimized Floating Romantic Elements (60 FPS, translate3d) ── -->
+    <div class="story-ambient-particles" aria-hidden="true">
+        <span class="ambient-item p-1">💖</span>
+        <span class="ambient-item p-2">✨</span>
+        <span class="ambient-item p-3">💕</span>
+        <span class="ambient-item p-4">🌸</span>
+        <span class="ambient-item p-5">💗</span>
+        <span class="ambient-item p-6">✨</span>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 1: CINEMATIC HERO SECTION
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-hero-section" id="heroSection">
+        <div class="hero-content-grid">
+            
+            <!-- Left Narrative Column -->
+            <div class="hero-narrative-col" data-aos="fade-up" data-aos-duration="1000">
+                
+                <div class="hero-welcome-badge">
+                    <span class="badge-icon">👑</span>
+                    <span class="badge-text">Welcome, My Princess ❤️</span>
+                </div>
+
+                <div class="hero-typography-group">
+                    <h1 class="hero-main-title">Forever Us 💕</h1>
+                    <p class="hero-romantic-subtitle">
+                        Every beautiful memory in my life<br>
+                        begins with <span class="neon-pink-word">you.</span> 💕
+                    </p>
+                    <div class="hero-celebration-tag">✨ Happy Girlfriend's Day 💕✨</div>
+                </div>
+
+                <!-- Storytelling CTA Buttons -->
+                <div class="hero-action-buttons">
+                    <a href="#chapter-story" class="btn-cinematic-primary">
+                        <span>Start Our Journey</span>
+                        <i class="fa-solid fa-arrow-down-long ms-2"></i>
+                    </a>
+                    <a href="{% url 'love:our_story' %}" class="btn-cinematic-secondary">
+                        <i class="fa-solid fa-book-open-reader me-2"></i>
+                        <span>Read Our Story</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Right Visual Column: Framed Memory & Live Badge -->
+            <div class="hero-visual-col" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="200">
+                <div class="hero-memory-frame-wrap">
+                    
+                    <!-- LED Glowing Aura -->
+                    <div class="memory-led-aura"></div>
+
+                    <!-- Floating Rose Bouquets -->
+                    <span class="floral-accent f-top-right">🌸</span>
+                    <span class="floral-accent f-bottom-left">🌹</span>
+
+                    <!-- Framed Photo -->
+                    <div class="memory-image-box">
+                        <img src="{% static 'images/romantic-hero.png' %}" 
+                             alt="Romantic couple under sunset skies" 
+                             class="memory-photo"
+                             loading="eager"
+                             decoding="async">
+                    </div>
+
+                    <!-- Overlapping Live Date/Time Apple Badge -->
+                    <div class="apple-datetime-badge">
+                        <div class="badge-header-row">
+                            <i class="fa-solid fa-heart text-danger animate-pulse"></i>
+                            <span>Live Romantic Clock</span>
+                        </div>
+                        <div class="badge-date-val" id="liveDate">Saturday, July 26, 2025</div>
+                        <div class="badge-time-val" id="liveTime">07:54 PM</div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Scroll Down Transition Arrow -->
+        <div class="hero-scroll-prompt">
+            <a href="#chapter-story" class="scroll-prompt-link">
+                <span class="prompt-text">Explore Our Chapters</span>
+                <i class="fa-solid fa-chevron-down prompt-arrow"></i>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 2 (CHAPTER I): OUR JOURNEY (PREVIEW TIMELINE)
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-chapter-section chapter-identity-1 preview-journey-section" id="chapter-story">
+        <div class="chapter-inner-container">
+            
+            <!-- Large Heading & Romantic Introduction -->
+            <div class="chapter-header-center" data-aos="fade-up" data-aos-duration="1000">
+                <div class="chapter-tag">✨ Chapter I ✨</div>
+                <h2 class="chapter-title journey-title">Our Journey <span class="neon-pink-word">💕</span></h2>
+                <p class="chapter-subtitle romantic-intro">
+                    "From our very first glance to a lifetime of dreams, here is a glimpse into the magical chapters of our love story..."
+                </p>
+            </div>
+
+            <!-- Elegant Vertical Timeline with Glowing Spine -->
+            <div class="preview-timeline-wrapper" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
+                
+                <!-- Central Glowing Connecting Line -->
+                <div class="preview-timeline-spine">
+                    <div class="spine-glow-pulse" aria-hidden="true"></div>
+                </div>
+
+                <!-- Milestone Card 1 (Left) -->
+                <div class="preview-timeline-row row-left" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="preview-timeline-card glass-card-apple tilt-interactive">
+                        <div class="card-glow-badge">✨ The Beginning</div>
+                        <div class="card-content-wrap">
+                            <div class="card-title-row">
+                                <span class="card-icon">💖</span>
+                                <h3>The First Glance</h3>
+                            </div>
+                            <p class="card-description">When our eyes met across the room and time stood completely still. In that single, breathtaking second, my heart whispered that I had found my forever home.</p>
+                            <span class="card-date-tag"><i class="fa-regular fa-calendar-heart me-2"></i>A Moment Frozen in Time</span>
+                        </div>
+                    </div>
+                    <div class="preview-timeline-node">
+                        <span class="node-icon">💖</span>
+                        <div class="node-pulse-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="preview-timeline-spacer"></div>
+                </div>
+
+                <!-- Milestone Card 2 (Right) -->
+                <div class="preview-timeline-row row-right" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="preview-timeline-spacer"></div>
+                    <div class="preview-timeline-node">
+                        <span class="node-icon">🌸</span>
+                        <div class="node-pulse-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="preview-timeline-card glass-card-apple tilt-interactive">
+                        <div class="card-glow-badge">💫 Unforgettable Spark</div>
+                        <div class="card-content-wrap">
+                            <div class="card-title-row">
+                                <span class="card-icon">🌸</span>
+                                <h3>Our First Date</h3>
+                            </div>
+                            <p class="card-description">Endless conversations, contagious laughter, and a connection that lit up the entire night sky. We never wanted that magical evening to end.</p>
+                            <span class="card-date-tag"><i class="fa-regular fa-clock me-2"></i>Endless Laughter & Joy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone Card 3 (Left) -->
+                <div class="preview-timeline-row row-left" data-aos="fade-right" data-aos-duration="1000">
+                    <div class="preview-timeline-card glass-card-apple tilt-interactive">
+                        <div class="card-glow-badge">🌹 Deeper Every Day</div>
+                        <div class="card-content-wrap">
+                            <div class="card-title-row">
+                                <span class="card-icon">✨</span>
+                                <h3>Falling in Love</h3>
+                            </div>
+                            <p class="card-description">Discovering the radiant warmth of your smile, the kindness of your soul, and realizing that every ordinary day with you becomes an extraordinary adventure.</p>
+                            <span class="card-date-tag"><i class="fa-solid fa-heart-pulse me-2"></i>Two Hearts Beating as One</span>
+                        </div>
+                    </div>
+                    <div class="preview-timeline-node">
+                        <span class="node-icon">✨</span>
+                        <div class="node-pulse-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="preview-timeline-spacer"></div>
+                </div>
+
+                <!-- Milestone Card 4 (Right) -->
+                <div class="preview-timeline-row row-right" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="preview-timeline-spacer"></div>
+                    <div class="preview-timeline-node">
+                        <span class="node-icon">👑</span>
+                        <div class="node-pulse-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="preview-timeline-card glass-card-apple tilt-interactive">
+                        <div class="card-glow-badge">♾️ Our Destiny</div>
+                        <div class="card-content-wrap">
+                            <div class="card-title-row">
+                                <span class="card-icon">👑</span>
+                                <h3>Forever & Always</h3>
+                            </div>
+                            <p class="card-description">Walking hand-in-hand towards all our tomorrows. Choosing you today, tomorrow, and for a lifetime of endless romance, laughter, and unconditional love.</p>
+                            <span class="card-date-tag"><i class="fa-solid fa-infinity me-2"></i>A Lifetime of Dreams</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline End Heart Node -->
+                <div class="preview-timeline-end text-center" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="end-heart-node">
+                        <i class="fa-solid fa-heart text-danger animate-pulse"></i>
+                    </div>
+                    <span class="end-text font-romantic">To Be Continued...</span>
+                </div>
+
+            </div>
+
+            <!-- Storytelling CTA Button -->
+            <div class="preview-journey-cta text-center mt-5 pt-3" data-aos="zoom-in" data-aos-duration="1000">
+                <a href="{% url 'love:our_story' %}" class="btn-cinematic-primary btn-read-story">
+                    <span>Read Our Story</span>
+                    <i class="fa-solid fa-book-open-reader ms-2"></i>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 3 (CHAPTER II): MOMENTS FROZEN IN TIME (PREMIUM MEMORIES SECTION)
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-chapter-section chapter-identity-2 premium-memories-section" id="chapter-memories">
+        <div class="chapter-inner-container">
+            
+            <div class="chapter-header-center" data-aos="fade-up" data-aos-duration="1000">
+                <div class="chapter-tag">📸 Memories Preview 📸</div>
+                <h2 class="chapter-title">Our Cherished Memories ✨</h2>
+                <p class="chapter-subtitle">
+                    "A glimpse into our cherished memories — a lifetime of love and unforgettable adventures."
+                </p>
+                <div class="memories-dynamic-badge mt-3" data-aos="zoom-in" data-aos-delay="200">
+                    <i class="fa-solid fa-database text-pink me-2"></i>
+                    <span>Dynamically synced from <strong>Django MySQL Database</strong></span>
+                </div>
+            </div>
+
+            <!-- Responsive Grid of Preview Glass Memory Cards (Only First 3) -->
+            <div class="premium-memories-grid" id="homeMemoriesGrid">
+                {% for memory in featured_memories|slice:":3" %}
+                <div class="memory-card-wrapper" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ forloop.counter0|default:0 }}00">
+                    <div class="premium-memory-card glass-card-apple {{ memory.theme|default:'theme-sunrise' }}" data-tilt data-tilt-max="12" data-tilt-speed="400" data-tilt-glare="true" data-tilt-max-glare="0.25">
+                        
+                        <!-- Unique Theme Top Accents -->
+                        {% if memory.theme == 'theme-polaroid' %}
+                        <div class="theme-accent-polaroid-tape" aria-hidden="true"></div>
+                        {% elif memory.theme == 'theme-birthday' %}
+                        <div class="theme-accent-ribbon"><span>✨ Celebration ✨</span></div>
+                        {% elif memory.theme == 'theme-travel' %}
+                        <div class="theme-accent-stamp" aria-hidden="true"><i class="fa-solid fa-stamp me-1"></i> PASSPORT LOVE</div>
+                        {% elif memory.theme == 'theme-loveletter' %}
+                        <div class="theme-accent-wax-seal" aria-hidden="true"><i class="fa-solid fa-heart"></i></div>
+                        {% elif memory.theme == 'theme-festival' %}
+                        <div class="theme-accent-floral-top" aria-hidden="true">🌸 ✨ 🌸 ✨ 🌸</div>
+                        {% elif memory.theme == 'theme-sunrise' %}
+                        <div class="theme-accent-sunburst" aria-hidden="true"><i class="fa-solid fa-sun animate-spin-slow"></i></div>
+                        {% endif %}
+
+                        <!-- Memory Photo / Visual Header -->
+                        <div class="memory-photo-container">
+                            {% if memory.image %}
+                                <img src="{{ memory.image.url }}" 
+                                     alt="{{ memory.title }}" 
+                                     class="memory-card-img" 
+                                     loading="lazy" 
+                                     decoding="async">
+                            {% else %}
+                                <div class="memory-photo-fallback {{ memory.gradient_class|default:'gradient-card-1' }}">
+                                    <span class="fallback-emoji">{{ memory.emoji|default:'💖' }}</span>
+                                    <div class="fallback-particles" aria-hidden="true">✨ 💕 ✨</div>
+                                </div>
+                            {% endif %}
+                            
+                            <!-- Date Badge on Photo -->
+                            <div class="memory-date-pill">
+                                <i class="fa-solid fa-calendar-day me-1"></i>
+                                <span>{{ memory.date_label }}</span>
+                            </div>
+
+                            <!-- Icon Badge on Photo -->
+                            <div class="memory-icon-circle">
+                                <i class="{{ memory.badge_icon|default:memory.icon|default:'fa-solid fa-heart' }}"></i>
+                            </div>
+                        </div>
+
+                        <!-- Card Content (Title & Short Romantic Description) -->
+                        <div class="memory-card-content">
+                            <div class="memory-title-row mb-2">
+                                <span class="memory-title-emoji">{{ memory.emoji|default:'✨' }}</span>
+                                <h3 class="memory-card-title">{{ memory.title }}</h3>
+                            </div>
+                            
+                            <p class="memory-card-desc mb-0">{{ memory.description }}</p>
+                        </div>
+
+                        <!-- Subtle Hover Glow & Theme Background Aura Layer -->
+                        <div class="memory-card-glow-layer" aria-hidden="true"></div>
+                        <div class="memory-theme-bg-pattern" aria-hidden="true"></div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Section Bottom CTA -->
+            <div class="memories-section-cta text-center mt-5 pt-3" data-aos="zoom-in" data-aos-duration="1000">
+                <a href="{% url 'love:memories' %}" class="btn-cinematic-primary px-5 py-3 fs-5 shadow-lg">
+                    <span>❤️ Continue Our Memories →</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 4 (CHAPTER III): WORDS FROM MY SOUL
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-chapter-section chapter-identity-3" id="chapter-words">
+        <div class="chapter-inner-container">
+            
+            <div class="chapter-header-center" data-aos="fade-up">
+                <div class="chapter-tag">💌 Chapter III 💌</div>
+                <h2 class="chapter-title">Words from My Soul ❤️</h2>
+                <p class="chapter-subtitle">
+                    "If I had a flower for every time I thought of you, I could walk through my garden forever."
+                </p>
+            </div>
+
+            <div class="love-words-grid">
+                
+                <!-- Double-Wide Love Note Card -->
+                <div class="love-parchment-card glass-card-apple" data-aos="fade-right">
+                    <div class="parchment-top-row">
+                        <span class="parchment-lbl"><i class="fa-solid fa-heart text-danger me-2"></i>A Note for My Girlfriend</span>
+                        <span class="parchment-date">August 1, 2025</span>
+                    </div>
+                    <blockquote class="parchment-quote font-romantic">
+                        "You are my today and all of my tomorrows. Thank you for being my anchor, my joy, and my greatest adventure. I love you more than words could ever express."
+                    </blockquote>
+                    <div class="parchment-footer">
+                        <div class="signature font-romantic">Love, Jalaj ❤️</div>
+                        <a href="{% url 'love:love_letter' %}" class="btn-apple-pill btn-glow-pink">
+                            <span>Read All 21+ Letters</span>
+                            <i class="fa-solid fa-envelope-open-text ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 20 Reasons Highlight Card -->
+                <div class="reasons-highlight-card glass-card-apple" data-aos="fade-left">
+                    <div class="reasons-header">
+                        <span class="reasons-icon">🌹</span>
+                        <h3>20 Reasons Why I Love You</h3>
+                    </div>
+                    <ul class="reasons-preview-list">
+                        <li><i class="fa-solid fa-check text-pink me-2"></i> Your heart of gold and boundless kindness</li>
+                        <li><i class="fa-solid fa-check text-pink me-2"></i> The way your laughter brightens up the darkest day</li>
+                        <li><i class="fa-solid fa-check text-pink me-2"></i> How you always support my biggest dreams</li>
+                        <li><i class="fa-solid fa-check text-pink me-2"></i> Your effortless beauty, inside and out</li>
+                    </ul>
+                    <a href="{% url 'love:reasons' %}" class="btn-apple-pill w-100 justify-content-center mt-3">
+                        <span>Discover All 20 Reasons</span>
+                        <i class="fa-solid fa-heart-pulse ms-2"></i>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 5 (CHAPTER IV): THE RHYTHM OF OUR HEARTS & LIVE COUNTDOWN
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-chapter-section chapter-identity-4" id="chapter-rhythm">
+        <div class="chapter-inner-container">
+            
+            <div class="chapter-header-center" data-aos="fade-up">
+                <div class="chapter-tag">🎵 Chapter IV ⏳</div>
+                <h2 class="chapter-title">The Symphony of Forever ⏳</h2>
+                <p class="chapter-subtitle">
+                    "Counting down every beat of our hearts until we celebrate us."
+                </p>
+            </div>
+
+            <div class="symphony-countdown-grid">
+                
+                <!-- Live Countdown Glass Showcase -->
+                <div class="countdown-showcase-card glass-card-apple" data-aos="fade-up">
+                    <div class="countdown-card-header">
+                        <span class="c-lbl"><i class="fa-solid fa-hourglass-half text-warning me-2"></i>Countdown to Girlfriend's Day</span>
+                        <span class="c-target">1 August 2025</span>
+                    </div>
+                    
+                    <div class="apple-countdown-grid" id="storyCountdown">
+                        <div class="c-box">
+                            <span class="c-num" id="countDays">02</span>
+                            <span class="c-unit">Days</span>
+                        </div>
+                        <div class="c-colon">:</div>
+                        <div class="c-box">
+                            <span class="c-num" id="countHours">12</span>
+                            <span class="c-unit">Hours</span>
+                        </div>
+                        <div class="c-colon">:</div>
+                        <div class="c-box">
+                            <span class="c-num" id="countMins">09</span>
+                            <span class="c-unit">Minutes</span>
+                        </div>
+                        <div class="c-colon">:</div>
+                        <div class="c-box">
+                            <span class="c-num" id="countSecs">32</span>
+                            <span class="c-unit">Seconds</span>
+                        </div>
+                    </div>
+
+                    <div class="countdown-footer-cta">
+                        <a href="{% url 'love:countdown' %}" class="btn-apple-link">
+                            <span>Open Dedicated Countdown Page</span>
+                            <i class="fa-solid fa-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Symphony Music Player Module -->
+                <div class="symphony-player-card glass-card-apple" data-aos="fade-up" data-aos-delay="150">
+                    <div class="symphony-header">
+                        <div class="vinyl-disc-wrap" id="homeVinylIcon">
+                            <span class="vinyl-center-icon">💖</span>
+                        </div>
+                        <div class="symphony-track-meta">
+                            <h4>Our Romantic Symphony</h4>
+                            <p>Forever Us Orchestra • Track 1 of 1</p>
+                        </div>
+                    </div>
+
+                    <div class="symphony-scrubber">
+                        <div class="scrubber-track">
+                            <div class="scrubber-fill" id="musicProgressFill"></div>
+                        </div>
+                        <div class="scrubber-timers">
+                            <span>01:25</span>
+                            <span>04:36</span>
+                        </div>
+                    </div>
+
+                    <div class="symphony-controls">
+                        <button class="ctrl-icon-btn" type="button" title="Mute/Unmute"><i class="fa-solid fa-volume-high"></i></button>
+                        <button class="ctrl-icon-btn" type="button" title="Previous"><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="ctrl-play-main" id="homePlayPauseBtn" type="button" title="Play/Pause">
+                            <i class="fa-solid fa-pause" id="homePlayIcon"></i>
+                        </button>
+                        <button class="ctrl-icon-btn" type="button" title="Next"><i class="fa-solid fa-forward-step"></i></button>
+                        <button class="ctrl-icon-btn" type="button" title="Repeat"><i class="fa-solid fa-repeat"></i></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         VIEWPORT 6 (THE FINAL CHAPTER): A SECRET WAITING FOR YOU
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <section class="story-chapter-section chapter-identity-5" id="chapter-secret">
+        <div class="chapter-inner-container">
+            
+            <div class="secret-climax-card glass-card-apple" data-aos="zoom-in" data-aos-duration="1000">
+                <div class="climax-glow-ring"></div>
+                <div class="climax-icon">🎁</div>
+                <div class="chapter-tag text-warning">✨ The Final Chapter ✨</div>
+                <h2 class="climax-title">A Secret Made Just for You 🔐</h2>
+                <p class="climax-subtitle">
+                    "Some surprises are too magical to reveal until the very last moment. Unlock what awaits in your secret vault."
+                </p>
+                <div class="climax-cta-row">
+                    <a href="{% url 'love:secret_page' %}" class="btn-apple-pill btn-secret-gold">
+                        <i class="fa-solid fa-key me-2"></i>
+                        <span>Unlock The Secret</span>
+                    </a>
+                    <a href="{% url 'love:final_surprise' %}" class="btn-apple-pill btn-surprise-red">
+                        <i class="fa-solid fa-gift me-2"></i>
+                        <span>Open Final Surprise</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         STORYTELLING FOOTER ENDING
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <footer class="story-footer">
+        <div class="footer-inner">
+            <span class="footer-heart animate-heartbeat">💖</span>
+            <p class="footer-text font-romantic">Forever Us — Made with infinite love by Jalaj for his Princess 💕</p>
+            <p class="footer-subtext">© 2026 Forever Us • Every beautiful story has no end.</p>
+        </div>
+    </footer>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}?v=20260727_story" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    "use strict";
+    
+    // Symphony player play/pause integration
+    const playBtn = document.getElementById("homePlayPauseBtn");
+    const playIcon = document.getElementById("homePlayIcon");
+    const vinyl = document.getElementById("homeVinylIcon");
+    const navMusicBtn = document.getElementById("homeMusicToggleBtn");
+    let isPlaying = true;
+
+    function toggleMusicState() {
+        isPlaying = !isPlaying;
+        if (playIcon) {
+            playIcon.className = isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
+        }
+        if (vinyl) {
+            if (isPlaying) vinyl.classList.add("playing");
+            else vinyl.classList.remove("playing");
+        }
+        const audioEl = document.getElementById("bgMusic") || document.querySelector("audio");
+        if (audioEl) {
+            if (isPlaying) audioEl.play().catch(()=>{});
+            else audioEl.pause();
+        }
+    }
+
+    if (playBtn) playBtn.addEventListener("click", toggleMusicState);
+    if (navMusicBtn) navMusicBtn.addEventListener("click", toggleMusicState);
+    if (vinyl && isPlaying) vinyl.classList.add("playing");
+
+    // Theme toggle logic
+    const themeBtn = document.getElementById("homeThemeToggleBtn");
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            const html = document.documentElement;
+            const current = html.getAttribute("data-theme") || "light";
+            const next = current === "light" ? "dark" : "light";
+            html.setAttribute("data-theme", next);
+            localStorage.setItem("theme", next);
+        });
+    }
+
+    // Live Date/Time Clock Updates
+    function updateClock() {
+        const dateEl = document.getElementById("liveDate");
+        const timeEl = document.getElementById("liveTime");
+        if (!dateEl || !timeEl) return;
+        const now = new Date();
+        const optsDate = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+        const optsTime = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true };
+        dateEl.textContent = now.toLocaleDateString("en-US", optsDate);
+        timeEl.textContent = now.toLocaleTimeString("en-US", optsTime);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+});
+</script>
+{% endblock %}

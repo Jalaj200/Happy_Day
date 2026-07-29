@@ -1,0 +1,684 @@
+/* ═══════════════════════════════════════════════════════════
+   Forever Us — Our Story Timeline Styles
+   ═══════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────
+   1. STORY HERO BANNER
+   ────────────────────────────────────────────── */
+.story-hero {
+    position: relative;
+    padding: calc(var(--navbar-height) + 4rem) 0 4rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.story-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.story-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        160deg,
+        #0d0117 0%,
+        #1a0a2e 20%,
+        #2d1338 40%,
+        #4a1942 60%,
+        #7b1fa2 80%,
+        #9c27b0 100%
+    );
+}
+
+.story-hero-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 45% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.2px 1.2px at 30% 80%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 85% 45%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.3px 1.3px at 60% 35%, rgba(255,255,255,0.5), transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.story-hero-content {
+    position: relative;
+    z-index: 5;
+}
+
+.story-hero-emoji {
+    display: block;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-10px) rotate(3deg); }
+}
+
+.story-hero-title {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.3), 0 0 40px rgba(233,30,99,0.2);
+}
+
+.story-hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: rgba(255, 255, 255, 0.75);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+}
+
+.story-hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider-heart {
+    font-size: 1.5rem;
+    animation: heroHeartPulse 1.2s ease-in-out infinite;
+}
+
+/* ── Fade-in Utility ── */
+.animate-fade-in {
+    opacity: 0;
+    transform: translateY(25px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in[data-delay="1"] { animation-delay: 0.2s; }
+.animate-fade-in[data-delay="2"] { animation-delay: 0.4s; }
+.animate-fade-in[data-delay="3"] { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ──────────────────────────────────────────────
+   2. TIMELINE SECTION
+   ────────────────────────────────────────────── */
+.timeline-section {
+    position: relative;
+    z-index: 1;
+    padding: var(--space-2xl) 0;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+
+/* ── Central Vertical Line ── */
+.timeline-line {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--glass-border);
+    transform: translateX(-50%);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.timeline-line-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--gradient-rose);
+    border-radius: 3px;
+    transition: height 0.1s linear;
+    box-shadow: 0 0 10px rgba(233, 30, 99, 0.4);
+}
+
+
+/* ── Timeline Item ── */
+.timeline-item {
+    position: relative;
+    width: 50%;
+    padding: 0 3rem 4rem;
+    /* Scroll animation */
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-item--left {
+    left: 0;
+    padding-right: 3.5rem;
+    text-align: right;
+    transform: translateX(-50px);
+}
+
+.timeline-item--right {
+    left: 50%;
+    padding-left: 3.5rem;
+    text-align: left;
+    transform: translateX(50px);
+}
+
+/* Revealed state */
+.timeline-item.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* ── Timeline Marker ── */
+.timeline-marker {
+    position: absolute;
+    top: 0.5rem;
+    width: 48px;
+    height: 48px;
+    z-index: 5;
+}
+
+.timeline-item--left .timeline-marker {
+    right: -24px;
+}
+
+.timeline-item--right .timeline-marker {
+    left: -24px;
+}
+
+.timeline-marker-dot {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-circle);
+    background: var(--gradient-rose);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1rem;
+    z-index: 2;
+    box-shadow:
+        0 0 0 4px var(--bg-body),
+        0 4px 16px rgba(233, 30, 99, 0.35);
+    transition: all var(--transition-base);
+}
+
+.timeline-item.revealed .timeline-marker-dot {
+    animation: markerPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes markerPop {
+    0%   { transform: scale(0); }
+    100% { transform: scale(1); }
+}
+
+/* Pulse ring */
+.timeline-marker-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-circle);
+    transform: translate(-50%, -50%);
+    border: 2px solid var(--clr-primary);
+    opacity: 0;
+    z-index: 1;
+}
+
+.timeline-item.revealed .timeline-marker-pulse {
+    animation: markerPulse 2s ease-out infinite 0.8s;
+}
+
+@keyframes markerPulse {
+    0%   { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+    100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+
+/* ── Timeline Card ── */
+.timeline-card {
+    position: relative;
+    padding: 1.75rem;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    overflow: hidden;
+}
+
+.timeline-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.timeline-card::before {
+    content: '';
+    position: absolute;
+    top: 1.2rem;
+    width: 16px;
+    height: 16px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    transform: rotate(45deg);
+    z-index: -1;
+}
+
+/* Arrow pointing toward the line */
+.timeline-item--left .timeline-card::before {
+    right: -8px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.timeline-item--right .timeline-card::before {
+    left: -8px;
+    border-right: none;
+    border-top: none;
+}
+
+/* ── Card Header ── */
+.timeline-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.timeline-item--left .timeline-card-header {
+    flex-direction: row-reverse;
+}
+
+.timeline-card-date {
+    font-size: 0.9rem;
+    color: var(--clr-primary);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.timeline-card-emoji {
+    font-size: 1.4rem;
+    animation: cardEmojiPulse 2s ease-in-out infinite;
+}
+
+@keyframes cardEmojiPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+}
+
+/* ── Card Body ── */
+.timeline-card-title {
+    font-family: var(--font-elegant);
+    font-size: 1.6rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    transition: color var(--transition-fast);
+}
+
+.timeline-card:hover .timeline-card-title {
+    color: var(--clr-primary);
+}
+
+.timeline-card-subtitle {
+    font-size: 1rem;
+    color: var(--clr-primary-light);
+    margin-bottom: 0.75rem;
+    opacity: 0.8;
+}
+
+.timeline-card-desc {
+    font-size: 0.93rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 0.5rem;
+}
+
+
+/* ── Expandable Content ── */
+.timeline-card-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timeline-card-expand.expanded {
+    max-height: 500px;
+}
+
+.timeline-card-expand-inner {
+    padding-top: 0.5rem;
+}
+
+.timeline-card-expand-divider {
+    width: 50px;
+    height: 2px;
+    background: var(--gradient-rose);
+    border-radius: 2px;
+    margin-bottom: 1rem;
+}
+
+.timeline-item--left .timeline-card-expand-divider {
+    margin-left: auto;
+}
+
+.timeline-card-expand-text {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.85;
+    font-style: italic;
+}
+
+
+/* ── Expand Toggle Button ── */
+.timeline-card-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: none;
+    border: none;
+    padding: 0.4rem 0;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--clr-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    margin-top: 0.25rem;
+}
+
+.timeline-card-toggle:hover {
+    color: var(--clr-primary-dark);
+    gap: 0.6rem;
+}
+
+.toggle-icon {
+    font-size: 0.7rem;
+    transition: transform var(--transition-base);
+}
+
+.timeline-card-toggle[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+.timeline-card-toggle[aria-expanded="true"] .toggle-text {
+    /* Updated by JS */
+}
+
+/* ── Card Glow ── */
+.timeline-card-glow {
+    position: absolute;
+    bottom: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 40%;
+    background: radial-gradient(
+        ellipse,
+        rgba(233, 30, 99, 0.1) 0%,
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity var(--transition-base);
+    pointer-events: none;
+}
+
+.timeline-card:hover .timeline-card-glow {
+    opacity: 1;
+}
+
+/* ── Active/Expanded Card State ── */
+.timeline-card.active {
+    border-color: rgba(233, 30, 99, 0.3);
+    box-shadow:
+        var(--glass-shadow),
+        0 0 20px rgba(233, 30, 99, 0.1);
+}
+
+
+/* ── Timeline End Marker ── */
+.timeline-end {
+    position: relative;
+    text-align: center;
+    padding-top: 2rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.timeline-end.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.timeline-end-marker {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-circle);
+    background: var(--gradient-rose);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin: 0 auto 1rem;
+    box-shadow:
+        0 0 0 4px var(--bg-body),
+        0 4px 20px rgba(233, 30, 99, 0.35);
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+.timeline-end-text {
+    font-size: 2rem;
+    color: var(--clr-primary);
+    margin-bottom: 0;
+}
+
+
+/* ──────────────────────────────────────────────
+   3. BOTTOM CTA SECTION
+   ────────────────────────────────────────────── */
+.story-cta-section {
+    position: relative;
+    z-index: 1;
+    padding: 0 0 var(--space-2xl);
+}
+
+.story-cta {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-cta-emoji {
+    display: block;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.story-cta-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1rem;
+}
+
+.story-cta-text {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto 2rem;
+}
+
+
+/* ──────────────────────────────────────────────
+   4. RESPONSIVE — TIMELINE
+   ────────────────────────────────────────────── */
+
+/* ── Tablets ── */
+@media (max-width: 991.98px) {
+    .story-hero {
+        padding: calc(var(--navbar-height) + 3rem) 0 3rem;
+    }
+
+    .timeline-card {
+        padding: 1.5rem;
+    }
+
+    .timeline-card-title {
+        font-size: 1.4rem;
+    }
+}
+
+/* ── Mobile — Single Column Timeline ── */
+@media (max-width: 767.98px) {
+    .story-hero-emoji {
+        font-size: 2.5rem;
+    }
+
+    .story-hero-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Shift line to the left */
+    .timeline-line {
+        left: 24px;
+    }
+
+    /* All items full width, aligned left */
+    .timeline-item,
+    .timeline-item--left,
+    .timeline-item--right {
+        width: 100%;
+        left: 0;
+        padding-left: 60px;
+        padding-right: 0;
+        text-align: left;
+    }
+
+    /* Reset transform directions */
+    .timeline-item--left {
+        transform: translateY(30px);
+    }
+
+    .timeline-item--right {
+        transform: translateY(30px);
+    }
+
+    .timeline-item.revealed {
+        transform: translateY(0);
+    }
+
+    /* Markers all on the left */
+    .timeline-item--left .timeline-marker,
+    .timeline-item--right .timeline-marker {
+        left: 0;
+        right: auto;
+    }
+
+    .timeline-marker-dot {
+        width: 40px;
+        height: 40px;
+        font-size: 0.85rem;
+    }
+
+    .timeline-marker-pulse {
+        width: 40px;
+        height: 40px;
+    }
+
+    /* Arrows all point left */
+    .timeline-card::before {
+        left: -8px;
+        right: auto;
+        border-right: none;
+        border-top: none;
+        border-left: 1px solid var(--glass-border);
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    /* Header layout */
+    .timeline-item--left .timeline-card-header {
+        flex-direction: row;
+    }
+
+    /* Expand divider */
+    .timeline-item--left .timeline-card-expand-divider {
+        margin-left: 0;
+    }
+
+    .timeline-card {
+        padding: 1.25rem;
+    }
+
+    .timeline-card-title {
+        font-size: 1.3rem;
+    }
+
+    .timeline-card-desc {
+        font-size: 0.9rem;
+    }
+
+    .timeline-item {
+        padding-bottom: 2.5rem;
+    }
+
+    /* Timeline end */
+    .timeline-end-marker {
+        width: 48px;
+        height: 48px;
+        font-size: 1.1rem;
+    }
+
+    .timeline-end-text {
+        font-size: 1.6rem;
+    }
+
+    /* CTA */
+    .story-cta {
+        padding: 2rem 1.5rem;
+    }
+}
+
+/* ── Small Phones ── */
+@media (max-width: 575.98px) {
+    .timeline-item,
+    .timeline-item--left,
+    .timeline-item--right {
+        padding-left: 50px;
+    }
+
+    .timeline-line {
+        left: 18px;
+    }
+
+    .timeline-marker-dot {
+        width: 36px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+
+    .timeline-marker-pulse {
+        width: 36px;
+        height: 36px;
+    }
+
+    .timeline-card-title {
+        font-size: 1.2rem;
+    }
+
+    .timeline-card-date {
+        font-size: 0.82rem;
+    }
+}

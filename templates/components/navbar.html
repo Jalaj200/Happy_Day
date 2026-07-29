@@ -1,0 +1,189 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     Forever Us — Premium Floating Glassmorphism Navigation Bar
+     Reference Style: Apple, Linear, Framer, Luxury SaaS Landing Pages
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<header class="apple-floating-header" id="appleFloatingHeader">
+    <nav class="apple-glass-navbar" id="appleGlassNavbar" aria-label="Main Navigation">
+        <div class="navbar-inner-pill">
+            
+            <!-- ── 1. Far Left: Logo ── -->
+            <a class="nav-brand-apple" href="{% url 'love:home' %}" aria-label="Home">
+                <span class="brand-heart-glow">❤️</span>
+                <span class="brand-title-text">Forever Us</span>
+            </a>
+
+            <!-- ── 2. Center: Navigation Links (Desktop) ── -->
+            <ul class="nav-center-links d-none d-xl-flex" id="desktopNavCenter">
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'love:home' %}">
+                        <span class="nav-text">Home</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'our_story' %}active{% endif %}" href="{% url 'love:our_story' %}">
+                        <span class="nav-text">Our Story</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'memories' %}active{% endif %}" href="{% url 'love:memories' %}">
+                        <span class="nav-text">Memories</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}" href="{% url 'love:gallery' %}">
+                        <span class="nav-text">Gallery</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'reasons' %}active{% endif %}" href="{% url 'love:reasons' %}">
+                        <span class="nav-text">20 Reasons</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'love_letter' %}active{% endif %}" href="{% url 'love:love_letter' %}">
+                        <span class="nav-text">Love Letter</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple {% if request.resolver_match.url_name == 'countdown' %}active{% endif %}" href="{% url 'love:countdown' %}">
+                        <span class="nav-text">Countdown</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple link-secret {% if request.resolver_match.url_name == 'secret_page' %}active{% endif %}" href="{% url 'love:secret_page' %}">
+                        <span class="nav-text">Secret</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link-apple link-surprise {% if request.resolver_match.url_name == 'final_surprise' %}active{% endif %}" href="{% url 'love:final_surprise' %}">
+                        <span class="nav-text">Surprise</span>
+                        <span class="nav-animated-underline"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- ── 3. Far Right: Utility Controls & Hamburger ── -->
+            <div class="nav-right-controls d-flex align-items-center gap-2">
+                
+                <!-- Music Button -->
+                <button class="nav-util-btn btn-music" id="navMusicBtn" type="button" aria-label="Toggle background music" title="Play Romantic Music">
+                    <i class="fa-solid fa-music" id="navMusicIcon"></i>
+                    <span class="btn-tooltip">Music</span>
+                </button>
+
+                <!-- Dark Mode Button -->
+                <button class="nav-util-btn btn-theme" id="navThemeBtn" type="button" aria-label="Toggle dark mode" title="Toggle Theme">
+                    <i class="fa-solid fa-moon" id="navThemeIcon"></i>
+                    <span class="btn-tooltip">Dark Mode</span>
+                </button>
+
+                <!-- Favourite Button -->
+                <button class="nav-util-btn btn-fav" id="navFavBtn" type="button" aria-label="Save to Favourites" title="Send Love & Bookmark">
+                    <i class="fa-solid fa-heart text-danger"></i>
+                    <span class="btn-tooltip">Favourite</span>
+                </button>
+
+                <!-- Hamburger Menu Button (Visible on Tablet/Mobile) -->
+                <button class="apple-hamburger d-xl-none" id="appleHamburgerBtn" type="button" aria-label="Open navigation drawer" aria-expanded="false">
+                    <span class="bar bar-top"></span>
+                    <span class="bar bar-middle"></span>
+                    <span class="bar bar-bottom"></span>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MOBILE / TABLET GLASS DRAWER MENU (Linear / Apple Style)
+     ═══════════════════════════════════════════════════════════════════════════ -->
+<div class="apple-mobile-drawer" id="appleMobileDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" id="appleDrawerBackdrop"></div>
+    <div class="drawer-panel">
+        
+        <div class="drawer-header">
+            <a class="nav-brand-apple" href="{% url 'love:home' %}">
+                <span class="brand-heart-glow">❤️</span>
+                <span class="brand-title-text">Forever Us</span>
+            </a>
+            <button class="drawer-close-btn" id="appleDrawerCloseBtn" type="button" aria-label="Close menu">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="drawer-body">
+            <ul class="drawer-nav-list">
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'love:home' %}">
+                        <i class="fa-solid fa-house-heart icon"></i><span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'our_story' %}active{% endif %}" href="{% url 'love:our_story' %}">
+                        <i class="fa-solid fa-book-heart icon"></i><span>Our Story</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'memories' %}active{% endif %}" href="{% url 'love:memories' %}">
+                        <i class="fa-solid fa-camera-retro icon"></i><span>Memories</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'gallery' %}active{% endif %}" href="{% url 'love:gallery' %}">
+                        <i class="fa-solid fa-images icon"></i><span>Gallery</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'reasons' %}active{% endif %}" href="{% url 'love:reasons' %}">
+                        <i class="fa-solid fa-heart-pulse icon"></i><span>20 Reasons</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'love_letter' %}active{% endif %}" href="{% url 'love:love_letter' %}">
+                        <i class="fa-solid fa-envelope-heart icon"></i><span>Love Letter</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link {% if request.resolver_match.url_name == 'countdown' %}active{% endif %}" href="{% url 'love:countdown' %}">
+                        <i class="fa-solid fa-clock-rotate-left icon"></i><span>Countdown</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link link-secret {% if request.resolver_match.url_name == 'secret_page' %}active{% endif %}" href="{% url 'love:secret_page' %}">
+                        <i class="fa-solid fa-key icon"></i><span>Secret Sanctuary</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="drawer-link link-surprise {% if request.resolver_match.url_name == 'final_surprise' %}active{% endif %}" href="{% url 'love:final_surprise' %}">
+                        <i class="fa-solid fa-gift icon"></i><span>Final Surprise</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="drawer-footer">
+            <div class="drawer-util-row">
+                <button class="drawer-util-pill btn-music" id="drawerMusicBtn">
+                    <i class="fa-solid fa-music"></i><span>Music</span>
+                </button>
+                <button class="drawer-util-pill btn-theme" id="drawerThemeBtn">
+                    <i class="fa-solid fa-moon"></i><span>Theme</span>
+                </button>
+                <button class="drawer-util-pill btn-fav" id="drawerFavBtn">
+                    <i class="fa-solid fa-heart text-danger"></i><span>Fav</span>
+                </button>
+            </div>
+            <p class="drawer-tagline">Every moment with you is a forever memory. 💕</p>
+        </div>
+
+    </div>
+</div>

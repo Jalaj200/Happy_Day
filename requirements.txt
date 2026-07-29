@@ -1,0 +1,15 @@
+# ──────────────────────────────────────────────
+# Forever Us — Python Dependencies
+# ──────────────────────────────────────────────
+
+# Core
+Django>=5.2,<5.3               # Django LTS — long-term security support
+
+# Database
+mysqlclient>=2.2               # MySQL adapter for Django (C-based, fastest)
+
+# Environment
+python-dotenv>=1.1             # Load .env variables into os.environ
+
+# Media
+Pillow>=11.0                   # Image processing (ImageField support)

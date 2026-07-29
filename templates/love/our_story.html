@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Our Story 💕{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/our_story.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════
+     HERO BANNER — Our Story
+     ═══════════════════════════════════════════════ -->
+<section class="story-hero">
+    <div class="story-hero-bg" aria-hidden="true">
+        <div class="story-hero-gradient"></div>
+        <div class="story-hero-stars"></div>
+    </div>
+    <div class="container position-relative" style="z-index: 5;">
+        <div class="text-center story-hero-content">
+            <span class="story-hero-emoji animate-fade-in" aria-hidden="true">📖</span>
+            <h1 class="story-hero-title font-romantic animate-fade-in" data-delay="1">
+                Our Story
+            </h1>
+            <p class="story-hero-subtitle font-elegant animate-fade-in" data-delay="2">
+                A love story written in moments, sealed in memories, and destined to last forever ✨
+            </p>
+            <div class="story-hero-divider animate-fade-in" data-delay="3">
+                <span class="divider-heart">💕</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     INTERACTIVE VERTICAL TIMELINE
+     ═══════════════════════════════════════════════ -->
+<section class="timeline-section" id="timeline">
+    <div class="container">
+
+        <!-- Timeline Wrapper -->
+        <div class="timeline" id="timelineWrapper">
+
+            <!-- Central Vertical Line -->
+            <div class="timeline-line" id="timelineLine">
+                <div class="timeline-line-progress" id="timelineProgress"></div>
+            </div>
+
+            {% for event in timeline_events %}
+            <!-- Timeline Item {{ forloop.counter }} -->
+            <div class="timeline-item {% if forloop.counter|divisibleby:2 %}timeline-item--right{% else %}timeline-item--left{% endif %}"
+                 data-index="{{ forloop.counter }}"
+                 id="timelineItem{{ forloop.counter }}">
+
+                <!-- Timeline Marker (on the line) -->
+                <div class="timeline-marker">
+                    <div class="timeline-marker-dot">
+                        <i class="{{ event.icon }}"></i>
+                    </div>
+                    <div class="timeline-marker-pulse" aria-hidden="true"></div>
+                </div>
+
+                <!-- Timeline Card -->
+                <div class="timeline-card glass-card" data-event-id="{{ event.id }}">
+
+                    <!-- Card Header -->
+                    <div class="timeline-card-header">
+                        <span class="timeline-card-date font-elegant">
+                            <i class="fa-regular fa-calendar me-1"></i>
+                            {{ event.date_label }}
+                        </span>
+                        <span class="timeline-card-emoji" aria-hidden="true">{{ event.emoji }}</span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="timeline-card-body">
+                        <h3 class="timeline-card-title">{{ event.title }}</h3>
+                        <p class="timeline-card-subtitle font-elegant">{{ event.subtitle }}</p>
+                        <p class="timeline-card-desc">{{ event.description }}</p>
+                    </div>
+
+                    <!-- Expandable Content -->
+                    {% if event.expanded_content %}
+                    <div class="timeline-card-expand" id="expand{{ event.id }}">
+                        <div class="timeline-card-expand-inner">
+                            <div class="timeline-card-expand-divider"></div>
+                            <p class="timeline-card-expand-text">{{ event.expanded_content }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Expand Toggle Button -->
+                    {% if event.expanded_content %}
+                    <button class="timeline-card-toggle" data-target="expand{{ event.id }}"
+                            aria-expanded="false" aria-label="Read more about {{ event.title }}">
+                        <span class="toggle-text">Read More</span>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </button>
+                    {% endif %}
+
+                    <!-- Card Glow Effect -->
+                    <div class="timeline-card-glow" aria-hidden="true"></div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Timeline End Marker -->
+            <div class="timeline-end">
+                <div class="timeline-end-marker">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <p class="timeline-end-text font-romantic">To Be Continued...</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     BOTTOM CTA SECTION
+     ═══════════════════════════════════════════════ -->
+<section class="story-cta-section">
+    <div class="container">
+        <div class="story-cta glass-card text-center reveal-scale">
+            <span class="story-cta-emoji" aria-hidden="true">💌</span>
+            <h2 class="story-cta-title font-romantic text-gradient">Our Story Continues</h2>
+            <p class="story-cta-text">
+                Every day with you adds a new beautiful page to our love story.
+                The best chapters are still ahead of us.
+            </p>
+            <a href="{% url 'love:home' %}" class="btn-romantic">
+                <i class="fa-solid fa-heart me-2"></i>
+                Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/our_story.js' %}" defer></script>
+{% endblock %}

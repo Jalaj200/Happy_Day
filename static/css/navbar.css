@@ -1,0 +1,501 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Forever Us — Premium Floating Glassmorphism Navigation Bar Styles
+   Reference Style: Apple, Linear, Framer, Luxury SaaS Landing Pages
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Floating Sticky Header Container ── */
+.apple-floating-header {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    width: calc(100% - 36px);
+    max-width: 1280px;
+    z-index: 10000;
+    will-change: transform, opacity;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+
+/* Hide on scroll down, appear on scroll up */
+.apple-floating-header.is-hidden {
+    transform: translate3d(-50%, -160%, 0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+
+/* ── 2. Glassmorphism Pill Navbar ── */
+.apple-glass-navbar {
+    width: 100%;
+    border-radius: 50px;
+    /* Blur & dynamic luxury glass background */
+    background: rgba(26, 8, 30, 0.72);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    /* Soft shadow & Pink neon glow */
+    border: 1px solid rgba(255, 64, 129, 0.42);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), 0 0 28px rgba(255, 64, 129, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.28);
+    padding: 0.55rem 1.4rem;
+    transition: all 0.35s ease;
+}
+
+.apple-glass-navbar:hover {
+    border-color: rgba(255, 105, 180, 0.65);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 38px rgba(255, 64, 129, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+}
+
+.navbar-inner-pill {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+}
+
+
+/* ── 3. Far Left: Brand Logo ── */
+.nav-brand-apple {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: -0.5px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+.nav-brand-apple:hover {
+    transform: scale(1.03);
+    color: #ffffff;
+}
+
+.brand-heart-glow {
+    font-size: 1.3rem;
+    filter: drop-shadow(0 0 10px rgba(255, 64, 129, 0.9));
+    animation: navHeartPulse 2s infinite ease-in-out alternate;
+}
+
+@keyframes navHeartPulse {
+    0%   { transform: scale(0.95) rotate(0deg); }
+    100% { transform: scale(1.15) rotate(8deg); }
+}
+
+.brand-title-text {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+    background: linear-gradient(135deg, #ffffff 0%, #ffc1e3 60%, #ff758c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(255, 64, 129, 0.3);
+}
+
+
+/* ── 4. Center: Navigation Links (Desktop) ── */
+.nav-center-links {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 0.35rem;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-link-apple {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.48rem 0.85rem;
+    color: rgba(255, 255, 255, 0.82);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: color 0.3s ease, background 0.3s ease, transform 0.25s ease;
+    white-space: nowrap;
+}
+
+.nav-link-apple:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1.5px);
+}
+
+.nav-link-apple.active {
+    color: #ffffff;
+    font-weight: 600;
+    background: rgba(255, 64, 129, 0.15);
+    text-shadow: 0 0 10px rgba(255, 64, 129, 0.6);
+}
+
+.nav-link-apple.link-secret {
+    color: #ffd875;
+}
+.nav-link-apple.link-secret:hover, .nav-link-apple.link-secret.active {
+    color: #fff;
+    background: rgba(255, 215, 0, 0.18);
+    text-shadow: 0 0 12px #ffd700;
+}
+
+.nav-link-apple.link-surprise {
+    color: #ff85a2;
+}
+.nav-link-apple.link-surprise:hover, .nav-link-apple.link-surprise.active {
+    color: #fff;
+    background: rgba(233, 30, 99, 0.22);
+    text-shadow: 0 0 12px #ff4081;
+}
+
+/* Animated Underline */
+.nav-animated-underline {
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 70%;
+    height: 2.5px;
+    background: linear-gradient(90deg, #ff4081, #ff758c, #ff4081);
+    border-radius: 4px;
+    box-shadow: 0 0 10px #ff4081, 0 0 18px #e91e63;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.nav-link-apple:hover .nav-animated-underline,
+.nav-link-apple.active .nav-animated-underline {
+    transform: translateX(-50%) scaleX(1);
+}
+
+.nav-link-apple.link-secret .nav-animated-underline {
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    box-shadow: 0 0 10px #ffd700;
+}
+
+
+/* ── 5. Far Right: Utility Controls & Hamburger ── */
+.nav-right-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.nav-util-btn {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nav-util-btn:hover {
+    background: rgba(255, 64, 129, 0.25);
+    border-color: rgba(255, 105, 180, 0.65);
+    transform: scale(1.1) translateY(-2px);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(255, 64, 129, 0.4);
+}
+
+.nav-util-btn.playing {
+    background: linear-gradient(135deg, #ff4081, #e91e63);
+    border-color: #ff758c;
+    box-shadow: 0 0 15px rgba(255, 64, 129, 0.8);
+    animation: utilPulse 1.8s infinite alternate;
+}
+
+@keyframes utilPulse {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.08); box-shadow: 0 0 24px rgba(255, 64, 129, 1); }
+}
+
+/* Tooltip on hover */
+.btn-tooltip {
+    position: absolute;
+    bottom: -34px;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: rgba(15, 3, 18, 0.92);
+    border: 1px solid rgba(255, 105, 180, 0.4);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    z-index: 100;
+}
+
+.nav-util-btn:hover .btn-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+
+/* ── 6. Mobile & Tablet Hamburger Button ── */
+.apple-hamburger {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.apple-hamburger:hover {
+    background: rgba(255, 64, 129, 0.3);
+    border-color: rgba(255, 105, 180, 0.65);
+    transform: scale(1.06);
+}
+
+.apple-hamburger .bar {
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+    border-radius: 2px;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: center;
+}
+
+.apple-hamburger.is-active .bar-top {
+    transform: translateY(7px) rotate(45deg);
+    background-color: #ff758c;
+}
+
+.apple-hamburger.is-active .bar-middle {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.apple-hamburger.is-active .bar-bottom {
+    transform: translateY(-7px) rotate(-45deg);
+    background-color: #ff758c;
+}
+
+
+/* ── 7. Mobile Glass Drawer Menu ── */
+.apple-mobile-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0.4s ease;
+}
+
+.apple-mobile-drawer.is-open {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.apple-mobile-drawer.is-open .drawer-backdrop {
+    opacity: 1;
+}
+
+.drawer-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 360px;
+    height: 100vh;
+    background: rgba(22, 5, 25, 0.88);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border-left: 1px solid rgba(255, 64, 129, 0.45);
+    box-shadow: -20px 0 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 64, 129, 0.3);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1.4rem;
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+}
+
+.apple-mobile-drawer.is-open .drawer-panel {
+    transform: translate3d(0, 0, 0);
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: 1.2rem;
+}
+
+.drawer-close-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drawer-close-btn:hover {
+    background: rgba(255, 64, 129, 0.3);
+    border-color: #ff4081;
+    transform: scale(1.08);
+}
+
+.drawer-body {
+    flex: 1;
+}
+
+.drawer-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.05rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.drawer-link .icon {
+    width: 24px;
+    text-align: center;
+    color: #ff758c;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.drawer-link:hover, .drawer-link.active {
+    color: #ffffff;
+    background: rgba(255, 64, 129, 0.2);
+    border-color: rgba(255, 105, 180, 0.4);
+    transform: translateX(6px);
+    box-shadow: 0 4px 15px rgba(255, 64, 129, 0.25);
+}
+
+.drawer-link:hover .icon, .drawer-link.active .icon {
+    transform: scale(1.2);
+    color: #ff4081;
+}
+
+.drawer-footer {
+    margin-top: 2rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.drawer-util-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+}
+
+.drawer-util-pill {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.drawer-util-pill:hover {
+    background: rgba(255, 64, 129, 0.3);
+    border-color: #ff4081;
+    transform: translateY(-2px);
+}
+
+.drawer-tagline {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+}
+
+
+/* ── 8. Responsive Tweaks ── */
+@media (max-width: 768px) {
+    .apple-floating-header {
+        top: 12px;
+        width: calc(100% - 24px);
+    }
+    .apple-glass-navbar {
+        padding: 0.45rem 1rem;
+        border-radius: 40px;
+    }
+    .nav-brand-apple {
+        font-size: 1.2rem;
+    }
+    .nav-util-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}

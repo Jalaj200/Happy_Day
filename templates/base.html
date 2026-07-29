@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Forever Us — A love story written in code. Every moment with you is a forever memory. 💕">
+    <meta name="author" content="Forever Us">
+    <meta name="theme-color" content="#1a0a1e">
+
+    <title>{% block title %}{{ site_name }} — Our Love Story 💕{% endblock %}</title>
+
+    <!-- ── Preconnects ────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- ── Google Fonts ───────────────────────────── -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- ── Bootstrap 5 CSS ────────────────────────── -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- ── Font Awesome 6 ─────────────────────────── -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <!-- ── Custom Stylesheet ──────────────────────── -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=20260726_luxury">
+    <link rel="stylesheet" href="{% static 'css/effects.css' %}?v=20260727_cinematic">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}?v=20260727_refmatch">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}?v=20260727_apple">
+
+    <!-- ── AOS (Animate On Scroll) CSS ─────────────── -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" integrity="sha512-1cK78a1o+ht2JcaW6g8OXYwqpev9+6GqOkz9xmBN9iUUhIndKtxwja79pGBqgSajyDk6yJ3sHfaJUomgEYa5RQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- ════════════════════════════════════════════
+         PREMIUM FULL-SCREEN ROMANTIC LOADER SCREEN
+         ════════════════════════════════════════════ -->
+    {% include "components/loader.html" %}
+
+    <!-- ════════════════════════════════════════════
+         GLOBAL EFFECTS CANVAS (Cursor Trail, Petals & Hearts)
+         ════════════════════════════════════════════ -->
+    <canvas id="globalEffectsCanvas" class="global-effects-canvas" aria-hidden="true"></canvas>
+
+    <!-- ════════════════════════════════════════════
+         PARTICLE BACKGROUND (decorative floating hearts)
+         ════════════════════════════════════════════ -->
+    <div id="particles-bg" aria-hidden="true">
+        <span class="particle">💕</span>
+        <span class="particle">✨</span>
+        <span class="particle">💖</span>
+        <span class="particle">🌸</span>
+        <span class="particle">💕</span>
+        <span class="particle">✨</span>
+        <span class="particle">💗</span>
+        <span class="particle">🌹</span>
+        <span class="particle">💕</span>
+        <span class="particle">✨</span>
+        <span class="particle">💖</span>
+        <span class="particle">🌸</span>
+    </div>
+
+
+    <!-- ════════════════════════════════════════════
+         NAVIGATION BAR — Premium Horizontal Glassmorphism
+         ════════════════════════════════════════════ -->
+    {% block header %}
+    {% include "components/navbar.html" %}
+    {% endblock %}
+
+
+    <!-- ════════════════════════════════════════════
+         MAIN CONTENT AREA
+         ════════════════════════════════════════════ -->
+    <main class="main-content" id="mainContent">
+        {% block content %}
+        <!-- Page content goes here -->
+        {% endblock %}
+    </main>
+
+
+    <!-- ════════════════════════════════════════════
+         FOOTER — Romantic Glassmorphism
+         ════════════════════════════════════════════ -->
+    {% block footer %}
+    <footer class="site-footer glass-footer" id="siteFooter">
+        <div class="container">
+
+            <!-- Top Section -->
+            <div class="row align-items-center footer-top">
+                <div class="col-lg-4 text-center text-lg-start mb-4 mb-lg-0">
+                    <a href="{% url 'love:home' %}" class="footer-brand" aria-label="Home">
+                        <i class="fa-solid fa-heart footer-brand-heart"></i>
+                        <span class="footer-brand-text">Forever Us</span>
+                    </a>
+                    <p class="footer-tagline">{{ couple_tagline }}</p>
+                </div>
+
+                <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                    <div class="footer-links">
+                        <a href="{% url 'love:home' %}" class="footer-link">Home</a>
+                        <a href="{% url 'love:our_story' %}" class="footer-link">Our Story</a>
+                        <a href="{% url 'love:memories' %}" class="footer-link">Memories</a>
+                        <a href="{% url 'love:gallery' %}" class="footer-link">Gallery</a>
+                        <a href="{% url 'love:reasons' %}" class="footer-link">20 Reasons</a>
+                        <a href="{% url 'love:love_letter' %}" class="footer-link">Love Letter</a>
+                        <a href="{% url 'love:countdown' %}" class="footer-link">Countdown</a>
+                        <a href="{% url 'love:secret_page' %}" class="footer-link text-warning">🔑 Secret</a>
+                        <a href="{% url 'love:final_surprise' %}" class="footer-link text-danger">🎁 Surprise</a>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 text-center text-lg-end">
+                    <div class="footer-social">
+                        <a href="#" class="social-icon" aria-label="Instagram" title="Instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Pinterest" title="Pinterest">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </a>
+                        <a href="#" class="social-icon" aria-label="Spotify" title="Spotify">
+                            <i class="fa-brands fa-spotify"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <hr class="footer-divider">
+
+            <!-- Bottom Section -->
+            <div class="row align-items-center footer-bottom">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="footer-copy">
+                        Made with <i class="fa-solid fa-heart footer-copy-heart"></i> for my forever love
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="footer-copy">
+                        &copy; {% now "Y" %} Forever Us — All rights reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    {% endblock %}
+
+
+    <!-- ════════════════════════════════════════════
+         SCROLL TO TOP BUTTON
+         ════════════════════════════════════════════ -->
+    <button class="scroll-to-top glass-btn" id="scrollToTop"
+            aria-label="Scroll to top" title="Back to top">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+
+    <!-- ════════════════════════════════════════════
+         FLOATING ROMANTIC MUSIC PLAYER WIDGET
+         ════════════════════════════════════════════ -->
+    <div class="music-player-widget glass-strong" id="musicPlayerWidget">
+        <audio id="bgMusic" loop preload="auto">
+            <source src="{{ bg_music.get_audio_url }}" type="audio/mpeg">
+        </audio>
+
+        <div class="music-player-inner d-flex align-items-center gap-3">
+            <!-- Music Vinyl Disc -->
+            <div class="music-disc-wrap" id="musicDiscWrap">
+                <i class="fa-solid fa-compact-disc music-disc-icon"></i>
+                <div class="music-notes" aria-hidden="true">
+                    <span>🎵</span><span>🎶</span><span>💕</span>
+                </div>
+            </div>
+
+            <!-- Song Title & Artist -->
+            <div class="music-info d-none d-md-block">
+                <div class="music-title font-romantic text-truncate" title="{{ bg_music.title }}">{{ bg_music.title }}</div>
+                <div class="music-artist small text-secondary text-truncate">{{ bg_music.artist }}</div>
+            </div>
+
+            <!-- Play / Pause Toggle -->
+            <button type="button" class="btn-music-toggle glass-btn" id="musicToggleBtn" aria-label="Play or pause background music" title="Play Music">
+                <i class="fa-solid fa-play" id="musicToggleIcon"></i>
+            </button>
+
+            <!-- Volume Slider & Mute -->
+            <div class="music-volume-wrap d-flex align-items-center gap-1">
+                <button type="button" class="btn-music-mute text-secondary border-0 bg-transparent p-1" id="musicMuteBtn" title="Mute/Unmute">
+                    <i class="fa-solid fa-volume-high" id="musicVolumeIcon"></i>
+                </button>
+                <input type="range" class="music-volume-slider" id="musicVolumeSlider" min="0" max="100" value="75" aria-label="Volume">
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ════════════════════════════════════════════
+         SCRIPTS
+         ════════════════════════════════════════════ -->
+    <!-- Bootstrap 5 JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/main.js' %}?v=20260726_luxury" defer></script>
+    <script src="{% static 'js/effects.js' %}?v=20260727_cinematic" defer></script>
+    <script src="{% static 'js/music_player.js' %}?v=20260726_luxury" defer></script>
+    <script src="{% static 'js/loader.js' %}?v=20260727_refmatch" defer></script>
+    <script src="{% static 'js/navbar.js' %}?v=20260727_apple" defer></script>
+
+    <!-- AOS (Animate On Scroll) JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORcggFsKAzMg==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,532 @@
+/* ═══════════════════════════════════════════════════════════
+   Forever Us — Girlfriend's Day Countdown Stylesheet
+   ═══════════════════════════════════════════════════════════
+   Features:
+     1. 4 Glassmorphism time boxes with glowing neon numbers & reflections
+     2. Pulsing gold border and animation on the Seconds box
+     3. Full-screen Celebration overlay with canvas fireworks & confetti
+     4. Animated floating celebration emojis & hearts
+   ═══════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────
+   1. HERO BANNER
+   ────────────────────────────────────────────── */
+.countdown-hero {
+    position: relative;
+    padding: calc(var(--navbar-height) + 3.5rem) 0 3.5rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.countdown-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.countdown-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        155deg,
+        #0e0118 0%,
+        #240930 25%,
+        #44133c 50%,
+        #72194b 75%,
+        #c2185b 100%
+    );
+}
+
+.countdown-hero-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1.5px 1.5px at 20% 30%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 50% 70%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(2px 2px at 80% 20%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.2px 1.2px at 35% 85%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1.5px 1.5px at 85% 60%, rgba(255,255,255,0.6), transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.countdown-hero-emoji {
+    display: block;
+    font-size: 3.5rem;
+    margin-bottom: 0.75rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-10px) scale(1.1); }
+}
+
+.countdown-hero-title {
+    font-size: clamp(2.75rem, 6.5vw, 5rem);
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.4), 0 0 35px rgba(233,30,99,0.3);
+}
+
+.countdown-hero-subtitle {
+    font-size: clamp(1rem, 2.3vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 650px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.8;
+}
+
+.countdown-target-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    font-size: 0.95rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ──────────────────────────────────────────────
+   2. SIMULATION CONTROLS
+   ────────────────────────────────────────────── */
+.countdown-controls-section {
+    position: relative;
+    z-index: 10;
+    margin-top: -1.5rem;
+    margin-bottom: 3rem;
+}
+
+.countdown-controls {
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.controls-status {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+}
+
+.controls-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--gradient-rose);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.45);
+}
+
+.control-btn--outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.control-btn--outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ──────────────────────────────────────────────
+   3. 4 TIME BOXES GRID
+   ────────────────────────────────────────────── */
+.timer-section {
+    position: relative;
+    z-index: 2;
+    padding-bottom: var(--space-2xl);
+}
+
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* Entrance Animation */
+.animate-card-entrance {
+    opacity: 0;
+    transform: translateY(35px) scale(0.92);
+    animation: boxEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(0.1s * var(--box-index, 0));
+}
+
+@keyframes boxEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.time-box {
+    position: relative;
+    padding: 2.5rem 1.5rem;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 250px;
+    background: linear-gradient(145deg, rgba(40, 15, 50, 0.75), rgba(75, 20, 70, 0.55));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+.time-box:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 45px rgba(233, 30, 99, 0.35), 0 0 30px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.time-box-icon {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.75rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.time-box:hover .time-box-icon {
+    color: var(--clr-primary-light);
+    transform: scale(1.2);
+}
+
+.time-number-wrap {
+    position: relative;
+    margin: 0.5rem 0;
+}
+
+.time-number {
+    font-size: clamp(3.2rem, 6.5vw, 5rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    display: inline-block;
+    text-shadow: 0 2px 20px rgba(233, 30, 99, 0.6), 0 0 40px rgba(255, 255, 255, 0.2);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Number pop when ticking */
+.time-number.pop-tick {
+    transform: scale(1.15);
+}
+
+.time-label {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* Glow under box */
+.time-box-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 100%, rgba(233, 30, 99, 0.25) 0%, transparent 70%);
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.time-box:hover .time-box-glow {
+    opacity: 1;
+}
+
+/* ── Special Seconds Box Styling ── */
+.time-box--seconds {
+    background: linear-gradient(145deg, rgba(55, 15, 45, 0.82), rgba(95, 20, 60, 0.65));
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 215, 0, 0.15);
+}
+
+.time-box--seconds:hover {
+    border-color: var(--clr-accent);
+    box-shadow: 0 20px 45px rgba(255, 215, 0, 0.35), 0 0 40px rgba(233, 30, 99, 0.4);
+}
+
+.time-number--seconds {
+    color: var(--clr-accent);
+    text-shadow: 0 2px 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(233, 30, 99, 0.4);
+}
+
+.time-box-glow--pulse {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.2) 0%, transparent 75%);
+    animation: secondsGlowPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes secondsGlowPulse {
+    0%   { opacity: 0.4; transform: scale(0.95); }
+    100% { opacity: 0.9; transform: scale(1.05); }
+}
+
+
+/* ──────────────────────────────────────────────
+   4. CELEBRATION SCREEN OVERLAY
+   ────────────────────────────────────────────── */
+.celebration-screen {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background: radial-gradient(circle at 50% 50%, rgba(45, 10, 55, 0.95) 0%, rgba(15, 2, 25, 0.98) 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    animation: fadeInCelebration 0.8s ease forwards;
+}
+
+@keyframes fadeInCelebration {
+    from { opacity: 0; transform: scale(1.05); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.celebration-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+#fireworksCanvas { z-index: 1; }
+#confettiCanvas  { z-index: 2; }
+
+.celebration-hearts {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.celebration-card {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3.5rem 3rem;
+    border-radius: var(--radius-lg);
+    background: rgba(30, 10, 40, 0.88);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.7),
+        0 0 100px rgba(233, 30, 99, 0.4),
+        0 0 60px rgba(255, 215, 0, 0.25);
+    transform: scale(0.9);
+    animation: zoomInCelebration 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+    opacity: 0;
+}
+
+@keyframes zoomInCelebration {
+    to { opacity: 1; transform: scale(1); }
+}
+
+.celebration-emojis {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.celeb-emoji {
+    display: inline-block;
+    animation: celebBounce 1.5s ease-in-out infinite alternate;
+}
+
+.celeb-emoji.e-1 { animation-delay: 0.1s; }
+.celeb-emoji.e-2 { animation-delay: 0.3s; }
+.celeb-emoji.e-3 { animation-delay: 0.5s; }
+.celeb-emoji.e-4 { animation-delay: 0.7s; }
+.celeb-emoji.e-5 { animation-delay: 0.9s; }
+
+@keyframes celebBounce {
+    0%   { transform: translateY(0) rotate(-6deg) scale(1); }
+    100% { transform: translateY(-12px) rotate(6deg) scale(1.15); }
+}
+
+.celebration-title {
+    font-size: clamp(2.5rem, 6vw, 4.2rem);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 20px rgba(255, 215, 0, 0.5);
+}
+
+.celebration-divider {
+    margin: 1.25rem 0 1.75rem;
+}
+
+.celebration-message {
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.8;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+
+/* ──────────────────────────────────────────────
+   5. BOTTOM CTA SECTION
+   ────────────────────────────────────────────── */
+.countdown-cta-section {
+    position: relative;
+    z-index: 1;
+    padding: 1rem 0 var(--space-2xl);
+}
+
+.countdown-cta {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 3.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.countdown-cta-emoji {
+    display: block;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.countdown-cta-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    margin-bottom: 1.25rem;
+}
+
+.countdown-cta-text {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    max-width: 550px;
+    margin: 0 auto 2.5rem;
+}
+
+
+/* ──────────────────────────────────────────────
+   6. RESPONSIVE BREAKPOINTS
+   ────────────────────────────────────────────── */
+
+/* ── Large Tablets & Small Laptops ── */
+@media (max-width: 1199.98px) {
+    .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.75rem;
+    }
+}
+
+/* ── Tablets ── */
+@media (max-width: 991.98px) {
+    .countdown-controls {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.25rem;
+    }
+
+    .controls-actions {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .celebration-card {
+        padding: 2.75rem 2rem;
+        margin: 1.5rem;
+    }
+}
+
+/* ── Phones ── */
+@media (max-width: 767.98px) {
+    .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .time-box {
+        padding: 1.75rem 1rem;
+        min-height: 200px;
+    }
+
+    .time-number {
+        font-size: clamp(2.6rem, 8vw, 3.8rem);
+    }
+
+    .time-label {
+        font-size: 1.15rem;
+    }
+
+    .celebration-emojis {
+        font-size: 2.2rem;
+    }
+}
+
+/* ── Small Phones ── */
+@media (max-width: 575.98px) {
+    .countdown-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.85rem;
+    }
+
+    .time-box {
+        padding: 1.5rem 0.75rem;
+        min-height: 175px;
+    }
+
+    .time-number {
+        font-size: 2.4rem;
+    }
+
+    .time-label {
+        font-size: 1rem;
+    }
+
+    .control-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .celebration-card {
+        padding: 2rem 1.25rem;
+    }
+}

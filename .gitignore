@@ -1,0 +1,43 @@
+# ──────────────────────────────────────────────
+# Forever Us — .gitignore
+# ──────────────────────────────────────────────
+
+# ── Python ──────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+
+# ── Virtual Environment ────────────────────
+venv/
+env/
+.venv/
+
+# ── Environment Variables ──────────────────
+.env
+.env.*
+!.env.example
+
+# ── Django ─────────────────────────────────
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# ── IDE / Editor ───────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+
+# ── OS ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini

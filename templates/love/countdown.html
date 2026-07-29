@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Girlfriend's Day Countdown ⏳💕{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/countdown.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════
+     HERO BANNER
+     ═══════════════════════════════════════════════ -->
+<section class="countdown-hero">
+    <div class="countdown-hero-bg" aria-hidden="true">
+        <div class="countdown-hero-gradient"></div>
+        <div class="countdown-hero-stars"></div>
+    </div>
+    <div class="container position-relative" style="z-index: 5;">
+        <div class="text-center">
+            <span class="countdown-hero-emoji animate-fade-in" aria-hidden="true">⏳💖</span>
+            <h1 class="countdown-hero-title font-romantic animate-fade-in" data-delay="1">
+                {{ config.title }}
+            </h1>
+            <p class="countdown-hero-subtitle font-elegant animate-fade-in" data-delay="2">
+                {{ config.subtitle }}
+            </p>
+            <div class="countdown-target-badge animate-fade-in" data-delay="3">
+                <i class="fa-solid fa-calendar-check me-2"></i>
+                <span>Target: <strong>1st August — Girlfriend's Day</strong></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SIMULATION CONTROLS (Test without waiting)
+     ═══════════════════════════════════════════════ -->
+<section class="countdown-controls-section">
+    <div class="container">
+        <div class="countdown-controls glass-strong">
+            <div class="controls-status font-elegant">
+                <i class="fa-solid fa-heart-pulse text-primary me-2"></i>
+                <span id="timerStatusText">Counting down every second...</span>
+            </div>
+            <div class="controls-actions">
+                <button type="button" class="control-btn" id="simulateBtn" title="Test celebration animation instantly">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Test Celebration Now
+                </button>
+                <button type="button" class="control-btn control-btn--outline" id="resetTimerBtn" title="Return to live countdown" style="display: none;">
+                    <i class="fa-solid fa-rotate-left me-1"></i> Reset Timer
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     4 GLASSMORPHISM TIME BOXES GRID
+     ═══════════════════════════════════════════════ -->
+<section class="timer-section" id="timerSection">
+    <div class="container">
+        <div class="countdown-grid" id="countdownGrid">
+            
+            <!-- DAYS BOX -->
+            <div class="time-box-wrapper animate-card-entrance" style="--box-index: 0;">
+                <div class="time-box glass-card">
+                    <div class="time-box-icon">
+                        <i class="fa-solid fa-calendar-day"></i>
+                    </div>
+                    <div class="time-number-wrap">
+                        <span class="time-number font-romantic" id="daysEl">00</span>
+                    </div>
+                    <span class="time-label font-elegant">Days</span>
+                    <div class="time-box-glow" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <!-- HOURS BOX -->
+            <div class="time-box-wrapper animate-card-entrance" style="--box-index: 1;">
+                <div class="time-box glass-card">
+                    <div class="time-box-icon">
+                        <i class="fa-solid fa-hourglass-half"></i>
+                    </div>
+                    <div class="time-number-wrap">
+                        <span class="time-number font-romantic" id="hoursEl">00</span>
+                    </div>
+                    <span class="time-label font-elegant">Hours</span>
+                    <div class="time-box-glow" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <!-- MINUTES BOX -->
+            <div class="time-box-wrapper animate-card-entrance" style="--box-index: 2;">
+                <div class="time-box glass-card">
+                    <div class="time-box-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="time-number-wrap">
+                        <span class="time-number font-romantic" id="minutesEl">00</span>
+                    </div>
+                    <span class="time-label font-elegant">Minutes</span>
+                    <div class="time-box-glow" aria-hidden="true"></div>
+                </div>
+            </div>
+
+            <!-- SECONDS BOX (Pulsing) -->
+            <div class="time-box-wrapper animate-card-entrance" style="--box-index: 3;">
+                <div class="time-box time-box--seconds glass-card">
+                    <div class="time-box-icon">
+                        <i class="fa-solid fa-stopwatch text-accent"></i>
+                    </div>
+                    <div class="time-number-wrap">
+                        <span class="time-number time-number--seconds font-romantic" id="secondsEl">00</span>
+                    </div>
+                    <span class="time-label font-elegant text-accent">Seconds</span>
+                    <div class="time-box-glow time-box-glow--pulse" aria-hidden="true"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     CELEBRATION SCREEN OVERLAY (Triggered at Zero)
+     ═══════════════════════════════════════════════ -->
+<div class="celebration-screen" id="celebrationScreen" aria-hidden="true" style="display: none;">
+    <!-- Canvas for Fireworks & Confetti -->
+    <canvas id="fireworksCanvas" class="celebration-canvas"></canvas>
+    <canvas id="confettiCanvas" class="celebration-canvas"></canvas>
+    
+    <!-- Floating Hearts -->
+    <div id="celebrationHearts" class="celebration-hearts"></div>
+
+    <!-- Celebration Content Card -->
+    <div class="container position-relative" style="z-index: 10;">
+        <div class="celebration-card glass-strong text-center">
+            <div class="celebration-emojis" aria-hidden="true">
+                <span class="celeb-emoji e-1">🎉</span>
+                <span class="celeb-emoji e-2">👑</span>
+                <span class="celeb-emoji e-3">💖</span>
+                <span class="celeb-emoji e-4">🌹</span>
+                <span class="celeb-emoji e-5">✨</span>
+            </div>
+            <h2 class="celebration-title font-romantic text-gradient">
+                {{ config.celebration_title }}
+            </h2>
+            <div class="celebration-divider">
+                <span class="divider-heart">💖</span>
+            </div>
+            <p class="celebration-message font-elegant">
+                {{ config.celebration_message }}
+            </p>
+            <div class="celebration-actions d-flex justify-content-center gap-3 flex-wrap mt-4">
+                <a href="{% url 'love:love_letter' %}" class="btn-romantic">
+                    <i class="fa-solid fa-envelope-heart me-2"></i>
+                    Read Love Letter
+                </a>
+                <a href="{% url 'love:reasons' %}" class="btn-glass">
+                    <i class="fa-solid fa-heart-pulse me-2"></i>
+                    20 Reasons Why
+                </a>
+                <button type="button" class="btn-glass" id="closeCelebrationBtn">
+                    <i class="fa-solid fa-xmark me-1"></i> Close Screen
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     BOTTOM CTA SECTION
+     ═══════════════════════════════════════════════ -->
+<section class="countdown-cta-section">
+    <div class="container">
+        <div class="countdown-cta glass-card text-center reveal-scale">
+            <span class="countdown-cta-emoji" aria-hidden="true">💌</span>
+            <h2 class="countdown-cta-title font-romantic text-gradient">The Best Is Yet To Come</h2>
+            <p class="countdown-cta-text">
+                Every single day with you is a celebration. While we count down to this special day, let's look back at our unforgettable journey.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'love:our_story' %}" class="btn-romantic">
+                    <i class="fa-solid fa-book-heart me-2"></i>
+                    Our Story
+                </a>
+                <a href="{% url 'love:gallery' %}" class="btn-glass">
+                    <i class="fa-solid fa-images me-2"></i>
+                    Photo Gallery
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pass config safely to JavaScript -->
+{{ config|json_script:"countdown-config" }}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/countdown.js' %}" defer></script>
+{% endblock %}

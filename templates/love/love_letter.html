@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ site_name }} — Handwritten Love Letter 💌{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/love_letter.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════════
+     FLOATING ROSE PETALS CONTAINER
+     ═══════════════════════════════════════════════ -->
+<div id="petalsContainer" class="petals-container" aria-hidden="true"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     HERO BANNER
+     ═══════════════════════════════════════════════ -->
+<section class="letter-hero">
+    <div class="letter-hero-bg" aria-hidden="true">
+        <div class="letter-hero-gradient"></div>
+        <div class="letter-hero-glow"></div>
+    </div>
+    <div class="container position-relative" style="z-index: 5;">
+        <div class="text-center">
+            <span class="letter-hero-emoji animate-fade-in" aria-hidden="true">🌹</span>
+            <h1 class="letter-hero-title font-romantic animate-fade-in" data-delay="1">
+                {{ letter.title }}
+            </h1>
+            <p class="letter-hero-subtitle font-elegant animate-fade-in" data-delay="2">
+                Written from the depths of my heart, sealed with eternal love and delivered on floating petals ✨
+            </p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     INTERACTIVE LETTER CONTROLS
+     ═══════════════════════════════════════════════ -->
+<section class="letter-controls-section">
+    <div class="container">
+        <div class="letter-controls glass-strong">
+            <div class="controls-status font-elegant">
+                <i class="fa-solid fa-feather-pointed text-primary me-2"></i>
+                <span id="typewriterStatus">Writing love letter...</span>
+            </div>
+            <div class="controls-actions">
+                <button type="button" class="control-btn" id="musicBtn" title="Toggle background music">
+                    <i class="fa-solid fa-music me-1"></i> <span id="musicBtnText">Play Music</span>
+                </button>
+                <button type="button" class="control-btn control-btn--outline" id="skipBtn" title="Reveal entire letter instantly">
+                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Instant Reveal
+                </button>
+                <button type="button" class="control-btn control-btn--outline" id="replayBtn" title="Replay typing animation">
+                    <i class="fa-solid fa-rotate-right me-1"></i> Replay
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     VINTAGE PARCHMENT LOVE LETTER
+     ═══════════════════════════════════════════════ -->
+<section class="parchment-section">
+    <div class="container">
+        <div class="parchment-wrapper animate-fade-in" data-delay="3">
+            
+            <!-- Vintage Paper Card -->
+            <div class="parchment-paper">
+                
+                <!-- Decorative Corner Ornaments -->
+                <div class="parchment-corner corner-tl" aria-hidden="true">🌸</div>
+                <div class="parchment-corner corner-tr" aria-hidden="true">🌹</div>
+                <div class="parchment-corner corner-bl" aria-hidden="true">🌺</div>
+                <div class="parchment-corner corner-br" aria-hidden="true">🌷</div>
+
+                <!-- Wax Seal / Stamp -->
+                <div class="wax-seal-container">
+                    <div class="wax-seal" title="Sealed with Love">
+                        <span class="wax-seal-icon">💌</span>
+                    </div>
+                </div>
+
+                <!-- Date Label -->
+                <div class="letter-header">
+                    <span class="letter-date font-handwritten">{{ letter.date_label }}</span>
+                </div>
+
+                <!-- Salutation -->
+                <h2 class="letter-salutation font-handwritten">{{ letter.salutation }}</h2>
+
+                <!-- Typewriter Body -->
+                <div class="letter-body font-handwritten" id="typewriterBody">
+                    <!-- JS will type paragraphs here -->
+                </div>
+
+                <!-- Typewriter Cursor (visible while typing) -->
+                <span class="typewriter-cursor" id="typewriterCursor" aria-hidden="true">|</span>
+
+                <!-- Closing & Animated Signature -->
+                <div class="letter-footer font-handwritten" id="letterFooter">
+                    <p class="letter-closing">{{ letter.closing }}</p>
+                    <div class="signature-wrapper">
+                        <span class="animated-signature" id="signatureText">{{ letter.signature }}</span>
+                        <div class="signature-underline" id="signatureUnderline"></div>
+                    </div>
+                </div>
+
+                <!-- Postscript (P.S.) -->
+                {% if letter.postscript %}
+                <div class="letter-ps font-handwritten" id="letterPs">
+                    <p>{{ letter.postscript }}</p>
+                </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     BOTTOM CTA
+     ═══════════════════════════════════════════════ -->
+<section class="letter-cta-section">
+    <div class="container">
+        <div class="letter-cta glass-card text-center reveal-scale">
+            <span class="letter-cta-emoji" aria-hidden="true">💝</span>
+            <h2 class="letter-cta-title font-romantic text-gradient">Forever Begins Today</h2>
+            <p class="letter-cta-text">
+                Every word on this page represents a promise that I will spend every day making you the happiest girl in the universe.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'love:reasons' %}" class="btn-romantic">
+                    <i class="fa-solid fa-heart-pulse me-2"></i>
+                    20 Reasons Why
+                </a>
+                <a href="{% url 'love:home' %}" class="btn-glass">
+                    <i class="fa-solid fa-house-heart me-2"></i>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Audio element for letter page -->
+<audio id="letterAudio" loop preload="none">
+    <!-- Browser audio tone generator / external music hook -->
+</audio>
+
+<!-- Pass paragraphs safely to JavaScript -->
+{{ paragraphs|json_script:"paragraphs-data" }}
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/love_letter.js' %}" defer></script>
+{% endblock %}

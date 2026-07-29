@@ -1,0 +1,619 @@
+/* ═══════════════════════════════════════════════════════════
+   Forever Us — 20 Reasons I Love You Stylesheet
+   ═══════════════════════════════════════════════════════════ */
+
+
+/* ──────────────────────────────────────────────
+   1. HERO BANNER
+   ────────────────────────────────────────────── */
+.reasons-hero {
+    position: relative;
+    padding: calc(var(--navbar-height) + 4rem) 0 4rem;
+    overflow: hidden;
+    text-align: center;
+}
+
+.reasons-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.reasons-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        160deg,
+        #0d0117 0%,
+        #1a0a2e 20%,
+        #34123c 40%,
+        #571649 60%,
+        #8e1a5a 80%,
+        #d81b60 100%
+    );
+}
+
+.reasons-hero-stars {
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1.5px 1.5px at 45% 65%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 75% 15%, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.2px 1.2px at 30% 80%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 85% 45%, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1.3px 1.3px at 60% 35%, rgba(255,255,255,0.5), transparent);
+    animation: twinkle 4s ease-in-out infinite alternate;
+}
+
+.reasons-hero-emoji {
+    display: block;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+@keyframes emojiFloat {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50%      { transform: translateY(-10px) rotate(3deg); }
+}
+
+.reasons-hero-title {
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    color: #ffffff;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.3), 0 0 40px rgba(233,30,99,0.25);
+}
+
+.reasons-hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 650px;
+    margin: 0 auto 2rem;
+    line-height: 1.8;
+}
+
+.reasons-hero-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.divider-heart {
+    font-size: 1.5rem;
+    animation: heroHeartPulse 1.2s ease-in-out infinite;
+}
+
+/* ── Fade-in Utility ── */
+.animate-fade-in {
+    opacity: 0;
+    transform: translateY(25px);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-fade-in[data-delay="1"] { animation-delay: 0.2s; }
+.animate-fade-in[data-delay="2"] { animation-delay: 0.4s; }
+.animate-fade-in[data-delay="3"] { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ──────────────────────────────────────────────
+   2. CONTROLS BAR
+   ────────────────────────────────────────────── */
+.reasons-controls-section {
+    position: relative;
+    z-index: 10;
+    margin-top: -1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.reasons-controls {
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.reasons-status {
+    font-size: 1.15rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+}
+
+.reasons-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.25rem;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: var(--gradient-rose);
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 4px 15px rgba(233, 30, 99, 0.3);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.45);
+}
+
+.control-btn--outline {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.control-btn--outline:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* ──────────────────────────────────────────────
+   3. REASONS GRID
+   ────────────────────────────────────────────── */
+.reasons-grid-section {
+    position: relative;
+    z-index: 1;
+    padding-bottom: var(--space-2xl);
+}
+
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+/* ── Card Entrance Animation ── */
+.animate-card-entrance {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(0.04s * var(--card-index, 0));
+}
+
+@keyframes cardEntrance {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* ──────────────────────────────────────────────
+   4. 3D FLIP CARDS
+   ────────────────────────────────────────────── */
+.reason-card-wrapper {
+    perspective: 1200px;
+    min-height: 330px;
+    height: 100%;
+}
+
+.reason-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 330px;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+    border-radius: var(--radius-lg);
+}
+
+/* Flip Trigger: Hover on desktop OR .is-flipped class on mobile/buttons */
+.reason-card-wrapper:hover .reason-card,
+.reason-card.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* ── Front and Back Shared ── */
+.reason-card-front,
+.reason-card-back {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.reason-card-wrapper:hover .reason-card-front,
+.reason-card-wrapper:hover .reason-card-back {
+    box-shadow: 0 15px 35px rgba(233, 30, 99, 0.25), 0 0 20px rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Back Face Rotation ── */
+.reason-card-back {
+    transform: rotateY(180deg);
+    background: rgba(26, 10, 30, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(233, 30, 99, 0.35);
+}
+
+
+/* ──────────────────────────────────────────────
+   5. LUXURY CARD GRADIENTS
+   ────────────────────────────────────────────── */
+.gradient-card-1 .reason-card-front {
+    background: linear-gradient(145deg, rgba(35, 12, 45, 0.75), rgba(70, 20, 60, 0.6));
+    border: 1px solid rgba(248, 187, 208, 0.18);
+}
+.gradient-card-1 .reason-card-back {
+    background: linear-gradient(145deg, rgba(60, 15, 55, 0.92), rgba(26, 8, 32, 0.95));
+}
+
+.gradient-card-2 .reason-card-front {
+    background: linear-gradient(145deg, rgba(28, 10, 48, 0.75), rgba(55, 22, 78, 0.6));
+    border: 1px solid rgba(225, 190, 240, 0.18);
+}
+.gradient-card-2 .reason-card-back {
+    background: linear-gradient(145deg, rgba(50, 18, 70, 0.92), rgba(20, 8, 35, 0.95));
+}
+
+.gradient-card-3 .reason-card-front {
+    background: linear-gradient(145deg, rgba(45, 10, 35, 0.75), rgba(85, 20, 50, 0.6));
+    border: 1px solid rgba(255, 180, 200, 0.18);
+}
+.gradient-card-3 .reason-card-back {
+    background: linear-gradient(145deg, rgba(75, 15, 45, 0.92), rgba(30, 5, 25, 0.95));
+}
+
+.gradient-card-4 .reason-card-front {
+    background: linear-gradient(145deg, rgba(20, 15, 50, 0.75), rgba(45, 30, 85, 0.6));
+    border: 1px solid rgba(200, 190, 255, 0.18);
+}
+.gradient-card-4 .reason-card-back {
+    background: linear-gradient(145deg, rgba(40, 25, 75, 0.92), rgba(15, 10, 35, 0.95));
+}
+
+.gradient-card-5 .reason-card-front {
+    background: linear-gradient(145deg, rgba(40, 8, 40, 0.75), rgba(75, 15, 75, 0.6));
+    border: 1px solid rgba(240, 175, 240, 0.18);
+}
+.gradient-card-5 .reason-card-back {
+    background: linear-gradient(145deg, rgba(65, 12, 65, 0.92), rgba(25, 5, 25, 0.95));
+}
+
+.gradient-card-6 .reason-card-front {
+    background: linear-gradient(145deg, rgba(50, 12, 28, 0.75), rgba(90, 25, 45, 0.6));
+    border: 1px solid rgba(255, 200, 210, 0.18);
+}
+.gradient-card-6 .reason-card-back {
+    background: linear-gradient(145deg, rgba(80, 20, 40, 0.92), rgba(35, 8, 20, 0.95));
+}
+
+
+/* ──────────────────────────────────────────────
+   6. FRONT CARD ELEMENTS
+   ────────────────────────────────────────────── */
+.reason-front-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.reason-number {
+    font-size: 1rem;
+    color: var(--clr-primary-light);
+    font-weight: 500;
+    letter-spacing: 1px;
+    opacity: 0.85;
+}
+
+.reason-front-emoji {
+    font-size: 1.4rem;
+    animation: cardEmojiPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes cardEmojiPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.18) rotate(6deg); }
+}
+
+.reason-icon-wrap {
+    position: relative;
+    width: 76px;
+    height: 76px;
+    margin: 1rem auto;
+    border-radius: var(--radius-circle);
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.5s ease;
+}
+
+.reason-card-wrapper:hover .reason-icon-wrap {
+    transform: scale(1.12) translateY(-4px);
+    background: rgba(233, 30, 99, 0.2);
+    border-color: rgba(233, 30, 99, 0.4);
+}
+
+.reason-icon {
+    font-size: 2.2rem;
+    color: #ffffff;
+    transition: transform 0.5s ease, color 0.5s ease;
+    text-shadow: 0 2px 10px rgba(233, 30, 99, 0.5);
+}
+
+.reason-card-wrapper:hover .reason-icon {
+    color: var(--clr-accent);
+    transform: rotate(-8deg) scale(1.1);
+}
+
+.reason-icon-glow {
+    position: absolute;
+    inset: -6px;
+    border-radius: var(--radius-circle);
+    background: radial-gradient(circle, rgba(233, 30, 99, 0.4) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+}
+
+.reason-card-wrapper:hover .reason-icon-glow {
+    opacity: 1;
+}
+
+.reason-title {
+    font-size: 1.85rem;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    line-height: 1.25;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.reason-front-footer {
+    text-align: center;
+    padding-top: 0.5rem;
+}
+
+.reason-hint {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.5px;
+    transition: color var(--transition-fast);
+}
+
+.reason-card-wrapper:hover .reason-hint {
+    color: var(--clr-primary-light);
+}
+
+
+/* ──────────────────────────────────────────────
+   7. BACK CARD ELEMENTS
+   ────────────────────────────────────────────── */
+.reason-back-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.reason-back-emoji {
+    font-size: 1.5rem;
+}
+
+.reason-number-back {
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+}
+
+.reason-back-title {
+    font-size: 1.65rem;
+    color: var(--clr-primary-light);
+    text-align: center;
+    margin: 0.5rem 0 0.25rem;
+}
+
+.reason-divider {
+    width: 40px;
+    height: 2px;
+    background: var(--gradient-rose);
+    border-radius: 2px;
+    margin: 0.5rem auto 1rem;
+}
+
+.reason-desc {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    line-height: 1.65;
+    margin: 0 auto;
+    max-width: 95%;
+}
+
+.reason-back-footer {
+    text-align: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reason-back-hint {
+    font-size: 0.8rem;
+    color: var(--clr-secondary);
+    font-family: var(--font-elegant);
+    letter-spacing: 0.5px;
+}
+
+
+/* ──────────────────────────────────────────────
+   8. BOTTOM CTA SECTION
+   ────────────────────────────────────────────── */
+.reasons-cta-section {
+    position: relative;
+    z-index: 1;
+    padding: 1rem 0 var(--space-2xl);
+}
+
+.reasons-cta {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 3.5rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.reasons-cta-emoji {
+    display: block;
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    animation: emojiFloat 3s ease-in-out infinite;
+}
+
+.reasons-cta-title {
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    margin-bottom: 1.25rem;
+}
+
+.reasons-cta-text {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    line-height: 1.85;
+    max-width: 550px;
+    margin: 0 auto 2.5rem;
+}
+
+
+/* ──────────────────────────────────────────────
+   9. RESPONSIVE BREAKPOINTS
+   ────────────────────────────────────────────── */
+
+/* ── Large Tablets & Small Laptops ── */
+@media (max-width: 1199.98px) {
+    .reasons-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+    }
+}
+
+/* ── Tablets ── */
+@media (max-width: 991.98px) {
+    .reasons-hero {
+        padding: calc(var(--navbar-height) + 3rem) 0 3rem;
+    }
+
+    .reasons-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+    }
+
+    .reasons-controls {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.25rem;
+    }
+
+    .reasons-actions {
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+/* ── Phones ── */
+@media (max-width: 767.98px) {
+    .reasons-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.15rem;
+    }
+
+    .reason-card-wrapper {
+        min-height: 290px;
+    }
+
+    .reason-card {
+        min-height: 290px;
+    }
+
+    .reason-card-front,
+    .reason-card-back {
+        padding: 1.25rem 1rem;
+    }
+
+    .reason-icon-wrap {
+        width: 60px;
+        height: 60px;
+        margin: 0.75rem auto;
+    }
+
+    .reason-icon {
+        font-size: 1.75rem;
+    }
+
+    .reason-title {
+        font-size: 1.5rem;
+    }
+
+    .reason-back-title {
+        font-size: 1.4rem;
+    }
+
+    .reason-desc {
+        font-size: 0.92rem;
+        line-height: 1.5;
+    }
+
+    .reasons-cta {
+        padding: 2.5rem 1.5rem;
+    }
+}
+
+/* ── Small Phones ── */
+@media (max-width: 575.98px) {
+    .reasons-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .reason-card-wrapper {
+        min-height: 270px;
+        max-width: 380px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .reason-card {
+        min-height: 270px;
+    }
+
+    .control-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
