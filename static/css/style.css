@@ -139,7 +139,7 @@ body {
 }
 
 /* Cinematic Vignette Overlay */
-body::after {
+/* body::after {
     content: '';
     position: fixed;
     top: 0;
@@ -149,7 +149,7 @@ body::after {
     background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.75) 120%);
     pointer-events: none;
     z-index: 9999;
-}
+} */
 
 ::selection {
     background-color: var(--clr-primary);
@@ -979,6 +979,35 @@ img {
     box-shadow: var(--shadow-glow);
 }
 
+/* ── Premium Secondary Glass Button ── */
+.btn-glass-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 2.25rem;
+    font-size: 1.05rem;
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    text-decoration: none;
+}
+
+.btn-glass-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2), 0 0 15px rgba(233, 30, 99, 0.2);
+    color: #ffffff;
+}
+
 /* ── Section Title ── */
 .section-title {
     font-family: var(--font-romantic);
@@ -1162,7 +1191,8 @@ img {
 
     .btn-romantic,
     .btn-romantic-outline,
-    .btn-glass {
+    .btn-glass,
+    .btn-glass-secondary {
         padding: 0.65rem 1.35rem;
         font-size: 0.88rem;
         min-height: 44px; /* iOS/Android Accessibility touch target standard */
@@ -1195,7 +1225,8 @@ img {
     .glass-card:active,
     .love-card:active,
     .btn-romantic:active,
-    .btn-glass:active {
+    .btn-glass:active,
+    .btn-glass-secondary:active {
         transform: scale(0.98) !important;
         transition: transform 0.1s ease !important;
     }

@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ──────────────────────────────────────────
        2. PREMIUM CINEMATIC PRELOADER CONTROLLER
        ────────────────────────────────────────── */
-    const preloader = document.getElementById("sitePreloader");
+    const preloader = document.getElementById("premiumloader");
     const preloaderMsgEl = document.getElementById("preloaderMessage");
     const preloaderPercentEl = document.getElementById("preloaderPercent");
     const preloaderBarFillEl = document.getElementById("preloaderBarFill");
@@ -159,28 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isMobileDevice = window.innerWidth < 768 || navigator.maxTouchPoints > 0;
 
-    // ── Subtle Custom Cursor Dot (No Particles, Smooth Movement) ──
-    if (!isMobileDevice) {
-        const cursorDot = document.createElement("div");
-        cursorDot.className = "subtle-custom-cursor-dot";
-        document.body.appendChild(cursorDot);
-
-        let dotX = -100, dotY = -100;
-        let targetX = -100, targetY = -100;
-
-        window.addEventListener("mousemove", (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-        }, { passive: true });
-
-        function animateCursorDot() {
-            dotX += (targetX - dotX) * 0.22;
-            dotY += (targetY - dotY) * 0.22;
-            cursorDot.style.transform = `translate3d(${dotX.toFixed(1)}px, ${dotY.toFixed(1)}px, 0)`;
-            requestAnimationFrame(animateCursorDot);
-        }
-        requestAnimationFrame(animateCursorDot);
-    }
 
     // ── Decorative Background Particles (Only Floating Hearts & Small Sparkles) ──
     // Ensure all DOM fallback particles (if any render from legacy templates) strictly use ❤️ and ✨

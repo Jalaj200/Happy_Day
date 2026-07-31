@@ -81,8 +81,8 @@
 
                     <!-- Framed Photo -->
                     <div class="memory-image-box">
-                        <img src="{% static 'images/romantic-hero.png' %}" 
-                             alt="Romantic couple under sunset skies" 
+                        <img src="{% static 'images/hero_personal.jpg' %}" 
+                             alt="Our beautiful moment together" 
                              class="memory-photo"
                              loading="eager"
                              decoding="async">
@@ -139,14 +139,14 @@
                 <!-- Milestone Card 1 (Left) -->
                 <div class="preview-timeline-row row-left" data-aos="fade-right" data-aos-duration="1000">
                     <div class="preview-timeline-card glass-card-apple tilt-interactive">
-                        <div class="card-glow-badge">✨ The Beginning</div>
+                        <div class="card-glow-badge">THE BEGINNING</div>
                         <div class="card-content-wrap">
                             <div class="card-title-row">
                                 <span class="card-icon">💖</span>
                                 <h3>The First Glance</h3>
                             </div>
-                            <p class="card-description">When our eyes met across the room and time stood completely still. In that single, breathtaking second, my heart whispered that I had found my forever home.</p>
-                            <span class="card-date-tag"><i class="fa-regular fa-calendar-heart me-2"></i>A Moment Frozen in Time</span>
+                            <p class="card-description">The first time I saw you was at the Nursing Ground of NIMS University during the Dandiya Night of 2024. In that beautiful moment, surrounded by music, lights, and laughter, I had no idea that one simple glance would become the beginning of my forever story with you.</p>
+                            <span class="card-date-tag"><i class="fa-regular fa-calendar-heart me-2"></i>Where Our Story Began ❤️</span>
                         </div>
                     </div>
                     <div class="preview-timeline-node">
@@ -250,10 +250,6 @@
                 <p class="chapter-subtitle">
                     "A glimpse into our cherished memories — a lifetime of love and unforgettable adventures."
                 </p>
-                <div class="memories-dynamic-badge mt-3" data-aos="zoom-in" data-aos-delay="200">
-                    <i class="fa-solid fa-database text-pink me-2"></i>
-                    <span>Dynamically synced from <strong>Django MySQL Database</strong></span>
-                </div>
             </div>
 
             <!-- Responsive Grid of Preview Glass Memory Cards (Only First 3) -->
@@ -457,24 +453,25 @@
                         </div>
                     </div>
 
-                    <div class="symphony-scrubber">
-                        <div class="scrubber-track">
-                            <div class="scrubber-fill" id="musicProgressFill"></div>
+                    <div class="symphony-scrubber" id="homeSymphonyScrubber">
+                        <div class="scrubber-track" id="homeScrubberTrack" role="slider" aria-label="Seek through track" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                            <div class="scrubber-fill" id="homeScrubberFill"></div>
+                            <div class="scrubber-thumb" id="homeScrubberThumb"></div>
                         </div>
                         <div class="scrubber-timers">
-                            <span>01:25</span>
-                            <span>04:36</span>
+                            <span id="homeScrubberCurrent">00:00</span>
+                            <span id="homeScrubberTotal">00:00</span>
                         </div>
                     </div>
 
                     <div class="symphony-controls">
-                        <button class="ctrl-icon-btn" type="button" title="Mute/Unmute"><i class="fa-solid fa-volume-high"></i></button>
-                        <button class="ctrl-icon-btn" type="button" title="Previous"><i class="fa-solid fa-backward-step"></i></button>
+                        <button class="ctrl-icon-btn" id="homeMuteBtn" type="button" title="Mute/Unmute"><i class="fa-solid fa-volume-high" id="homeVolumeIcon"></i></button>
+                        <button class="ctrl-icon-btn" id="homePrevBtn" type="button" title="Previous"><i class="fa-solid fa-backward-step"></i></button>
                         <button class="ctrl-play-main" id="homePlayPauseBtn" type="button" title="Play/Pause">
-                            <i class="fa-solid fa-pause" id="homePlayIcon"></i>
+                            <i class="fa-solid fa-play" id="homePlayIcon"></i>
                         </button>
-                        <button class="ctrl-icon-btn" type="button" title="Next"><i class="fa-solid fa-forward-step"></i></button>
-                        <button class="ctrl-icon-btn" type="button" title="Repeat"><i class="fa-solid fa-repeat"></i></button>
+                        <button class="ctrl-icon-btn" id="homeNextBtn" type="button" title="Next"><i class="fa-solid fa-forward-step"></i></button>
+                        <button class="ctrl-icon-btn" id="homeRepeatBtn" type="button" title="Repeat"><i class="fa-solid fa-repeat"></i></button>
                     </div>
                 </div>
 
@@ -539,10 +536,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const playIcon = document.getElementById("homePlayIcon");
     const vinyl = document.getElementById("homeVinylIcon");
     const navMusicBtn = document.getElementById("homeMusicToggleBtn");
-    let isPlaying = true;
+    const audioEl = document.getElementById("bgMusic") || document.querySelector("audio");
 
-    function toggleMusicState() {
-        isPlaying = !isPlaying;
+    function toggleMusic() {
+        if (!audioEl) return;
+        if (audioEl.paused) {
+            if (window.foreverUsFadeIn) window.foreverUsFadeIn();
+            else audioEl.play().catch(()=>{});
+        } else {
+            if (window.foreverUsFadeOut) window.foreverUsFadeOut();
+            else audioEl.pause();
+        }
+    }
+
+    if (playBtn) playBtn.addEventListener("click", toggleMusic);
+    if (navMusicBtn) navMusicBtn.addEventListener("click", toggleMusic);
+
+    // Listen to global playstate changes from music_player.js
+    document.addEventListener("foreverus:playstate", (e) => {
+        const isPlaying = e.detail.playing;
         if (playIcon) {
             playIcon.className = isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
         }
@@ -550,16 +562,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (isPlaying) vinyl.classList.add("playing");
             else vinyl.classList.remove("playing");
         }
-        const audioEl = document.getElementById("bgMusic") || document.querySelector("audio");
-        if (audioEl) {
-            if (isPlaying) audioEl.play().catch(()=>{});
-            else audioEl.pause();
-        }
-    }
+    });
 
-    if (playBtn) playBtn.addEventListener("click", toggleMusicState);
-    if (navMusicBtn) navMusicBtn.addEventListener("click", toggleMusicState);
-    if (vinyl && isPlaying) vinyl.classList.add("playing");
+    // Initialize UI on load
+    if (audioEl && !audioEl.paused) {
+        if (playIcon) playIcon.className = "fa-solid fa-pause";
+        if (vinyl) vinyl.classList.add("playing");
+    }
 
     // Theme toggle logic
     const themeBtn = document.getElementById("homeThemeToggleBtn");

@@ -51,9 +51,6 @@
                 <button type="button" class="control-btn" id="musicBtn" title="Toggle background music">
                     <i class="fa-solid fa-music me-1"></i> <span id="musicBtnText">Play Music</span>
                 </button>
-                <button type="button" class="control-btn control-btn--outline" id="skipBtn" title="Reveal entire letter instantly">
-                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Instant Reveal
-                </button>
                 <button type="button" class="control-btn control-btn--outline" id="replayBtn" title="Replay typing animation">
                     <i class="fa-solid fa-rotate-right me-1"></i> Replay
                 </button>
@@ -136,12 +133,12 @@
             <p class="letter-cta-text">
                 Every word on this page represents a promise that I will spend every day making you the happiest girl in the universe.
             </p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap btn-group-reveal">
                 <a href="{% url 'love:reasons' %}" class="btn-romantic">
                     <i class="fa-solid fa-heart-pulse me-2"></i>
                     20 Reasons Why
                 </a>
-                <a href="{% url 'love:home' %}" class="btn-glass">
+                <a href="{% url 'love:home' %}" class="btn-glass-secondary">
                     <i class="fa-solid fa-house-heart me-2"></i>
                     Back to Home
                 </a>

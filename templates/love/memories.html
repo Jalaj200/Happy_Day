@@ -1,189 +1,134 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ site_name }} — Cherished Memories 📸💖{% endblock %}
+{% block title %}{{ site_name }} — Cherished Memories{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/memories.css' %}?v=cinematic_bg_final">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@700&family=Great+Vibes&family=Manrope:wght@600&family=Playfair+Display:wght@700&family=Poppins:wght@400&display=swap" rel="stylesheet">
+<!-- Only base CSS for now. Phase 4 will introduce premium styling -->
+<link rel="stylesheet" href="{% static 'css/memories.css' %}">
 {% endblock %}
 
 {% block content %}
-<section class="memories-section">
-    <div class="memories-header text-center">
-        <h2 class="memories-subtitle font-cursive">❤️ Relive The Moments ❤️</h2>
-        <h1 class="memories-title font-serif">Our Beautiful Memories</h1>
-        <div class="memories-divider">
-            <span class="divider-line"></span>
-            <span class="divider-icon">❤️</span>
-            <span class="divider-line"></span>
-        </div>
-        <p class="memories-intro">
-            Every photograph holds a story. Every story holds a piece of my heart.<br>
-            Let's relive the moments that made us who we are today.
-        </p>
-    </div>
+<main class="container py-5">
+    <!-- Header: Romantic Title & Subtitle -->
+    <header class="text-center mb-5" data-aos="fade-down" data-aos-duration="1000">
+        <h2 class="h5 text-muted">Relive The Moments</h2>
+        <h1 class="display-4">Our Beautiful Memories</h1>
+        <p class="lead">Every photograph holds a story. Every story holds a piece of my heart.</p>
+    </header>
 
-    <div class="timeline-wrapper">
-        <div class="timeline-line"></div>
-        
-        {% if memories %}
-        {% for memory in memories %}
-        <div class="timeline-item">
-            <div class="timeline-heart">
-                <i class="fa-solid fa-heart"></i>
-            </div>
+    <!-- Timeline Container & Dynamic Cards -->
+    <section class="row justify-content-center">
+        <div class="col-12 col-lg-10">
             
-            <div class="memory-card {% if forloop.counter|divisibleby:2 %}reverse-layout{% endif %}">
-                <div class="memory-card-image">
-                    {% if memory.image %}
-                    <img src="{{ memory.image.url }}" alt="{{ memory.title }}">
-                    {% else %}
-                    <div class="fallback-img">{{ memory.emoji|default:'💕' }}</div>
-                    {% endif %}
-                </div>
-                
-                <div class="memory-card-content">
-                    <div class="memory-date-badge">
-                        <i class="fa-regular fa-calendar"></i> {{ memory.date_label }}
-                    </div>
-                    <h3 class="memory-title-card font-serif">✨ {{ memory.title }}</h3>
-                    
-                    <div class="memory-meta">
-                        {% if memory.location %}
-                        <span class="meta-pill"><i class="fa-solid fa-location-dot"></i> {{ memory.location }}</span>
-                        {% endif %}
-                        {% if memory.time %}
-                        <span class="meta-pill"><i class="fa-regular fa-clock"></i> {{ memory.time }}</span>
-                        {% endif %}
-                        {% if memory.mood %}
-                        <span class="meta-pill"><i class="fa-solid fa-sparkles"></i> {{ memory.mood }}</span>
+            {% for memory in memories %}
+            <article class="card mb-4" data-aos="fade-up" data-aos-duration="800">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        {% if memory.image %}
+                        <img src="{{ memory.image.url }}" alt="{{ memory.title }}" class="img-fluid rounded-start h-100 object-fit-cover" style="min-height: 200px;">
+                        {% else %}
+                        <!-- Fallback image structure -->
+                        <div class="bg-secondary text-white d-flex align-items-center justify-content-center h-100 p-4 rounded-start" style="min-height: 200px;">
+                            <span class="fs-1">{{ memory.emoji|default:'💕' }}</span>
+                        </div>
                         {% endif %}
                     </div>
-                    
-                    <div class="memory-summary">
-                        {{ memory.description|truncatewords:30 }}
-                    </div>
-                    
-                    <div class="memory-action">
-                        <button class="custom-premium-btn" data-bs-toggle="modal" data-bs-target="#modal-{{ memory.id }}">
-                            <i class="fa-solid fa-heart me-1"></i> Read Full Story &rarr;
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-        {% else %}
-        <div class="text-center py-5">
-            <h3 class="font-serif text-white">No Memories Created Yet</h3>
-        </div>
-        {% endif %}
-    </div>
-
-    {% if is_paginated %}
-    <div class="pagination-container">
-        <div class="pagination-wrapper">
-            {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-nav">&lt; Previous</a>
-            {% else %}
-            <span class="page-nav disabled">&lt; Previous</span>
-            {% endif %}
-            
-            {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-            <span class="page-num active">{{ num }}</span>
-            {% else %}
-            <a href="?page={{ num }}" class="page-num">{{ num }}</a>
-            {% endif %}
-            {% endfor %}
-            
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="page-nav">Next &gt;</a>
-            {% else %}
-            <span class="page-nav disabled">Next &gt;</span>
-            {% endif %}
-        </div>
-    </div>
-    {% endif %}
-
-    <!-- THE JOURNEY CONTINUES SECTION -->
-    <div class="memories-ending text-center">
-        <div class="ending-divider">
-            <span class="ending-line"></span>
-            <span class="ending-icon"><i class="fa-solid fa-heart"></i></span>
-            <span class="ending-line"></span>
-        </div>
-        <h2 class="ending-title">❤️ The Journey Continues ❤️</h2>
-        <p class="ending-quote">
-            "Every memory we've created has become a chapter of our story.<br>
-            The best pages are still waiting to be written together."
-        </p>
-        <div class="ending-decorations">
-            <i class="fa-solid fa-heart float-heart float-heart-1"></i>
-            <i class="fa-solid fa-heart float-heart float-heart-2"></i>
-            <i class="fa-solid fa-star-of-life float-sparkle float-sparkle-1"></i>
-            <i class="fa-solid fa-star-of-life float-sparkle float-sparkle-2"></i>
-        </div>
-        <a href="{% url 'love:home' %}" class="custom-premium-btn ending-btn">
-            ✨ Our Next Chapter &rarr;
-        </a>
-    </div>
-</section>
-<!-- MODALS LOOP (OUTSIDE TIMELINE SO IT DOESNT BREAK SCROLL/LAYOUT) -->
-    {% for memory in memories %}
-    <div class="modal fade custom-modal" id="modal-{{ memory.id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-dialog">
-            <div class="modal-content custom-modal-content">
-                <button type="button" class="btn-close-modal" data-bs-dismiss="modal">&times;</button>
-                
-                <div class="modal-body custom-modal-body">
-                    {% if memory.image %}
-                    <img src="{{ memory.image.url }}" alt="{{ memory.title }}" class="modal-image">
-                    {% endif %}
-                    
-                    <div class="text-center mt-3 mb-2">
-                        <div class="memory-date-badge d-inline-block">
-                            <i class="fa-regular fa-calendar"></i> {{ memory.date_label }}
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <!-- Basic Metadata -->
+                            <div class="mb-2 text-muted small">
+                                <span>{{ memory.date_label }}</span>
+                                {% if memory.location %} &bull; <span>{{ memory.location }}</span>{% endif %}
+                            </div>
+                            
+                            <h3 class="card-title h4">{{ memory.title }}</h3>
+                            <p class="card-text">{{ memory.description|truncatewords:25 }}</p>
+                            
+                            <!-- Button Trigger for Dynamic Modal -->
+                            <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#modal-{{ memory.id }}">
+                                Read Full Story
+                            </button>
                         </div>
                     </div>
+                </div>
+            </article>
+            {% empty %}
+            <div class="text-center p-5 border rounded bg-light">
+                <h3 class="text-muted">No Memories Created Yet</h3>
+            </div>
+            {% endfor %}
+
+            <!-- Standard Pagination -->
+            {% if is_paginated %}
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a></li>
+                    {% endif %}
+                    <li class="page-item active"><span class="page-link">{{ page_obj.number }}</span></li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        </div>
+    </section>
+
+    <!-- Closing Romantic Quote -->
+    <section class="row justify-content-center mt-5 mb-4 text-center closing-quote-section" data-aos="zoom-in" data-aos-duration="1200">
+        <div class="col-12 col-md-8">
+            <div class="closing-sparkle mb-3 fs-3">✨</div>
+            <blockquote class="blockquote">
+                <p class="fst-italic text-white">"Every memory with you became<br>my favourite place to revisit."</p>
+            </blockquote>
+            <figcaption class="blockquote-footer mt-3 text-white-50">
+                Forever Us ❤️
+            </figcaption>
+        </div>
+    </section>
+
+</main>
+{% endblock %}
+
+{% block footer %}
+    {{ block.super }}
+
+    <!-- Phase 3 Dynamic Modals Loop (Escaping main-content z-index) -->
+    {% for memory in memories %}
+    <div class="modal fade" id="modal-{{ memory.id }}" tabindex="-1" aria-labelledby="modalLabel{{ memory.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel{{ memory.id }}">{{ memory.title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if memory.image %}
+                    <img src="{{ memory.image.url }}" alt="{{ memory.title }}" class="img-fluid rounded mb-3 bg-secondary" style="min-height: 300px; width: 100%; object-fit: cover;">
+                    {% endif %}
                     
-                    <h3 class="modal-title-card font-serif text-center">✨ {{ memory.title }}</h3>
-                    
-                    <div class="memory-meta justify-content-center mb-4">
-                        {% if memory.location %}
-                        <span class="meta-pill"><i class="fa-solid fa-location-dot"></i> {{ memory.location }}</span>
-                        {% endif %}
-                        {% if memory.time %}
-                        <span class="meta-pill"><i class="fa-regular fa-clock"></i> {{ memory.time }}</span>
-                        {% endif %}
-                        {% if memory.mood %}
-                        <span class="meta-pill"><i class="fa-solid fa-sparkles"></i> {{ memory.mood }}</span>
-                        {% endif %}
+                    <div class="mb-3 text-muted">
+                        <small>{{ memory.date_label }}{% if memory.location %} &bull; {{ memory.location }}{% endif %}</small>
                     </div>
                     
-                    <div class="modal-section-title">
-                        <i class="fa-solid fa-comment-dots text-pink"></i> Our Story
-                    </div>
-                    <p class="modal-text">{{ memory.description }}</p>
+                    <p>{{ memory.description|linebreaksbr }}</p>
+                    
                     {% if memory.expanded_content %}
-                    <p class="modal-text">{{ memory.expanded_content|linebreaksbr }}</p>
+                    <p>{{ memory.expanded_content|linebreaksbr }}</p>
                     {% endif %}
                     
                     {% if memory.special_reason %}
-                    <div class="modal-special-box">
-                        <div class="special-title"><i class="fa-solid fa-heart text-pink"></i> Why This Is Special</div>
-                        <p class="special-text">{{ memory.special_reason }}</p>
+                    <div class="mt-4 p-3 bg-light rounded border">
+                        <strong>Why This Is Special:</strong><br>
+                        <em>{{ memory.special_reason }}</em>
                     </div>
                     {% endif %}
-                    
-                    <div class="text-center mt-4 mb-2">
-                        <button class="custom-premium-btn close-btn" data-bs-dismiss="modal">
-                            Close <i class="fa-solid fa-heart ms-1"></i>
-                        </button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -192,5 +137,6 @@
 {% endblock %}
 
 {% block extra_js %}
-{% comment %} <script src="{% static 'js/memories.js' %}"></script> {% endcomment %}
+<!-- Empty JS for Phase 3 -->
+<script src="{% static 'js/memories.js' %}"></script>
 {% endblock %}

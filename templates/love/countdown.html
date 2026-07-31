@@ -26,10 +26,7 @@
             <p class="countdown-hero-subtitle font-elegant animate-fade-in" data-delay="2">
                 {{ config.subtitle }}
             </p>
-            <div class="countdown-target-badge animate-fade-in" data-delay="3">
-                <i class="fa-solid fa-calendar-check me-2"></i>
-                <span>Target: <strong>1st August — Girlfriend's Day</strong></span>
-            </div>
+
         </div>
     </div>
 </section>
@@ -40,18 +37,10 @@
      ═══════════════════════════════════════════════ -->
 <section class="countdown-controls-section">
     <div class="container">
-        <div class="countdown-controls glass-strong">
-            <div class="controls-status font-elegant">
-                <i class="fa-solid fa-heart-pulse text-primary me-2"></i>
+        <div class="countdown-controls glass-strong d-flex justify-content-center text-center">
+            <div class="controls-status font-elegant" style="width: 100%; justify-content: center;">
+                <i class="fa-solid fa-heart me-2 text-primary"></i>
                 <span id="timerStatusText">Counting down every second...</span>
-            </div>
-            <div class="controls-actions">
-                <button type="button" class="control-btn" id="simulateBtn" title="Test celebration animation instantly">
-                    <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Test Celebration Now
-                </button>
-                <button type="button" class="control-btn control-btn--outline" id="resetTimerBtn" title="Return to live countdown" style="display: none;">
-                    <i class="fa-solid fa-rotate-left me-1"></i> Reset Timer
-                </button>
             </div>
         </div>
     </div>
@@ -122,6 +111,12 @@
             </div>
 
         </div>
+        
+        <div class="countdown-teaser text-center mt-5 animate-fade-in" data-delay="5">
+            <p class="font-elegant text-white opacity-75 mb-0" style="font-size: 1.1rem; letter-spacing: 0.5px;">
+                <span style="color: var(--clr-primary-light);">✨</span> <em>When our countdown reaches zero... a beautiful surprise awaits you, my love.</em> <span style="color: var(--clr-primary);">❤️</span>
+            </p>
+        </div>
     </div>
 </section>
 
@@ -156,18 +151,23 @@
             <p class="celebration-message font-elegant">
                 {{ config.celebration_message }}
             </p>
-            <div class="celebration-actions d-flex justify-content-center gap-3 flex-wrap mt-4">
+            <div class="celebration-actions d-flex flex-column align-items-center gap-3 mt-4">
+                <!-- Primary Action -->
                 <a href="{% url 'love:love_letter' %}" class="btn-romantic">
                     <i class="fa-solid fa-envelope-heart me-2"></i>
                     Read Love Letter
                 </a>
-                <a href="{% url 'love:reasons' %}" class="btn-glass">
-                    <i class="fa-solid fa-heart-pulse me-2"></i>
-                    20 Reasons Why
-                </a>
-                <button type="button" class="btn-glass" id="closeCelebrationBtn">
-                    <i class="fa-solid fa-xmark me-1"></i> Close Screen
-                </button>
+                
+                <!-- Secondary Actions -->
+                <div class="d-flex justify-content-center gap-3 flex-wrap mt-2">
+                    <a href="{% url 'love:reasons' %}" class="btn-glass-secondary">
+                        <i class="fa-solid fa-heart me-2"></i>
+                        My 20 Reasons
+                    </a>
+                    <button type="button" class="btn-glass-secondary" id="closeCelebrationBtn">
+                        <i class="fa-solid fa-arrow-left me-2"></i> Back to Countdown
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -185,12 +185,12 @@
             <p class="countdown-cta-text">
                 Every single day with you is a celebration. While we count down to this special day, let's look back at our unforgettable journey.
             </p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <div class="d-flex justify-content-center align-items-center gap-4 flex-wrap">
                 <a href="{% url 'love:our_story' %}" class="btn-romantic">
                     <i class="fa-solid fa-book-heart me-2"></i>
                     Our Story
                 </a>
-                <a href="{% url 'love:gallery' %}" class="btn-glass">
+                <a href="{% url 'love:gallery' %}" class="btn-glass-secondary">
                     <i class="fa-solid fa-images me-2"></i>
                     Photo Gallery
                 </a>

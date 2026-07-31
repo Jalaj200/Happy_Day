@@ -547,6 +547,50 @@ body.page-transitioning-out {
     border-color: rgba(255, 215, 0, 0.5);
 }
 
+/* Drag Handle */
+.music-drag-handle {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px 20px 0 0;
+    padding: 4px 15px 0px 15px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 14px;
+    cursor: grab;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    touch-action: none;
+    transition: all 0.3s ease;
+    z-index: -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.music-drag-handle:hover {
+    color: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.25);
+    padding-bottom: 2px;
+    top: -22px;
+}
+
+.music-player-widget.is-dragging {
+    /* Transitions disabled during active drag to prevent lag via JS, 
+       but we add a higher shadow and cursor here */
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 45px rgba(233, 30, 99, 0.8) !important;
+    border-color: rgba(255, 215, 0, 0.8) !important;
+    user-select: none;
+}
+
+.music-player-widget.is-dragging .music-drag-handle {
+    cursor: grabbing;
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
 .music-disc-wrap {
     position: relative;
     width: 36px;
@@ -638,6 +682,91 @@ body.page-transitioning-out {
     color: #ffffff;
 }
 
+/* Interactive Progress Bar */
+.music-progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+}
+
+.music-time {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-width: 28px;
+    text-align: center;
+    letter-spacing: 0.02em;
+    user-select: none;
+}
+
+.music-progress-track {
+    position: relative;
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+    cursor: pointer;
+    touch-action: none;
+    overflow: visible;
+}
+
+.music-progress-track:focus-visible {
+    outline: 2px solid rgba(233, 30, 99, 0.8);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+.music-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #e91e63, #ff6090);
+    border-radius: 4px;
+    box-shadow: 0 0 6px rgba(233, 30, 99, 0.5);
+    transition: width 0.1s linear;
+    pointer-events: none;
+}
+
+.music-progress-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border: 2px solid #e91e63;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px rgba(233, 30, 99, 0.6);
+    transition: left 0.1s linear, transform 0.15s ease, box-shadow 0.15s ease;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.music-progress-track:hover .music-progress-thumb {
+    transform: translate(-50%, -50%) scale(1.25);
+    box-shadow: 0 0 14px rgba(233, 30, 99, 0.85);
+}
+
+.music-progress-wrap.is-seeking .music-progress-thumb {
+    transform: translate(-50%, -50%) scale(1.35);
+    box-shadow: 0 0 18px rgba(233, 30, 99, 1);
+    border-color: #ffd700;
+}
+
+.music-progress-wrap.is-seeking .music-progress-fill {
+    transition: none;
+}
+.music-progress-wrap.is-seeking .music-progress-thumb {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
 .music-volume-slider {
     width: 65px;
     height: 4px;
@@ -663,24 +792,15 @@ body.page-transitioning-out {
     .music-volume-slider {
         width: 45px;
     }
+    .music-progress-wrap {
+        max-width: 120px;
+    }
+    .music-time {
+        font-size: 0.6rem;
+        min-width: 24px;
+    }
 }
 
-/* ──────────────────────────────────────────────
-   9. SUBTLE CUSTOM CURSOR DOT (FIX 2)
-   ────────────────────────────────────────────── */
-.subtle-custom-cursor-dot { display: none !important; }
-    top: -5px;
-    left: -5px;
-    width: 10px;
-    height: 10px;
-    background-color: #ff4081;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    box-shadow: 0 0 10px #ff4081, 0 0 22px rgba(255, 64, 129, 0.75);
-    will-change: transform;
-    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-}
 
 @media (prefers-reduced-motion: reduce) {
     *,

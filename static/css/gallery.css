@@ -171,156 +171,297 @@
     padding-bottom: var(--space-2xl);
 }
 
-.masonry-grid {
+.scrapbook-grid {
     column-count: 3;
-    column-gap: 1.5rem;
+    column-gap: 2.5rem;
+    padding: 1.5rem 0;
 }
 
-.masonry-item {
+.scrapbook-item {
     break-inside: avoid;
-    margin-bottom: 1.5rem;
-    /* Lazy load animation */
+    margin-bottom: 3.5rem; /* Organic flow spacing */
     opacity: 0;
     transform: translateY(20px);
-    animation: masonryFadeIn 0.6s ease forwards;
+    animation: masonryFadeIn 0.8s ease forwards;
 }
 
-/* Staggered entrance */
-.masonry-item:nth-child(1)  { animation-delay: 0.05s; }
-.masonry-item:nth-child(2)  { animation-delay: 0.10s; }
-.masonry-item:nth-child(3)  { animation-delay: 0.15s; }
-.masonry-item:nth-child(4)  { animation-delay: 0.20s; }
-.masonry-item:nth-child(5)  { animation-delay: 0.25s; }
-.masonry-item:nth-child(6)  { animation-delay: 0.30s; }
-.masonry-item:nth-child(7)  { animation-delay: 0.35s; }
-.masonry-item:nth-child(8)  { animation-delay: 0.40s; }
-.masonry-item:nth-child(9)  { animation-delay: 0.45s; }
-.masonry-item:nth-child(10) { animation-delay: 0.50s; }
-.masonry-item:nth-child(11) { animation-delay: 0.55s; }
-.masonry-item:nth-child(12) { animation-delay: 0.60s; }
-
+/* Staggered entrance — supports up to 80 items */
+.scrapbook-item:nth-child(1) { animation-delay: 0.05s; }
+.scrapbook-item:nth-child(2) { animation-delay: 0.10s; }
+.scrapbook-item:nth-child(3) { animation-delay: 0.15s; }
+.scrapbook-item:nth-child(4) { animation-delay: 0.20s; }
+.scrapbook-item:nth-child(5) { animation-delay: 0.25s; }
+.scrapbook-item:nth-child(6) { animation-delay: 0.30s; }
+.scrapbook-item:nth-child(7) { animation-delay: 0.35s; }
+.scrapbook-item:nth-child(8) { animation-delay: 0.40s; }
+.scrapbook-item:nth-child(9) { animation-delay: 0.45s; }
+.scrapbook-item:nth-child(10) { animation-delay: 0.50s; }
+.scrapbook-item:nth-child(11) { animation-delay: 0.55s; }
+.scrapbook-item:nth-child(12) { animation-delay: 0.60s; }
+.scrapbook-item:nth-child(13) { animation-delay: 0.65s; }
+.scrapbook-item:nth-child(14) { animation-delay: 0.70s; }
+.scrapbook-item:nth-child(15) { animation-delay: 0.75s; }
+.scrapbook-item:nth-child(16) { animation-delay: 0.80s; }
+.scrapbook-item:nth-child(17) { animation-delay: 0.85s; }
+.scrapbook-item:nth-child(18) { animation-delay: 0.90s; }
+.scrapbook-item:nth-child(19) { animation-delay: 0.95s; }
+.scrapbook-item:nth-child(20) { animation-delay: 1.00s; }
+.scrapbook-item:nth-child(21) { animation-delay: 1.05s; }
+.scrapbook-item:nth-child(22) { animation-delay: 1.10s; }
+.scrapbook-item:nth-child(23) { animation-delay: 1.15s; }
+.scrapbook-item:nth-child(24) { animation-delay: 1.20s; }
+.scrapbook-item:nth-child(25) { animation-delay: 1.25s; }
+.scrapbook-item:nth-child(26) { animation-delay: 1.30s; }
+.scrapbook-item:nth-child(27) { animation-delay: 1.35s; }
+.scrapbook-item:nth-child(28) { animation-delay: 1.40s; }
+.scrapbook-item:nth-child(29) { animation-delay: 1.45s; }
+.scrapbook-item:nth-child(30) { animation-delay: 1.50s; }
+.scrapbook-item:nth-child(31) { animation-delay: 1.55s; }
+.scrapbook-item:nth-child(32) { animation-delay: 1.60s; }
+.scrapbook-item:nth-child(33) { animation-delay: 1.65s; }
+.scrapbook-item:nth-child(34) { animation-delay: 1.70s; }
+.scrapbook-item:nth-child(35) { animation-delay: 1.75s; }
+.scrapbook-item:nth-child(36) { animation-delay: 1.80s; }
+.scrapbook-item:nth-child(37) { animation-delay: 1.85s; }
+.scrapbook-item:nth-child(38) { animation-delay: 1.90s; }
+.scrapbook-item:nth-child(39) { animation-delay: 1.95s; }
+.scrapbook-item:nth-child(40) { animation-delay: 2.00s; }
+.scrapbook-item:nth-child(41) { animation-delay: 2.05s; }
+.scrapbook-item:nth-child(42) { animation-delay: 2.10s; }
+.scrapbook-item:nth-child(43) { animation-delay: 2.15s; }
+.scrapbook-item:nth-child(44) { animation-delay: 2.20s; }
+.scrapbook-item:nth-child(45) { animation-delay: 2.25s; }
+.scrapbook-item:nth-child(46) { animation-delay: 2.30s; }
+.scrapbook-item:nth-child(47) { animation-delay: 2.35s; }
+.scrapbook-item:nth-child(48) { animation-delay: 2.40s; }
+.scrapbook-item:nth-child(49) { animation-delay: 2.45s; }
+.scrapbook-item:nth-child(50) { animation-delay: 2.50s; }
+.scrapbook-item:nth-child(51) { animation-delay: 2.55s; }
+.scrapbook-item:nth-child(52) { animation-delay: 2.60s; }
+.scrapbook-item:nth-child(53) { animation-delay: 2.65s; }
+.scrapbook-item:nth-child(54) { animation-delay: 2.70s; }
+.scrapbook-item:nth-child(55) { animation-delay: 2.75s; }
+.scrapbook-item:nth-child(56) { animation-delay: 2.80s; }
+.scrapbook-item:nth-child(57) { animation-delay: 2.85s; }
+.scrapbook-item:nth-child(58) { animation-delay: 2.90s; }
+.scrapbook-item:nth-child(59) { animation-delay: 2.95s; }
+.scrapbook-item:nth-child(60) { animation-delay: 3.00s; }
+.scrapbook-item:nth-child(61) { animation-delay: 3.05s; }
+.scrapbook-item:nth-child(62) { animation-delay: 3.10s; }
+.scrapbook-item:nth-child(63) { animation-delay: 3.15s; }
+.scrapbook-item:nth-child(64) { animation-delay: 3.20s; }
+.scrapbook-item:nth-child(65) { animation-delay: 3.25s; }
+.scrapbook-item:nth-child(66) { animation-delay: 3.30s; }
+.scrapbook-item:nth-child(67) { animation-delay: 3.35s; }
+.scrapbook-item:nth-child(68) { animation-delay: 3.40s; }
+.scrapbook-item:nth-child(69) { animation-delay: 3.45s; }
+.scrapbook-item:nth-child(70) { animation-delay: 3.50s; }
+.scrapbook-item:nth-child(71) { animation-delay: 3.55s; }
+.scrapbook-item:nth-child(72) { animation-delay: 3.60s; }
+.scrapbook-item:nth-child(73) { animation-delay: 3.65s; }
+.scrapbook-item:nth-child(74) { animation-delay: 3.70s; }
+.scrapbook-item:nth-child(75) { animation-delay: 3.75s; }
+.scrapbook-item:nth-child(76) { animation-delay: 3.80s; }
+.scrapbook-item:nth-child(77) { animation-delay: 3.85s; }
+.scrapbook-item:nth-child(78) { animation-delay: 3.90s; }
+.scrapbook-item:nth-child(79) { animation-delay: 3.95s; }
+.scrapbook-item:nth-child(80) { animation-delay: 4.00s; }
 @keyframes masonryFadeIn {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Featured items span wider (handled by card styling) */
-.masonry-item--featured .gallery-card-img-wrapper {
-    min-height: 320px;
+/* ── Layout Variations ── */
+
+/* Featured — Large landscape centerpiece */
+.polaroid-card--featured .polaroid-img-wrapper {
+    aspect-ratio: 3 / 2;
+    width: 100%;
+}
+.polaroid-card--featured .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
 }
 
+/* Portrait — Taller aspect */
+.polaroid-card--portrait .polaroid-img-wrapper {
+    aspect-ratio: 3 / 4;
+    width: 100%;
+}
+.polaroid-card--portrait .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
 
-/* ── Gallery Card ── */
-.gallery-card {
-    padding: 0;
-    overflow: hidden;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-base);
+/* Landscape — Wider, shorter aspect */
+.polaroid-card--landscape .polaroid-img-wrapper {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+}
+.polaroid-card--landscape .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
+
+/* Square */
+.polaroid-card--square .polaroid-img-wrapper {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+.polaroid-card--square .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
+
+/* Mini — Small, intimate memory */
+.polaroid-card--mini {
+    padding: 6px 6px 12px 6px;
+    max-width: 80%;
+    margin: 0 auto 3.5rem auto;
+}
+.polaroid-card--mini .polaroid-img-wrapper {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+}
+.polaroid-card--mini .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
+
+/* ── Polaroid Card ── */
+.polaroid-card {
+    position: relative;
+    background: #ffffff;
+    padding: 8px 8px 16px 8px; /* Reduced by 30-40% for adaptive frames */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 0 30px rgba(0,0,0,0.02);
+    border-radius: 4px; /* Slight rounded corners for realism */
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease;
     cursor: pointer;
+    /* Rotation applied via inline CSS custom property */
+    transform: rotate(var(--polaroid-rotation, 0deg));
+    z-index: 1;
 }
 
-.gallery-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: var(--shadow-lg);
+/* Paper grain texture via CSS filter */
+.polaroid-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.polaroid-card:hover {
+    transform: rotate(0deg) scale(1.03) translateY(-8px); /* Straighten and lift paper effect */
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(233, 30, 99, 0.1); /* Lift shadow + soft glow */
+    z-index: 10;
 }
 
 /* ── Image Wrapper ── */
-.gallery-card-img-wrapper {
+.polaroid-img-wrapper {
     position: relative;
     overflow: hidden;
-    line-height: 0;
+    background: #f9f9fb; /* Subtle background for contain */
+    border: 1px solid rgba(0,0,0,0.05);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.gallery-card-img {
+.polaroid-img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
 }
 
-.gallery-card:hover .gallery-card-img {
-    transform: scale(1.08);
+.polaroid-card:hover .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
 }
 
 /* ── Hover Overlay ── */
-.gallery-card-overlay {
+.polaroid-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(13, 1, 23, 0.85) 0%,
-        rgba(13, 1, 23, 0.4) 40%,
-        rgba(13, 1, 23, 0.1) 70%,
-        transparent 100%
-    );
+    background: rgba(13, 1, 23, 0.15);
     display: flex;
-    align-items: flex-end;
-    padding: 1.25rem;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     transition: opacity var(--transition-base);
+    z-index: 3;
 }
 
-.gallery-card:hover .gallery-card-overlay {
+.polaroid-card:hover .polaroid-overlay {
     opacity: 1;
 }
 
-.gallery-card-overlay-content {
-    width: 100%;
-    transform: translateY(10px);
-    transition: transform var(--transition-base);
-}
-
-.gallery-card:hover .gallery-card-overlay-content {
-    transform: translateY(0);
-}
-
-.gallery-card-overlay-title {
-    font-family: var(--font-elegant);
-    font-size: 1.25rem;
-    color: #ffffff;
-    margin-bottom: 0.25rem;
-}
-
-.gallery-card-overlay-caption {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 0.75rem;
-    line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.gallery-card-overlay-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
 .gallery-card-zoom-btn {
-    width: 38px;
-    height: 38px;
+    width: 50px;
+    height: 50px;
     border-radius: var(--radius-circle);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all var(--transition-fast);
+    transform: scale(0.8);
+}
+
+.polaroid-card:hover .gallery-card-zoom-btn {
+    transform: scale(1);
 }
 
 .gallery-card-zoom-btn:hover {
     background: var(--clr-primary);
     border-color: var(--clr-primary);
-    transform: scale(1.1);
+    transform: scale(1.1) !important;
 }
 
 /* ── Featured Badge ── */
-.gallery-card-badge {
+.polaroid-badge {
     position: absolute;
     top: 0.75rem;
     right: 0.75rem;
@@ -330,35 +471,113 @@
     color: #1a0a1e;
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
     text-transform: uppercase;
     box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-    z-index: 2;
+    z-index: 4;
 }
 
-/* ── Card Footer ── */
-.gallery-card-footer {
+/* ── Scrapbook Decorations ── */
+.scrapbook-decorations {
+    position: absolute;
+    inset: -15px; /* Allow decorations to spill out of the polaroid */
+    pointer-events: none;
+    z-index: 5;
+}
+
+.decoration-tape {
+    position: absolute;
+    width: 90px;
+    height: 28px;
+    background: rgba(255, 240, 245, 0.65);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 1px solid rgba(255,255,255,0.3);
+    transform-origin: center;
+}
+
+.decoration-tape--pink { background: rgba(233, 30, 99, 0.25); }
+.decoration-tape--gold { background: rgba(255, 215, 0, 0.25); }
+.decoration-tape--mint { background: rgba(152, 251, 152, 0.25); }
+
+.decoration-pin {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle at 35% 35%, #ffe600, #b8860b);
+    border-radius: 50%;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.3), inset -2px -2px 4px rgba(0,0,0,0.2);
+}
+
+.decoration-corner {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background: #111;
+    clip-path: polygon(100% 0, 0 100%, 0 0);
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.decoration-flower {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.85;
+    filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.2)) sepia(0.2);
+    transform-origin: center;
+}
+
+
+/* ── Premium Dividers ── */
+.scrapbook-divider-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.scrapbook-divider {
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+}
+
+.divider-botanical-branch {
+    width: 120px;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 30'%3E%3Cpath d='M10,15 Q30,5 50,15 T90,15' fill='none' stroke='%238f9779' stroke-width='2'/%3E%3Cpath d='M20,10 Q25,5 30,12' fill='%238f9779'/%3E%3Cpath d='M60,18 Q65,25 70,15' fill='%238f9779'/%3E%3Cpath d='M40,12 Q45,2 50,14' fill='%238f9779'/%3E%3Cpath d='M80,15 Q85,10 90,18' fill='%238f9779'/%3E%3C/svg%3E");
+    transform: rotate(-2deg);
+}
+
+.divider-wax-seal {
+    width: 60px;
+    height: 60px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%239e2a2b'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23701d1d' stroke-width='2' stroke-dasharray='5,5'/%3E%3Cpath d='M30,50 Q50,30 70,50 Q50,70 30,50' fill='%23701d1d' opacity='0.5'/%3E%3C/svg%3E");
+    border-radius: 50%;
+    transform: rotate(5deg);
+}
+
+.divider-torn-note {
+    width: 140px;
+    height: 35px;
+    background: #fdfaf6;
+    border: 1px solid #eaddcf;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 1rem;
+    justify-content: center;
+    font-family: 'Nothing You Could Do', cursive, sans-serif;
+    color: #8c7b75;
+    font-size: 0.9rem;
+    transform: rotate(-3deg);
+    clip-path: polygon(2% 0, 98% 3%, 100% 95%, 5% 100%, 0 92%);
 }
-
-.gallery-card-title-sm {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 60%;
+.divider-torn-note::after {
+    content: "Beautiful Memories";
 }
-
-.gallery-card-date {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-}
-
 
 /* ──────────────────────────────────────────────
    4. PAGINATION
@@ -519,9 +738,9 @@
 .lightbox-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(10, 5, 15, 0.92);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: rgba(10, 5, 15, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 /* ── Close Button ── */
@@ -588,7 +807,7 @@
     flex-direction: column;
     align-items: center;
     max-width: 90vw;
-    max-height: 85vh;
+    max-height: calc(100vh - 120px);
 }
 
 .lightbox-img-wrapper {
@@ -646,6 +865,58 @@
     color: rgba(255, 255, 255, 0.4);
 }
 
+
+/* ── Thumbnail Filmstrip ── */
+.lightbox-filmstrip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    scrollbar-width: none;
+}
+.lightbox-filmstrip::-webkit-scrollbar {
+    display: none;
+}
+
+.filmstrip-track {
+    display: flex;
+    gap: 8px;
+    height: 60px;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.filmstrip-thumb {
+    height: 56px;
+    width: 56px;
+    object-fit: cover;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.4;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.filmstrip-thumb:hover {
+    opacity: 0.8;
+}
+
+.filmstrip-thumb.active {
+    opacity: 1;
+    border-color: #e91e63;
+    transform: scale(1.05);
+}
+
 /* ── Zoom Controls ── */
 .lightbox-zoom-controls {
     position: absolute;
@@ -690,8 +961,9 @@
 
 /* ── Tablets ── */
 @media (max-width: 991.98px) {
-    .masonry-grid {
+    .scrapbook-grid {
         column-count: 2;
+        column-gap: 2rem;
     }
 
     .gallery-hero {
@@ -704,38 +976,21 @@
 
 /* ── Phones ── */
 @media (max-width: 767.98px) {
-    .masonry-grid {
+    .scrapbook-grid {
         column-count: 2;
-        column-gap: 0.75rem;
+        column-gap: 1rem;
     }
 
-    .masonry-item {
-        margin-bottom: 0.75rem;
+    .scrapbook-item {
+        margin-bottom: 2rem;
     }
 
-    .gallery-filters {
-        padding: 0.75rem 1rem;
+    .polaroid-card {
+        padding: 8px 8px 16px 8px;
     }
 
-    .gallery-filters-scroll {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding-bottom: 0.25rem;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
-
-    .gallery-filters-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .gallery-card-footer {
-        padding: 0.6rem 0.75rem;
-    }
-
-    .gallery-card-title-sm {
-        font-size: 0.78rem;
+    .polaroid-title {
+        font-size: 1.3rem;
     }
 
     .lightbox-img {
@@ -761,31 +1016,38 @@
     .lightbox-zoom-controls {
         bottom: 1rem;
     }
-
-    .page-btn {
-        min-width: 36px;
-        height: 36px;
-        font-size: 0.82rem;
-    }
 }
 
 /* ── Small Phones ── */
 @media (max-width: 575.98px) {
-    .masonry-grid {
+    .scrapbook-grid {
         column-count: 1;
         column-gap: 0;
     }
 
-    .masonry-item {
-        margin-bottom: 1rem;
+    .scrapbook-item {
+        margin-bottom: 1.5rem;
     }
 
-    .gallery-card-overlay-title {
-        font-size: 1.1rem;
-    }
+    .polaroid-card--featured .polaroid-img-wrapper,
+    .polaroid-card--featured .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
 
-    .filter-btn {
-        font-size: 0.82rem;
-        padding: 0.4rem 1rem;
-    }
+    .polaroid-card--portrait .polaroid-img-wrapper,
+    .polaroid-card--portrait .polaroid-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s;
+    filter: contrast(1.02) saturate(1.05); /* Soft glossy finish */
+}
 }

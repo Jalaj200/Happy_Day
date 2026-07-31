@@ -9,8 +9,6 @@ from django.utils.html import format_html
 
 from love.models import (
     CountdownSetting,
-    GalleryCategory,
-    GalleryImage,
     LoveLetter,
     LoveReason,
     Memory,
@@ -54,62 +52,7 @@ class MemoryAdmin(admin.ModelAdmin):
     )
 
 
-# ──────────────────────────────────────────────
-# 2. Gallery Category Admin
-# ──────────────────────────────────────────────
-@admin.register(GalleryCategory)
-class GalleryCategoryAdmin(admin.ModelAdmin):
-    """Admin configuration for GalleryCategory model."""
 
-    list_display = ("order", "name", "slug", "icon", "is_active")
-    list_display_links = ("name",)
-    list_editable = ("order", "is_active")
-    prepopulated_fields = {"slug": ("name",)}
-    ordering = ("order",)
-
-
-# ──────────────────────────────────────────────
-# 3. Gallery Image Admin (with Foreign Key filters)
-# ──────────────────────────────────────────────
-@admin.register(GalleryImage)
-class GalleryImageAdmin(admin.ModelAdmin):
-    """Admin configuration for GalleryImage model."""
-
-    list_display = ("thumbnail_preview", "title", "category", "memory", "date_taken", "is_featured", "is_active", "order")
-    list_display_links = ("title", "thumbnail_preview")
-    list_editable = ("category", "memory", "is_featured", "is_active", "order")
-    list_filter = ("category", "memory", "is_featured", "is_active", "date_taken")
-    search_fields = ("title", "caption")
-    ordering = ("order", "-created_at")
-    list_per_page = 25
-
-    fieldsets = (
-        ("Image Details", {
-            "fields": ("title", "caption", "date_taken", "order"),
-        }),
-        ("Media Uploads", {
-            "fields": ("image", "thumbnail"),
-            "description": "Upload high-resolution image and optional smaller thumbnail.",
-        }),
-        ("Relational Associations", {
-            "fields": ("category", "memory"),
-            "description": "Link photo to a filter category and an optional timeline Memory milestone.",
-        }),
-        ("Display Flags", {
-            "fields": ("is_featured", "is_active"),
-            "description": "Featured images appear larger in the masonry grid.",
-        }),
-    )
-
-    @admin.display(description="Preview")
-    def thumbnail_preview(self, obj):
-        """Render a small image preview thumbnail in the admin list view."""
-        if obj.display_image:
-            return format_html(
-                '<img src="{}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" />',
-                obj.display_image.url,
-            )
-        return "No Image"
 
 
 # ──────────────────────────────────────────────

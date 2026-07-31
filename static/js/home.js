@@ -307,15 +307,21 @@ document.addEventListener("DOMContentLoaded", () => {
     function updateClockAndGreeting() {
         const now = new Date();
 
-        // Date format: e.g. August 1, 2026
+        // Date format: e.g. Saturday, August 1, 2026
         if (liveDateEl) {
-            const dateOptions = { month: "long", day: "numeric", year: "numeric" };
-            liveDateEl.textContent = now.toLocaleDateString("en-US", dateOptions);
+            const dateOptions = { weekday: "long", month: "long", day: "numeric", year: "numeric" };
+            const newDateStr = now.toLocaleDateString("en-US", dateOptions);
+            if (liveDateEl.textContent !== newDateStr) {
+                liveDateEl.textContent = newDateStr;
+            }
         }
 
         // Time format: e.g. 05:45:12 PM
         if (liveTimeEl) {
-            liveTimeEl.textContent = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+            const newTimeStr = now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+            if (liveTimeEl.textContent !== newTimeStr) {
+                liveTimeEl.textContent = newTimeStr;
+            }
         }
 
         // Dynamic greeting based on hour
@@ -389,37 +395,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (homeMusicBtn) {
         homeMusicBtn.addEventListener("click", () => {
-            if (globalAudio) {
-                if (globalAudio.paused) {
-                    globalAudio.play().then(() => {
-                        updateMusicBtnState(true);
-                        if (globalToggleBtn) {
-                            const globalIcon = globalToggleBtn.querySelector("i");
-                            if (globalIcon) {
-                                globalIcon.classList.remove("fa-music");
-                                globalIcon.classList.add("fa-pause");
-                            }
-                        }
-                    }).catch(err => console.log("Playback error:", err));
-                } else {
-                    globalAudio.pause();
-                    updateMusicBtnState(false);
-                    if (globalToggleBtn) {
-                        const globalIcon = globalToggleBtn.querySelector("i");
-                        if (globalIcon) {
-                            globalIcon.classList.remove("fa-pause");
-                            globalIcon.classList.add("fa-music");
-                        }
-                    }
-                }
-            } else if (globalToggleBtn) {
-                globalToggleBtn.click();
+            if (!globalAudio) return;
+            if (globalAudio.paused) {
+                if (window.foreverUsFadeIn) window.foreverUsFadeIn();
+                else globalAudio.play().catch(()=>{});
+            } else {
+                if (window.foreverUsFadeOut) window.foreverUsFadeOut();
+                else globalAudio.pause();
             }
         });
 
-        function updateMusicBtnState(isPlaying) {
+        document.addEventListener("foreverus:playstate", (e) => {
+            const isPlaying = e.detail.playing;
             if (!homeMusicBtn || !homeMusicIcon) return;
             const textSpan = homeMusicBtn.querySelector("span");
+            
             if (isPlaying) {
                 homeMusicIcon.classList.remove("fa-play");
                 homeMusicIcon.classList.add("fa-pause");
@@ -431,12 +421,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (textSpan) textSpan.textContent = "Listen Together";
                 homeMusicBtn.classList.remove("playing");
             }
-        }
+        });
 
-        // Keep mini player synchronized with global audio state
-        if (globalAudio) {
-            globalAudio.addEventListener("play", () => updateMusicBtnState(true));
-            globalAudio.addEventListener("pause", () => updateMusicBtnState(false));
+        // Initialize state
+        if (globalAudio && !globalAudio.paused) {
+            homeMusicIcon.classList.remove("fa-play");
+            homeMusicIcon.classList.add("fa-pause");
+            const textSpan = homeMusicBtn.querySelector("span");
+            if (textSpan) textSpan.textContent = "Playing Serenade 🎶";
+            homeMusicBtn.classList.add("playing");
         }
     }
 });

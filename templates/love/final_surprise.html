@@ -20,7 +20,7 @@
 <!-- ═══════════════════════════════════════════════
      STAGE 1: THE ENTRANCE TRIGGER SCREEN
      ═══════════════════════════════════════════════ -->
-<section id="stageEntrance" class="surprise-section d-flex align-items-center justify-content-center">
+<section id="stageEntrance" class="surprise-section justify-content-center">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-7 col-md-9 col-12 text-center">
@@ -57,7 +57,7 @@
 <!-- ═══════════════════════════════════════════════
      STAGE 2: THE PROPOSAL REVEAL & RUNAWAY BUTTON
      ═══════════════════════════════════════════════ -->
-<section id="stageProposal" class="surprise-section d-flex align-items-center justify-content-center" style="display: none; opacity: 0;">
+<section id="stageProposal" class="surprise-section justify-content-center" style="display: none; opacity: 0;">
     
     <!-- Fireworks & Confetti Canvases -->
     <canvas id="surpriseFireworksCanvas" class="surprise-canvas"></canvas>
@@ -114,10 +114,7 @@
 
                     </div>
 
-                    <div class="mt-5 pt-3 text-secondary small">
-                        <i class="fa-solid fa-shield-heart text-accent me-1"></i>
-                        Hint: There's only one right answer to this question 😉💕
-                    </div>
+
 
                 </div>
 
@@ -129,7 +126,7 @@
 <!-- ═══════════════════════════════════════════════
      STAGE 3: THE CELEBRATION (SHE SAID YES!)
      ═══════════════════════════════════════════════ -->
-<section id="stageSuccess" class="surprise-section d-flex align-items-center justify-content-center" style="display: none; opacity: 0;">
+<section id="stageSuccess" class="surprise-section justify-content-center" style="display: none; opacity: 0;">
     <div class="container position-relative" style="z-index: 30;">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10 col-12 text-center">
@@ -164,15 +161,13 @@
                         <span>Playing Forever Celebration Symphony 🎵</span>
                     </div>
 
-                    <div class="mt-4 pt-3">
-                        <button type="button" id="replaySurpriseBtn" class="btn-glass">
+                    <div class="celebration-actions">
+                        <button type="button" id="replaySurpriseBtn" class="btn-glass-secondary">
                             <i class="fa-solid fa-rotate-right me-2"></i>
                             Replay Proposal Surprise
                         </button>
-                    </div>
 
-                    <div class="mt-4 pt-2">
-                        <a href="{% url 'love:home' %}" class="text-secondary small text-decoration-none hover-text-white">
+                        <a href="{% url 'love:home' %}" class="btn-romantic-outline">
                             <i class="fa-solid fa-house-heart me-1"></i> Return to Our Home Page
                         </a>
                     </div>
@@ -182,6 +177,22 @@
         </div>
     </div>
 </section>
+
+<!-- ═══════════════════════════════════════════════
+     CUSTOM CONFIRMATION DIALOG
+     ═══════════════════════════════════════════════ -->
+<dialog id="proposalConfirmDialog" class="surprise-dialog">
+    <h3 id="dialogMessage" class="font-romantic text-gradient mb-4">Are you sure? 🥺❤️</h3>
+    
+    <div class="dialog-buttons-wrap">
+        <button type="button" class="btn-romantic animate-pulse-slow" id="dialogPrimaryBtn">
+            Yes ❤️
+        </button>
+        <button type="button" class="btn-glass-secondary" id="dialogSecondaryBtn">
+            No 💔
+        </button>
+    </div>
+</dialog>
 
 {% endblock %}
 

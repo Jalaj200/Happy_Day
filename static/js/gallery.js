@@ -25,10 +25,27 @@ document.addEventListener("DOMContentLoaded", () => {
             title: img.getAttribute("data-title") || "",
             caption: img.getAttribute("data-caption") || "",
             date: img.getAttribute("data-date") || "",
+            location: img.getAttribute("data-location") || "",
         });
     });
 
 
+
+    /* ──────────────────────────────────────────
+       0.5. GENERATE FILMSTRIP THUMBNAILS
+       ────────────────────────────────────────── */
+    if (filmstripTrack && imageData.length > 0) {
+        imageData.forEach((data, i) => {
+            const thumb = document.createElement("img");
+            thumb.src = data.src;
+            thumb.className = "filmstrip-thumb";
+            thumb.dataset.index = i;
+            thumb.addEventListener("click", () => openLightbox(i));
+            filmstripTrack.appendChild(thumb);
+        });
+    }
+
+    /* ──────────────────────────────────────────
     /* ──────────────────────────────────────────
        1. LIGHTBOX — CORE
        ────────────────────────────────────────── */
@@ -42,10 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const lightboxTitle   = document.getElementById("lightboxTitle");
     const lightboxCaption = document.getElementById("lightboxCaption");
     const lightboxDate    = document.getElementById("lightboxDate");
+    const lightboxLocation= document.getElementById("lightboxLocation");
     const lightboxCounter = document.getElementById("lightboxCounter");
     const zoomInBtn       = document.getElementById("lightboxZoomIn");
     const zoomOutBtn      = document.getElementById("lightboxZoomOut");
     const zoomResetBtn    = document.getElementById("lightboxZoomReset");
+    const filmstripTrack  = document.getElementById("filmstripTrack");
 
     let currentIndex = 0;
     let currentZoom = 1;
@@ -118,17 +137,36 @@ document.addEventListener("DOMContentLoaded", () => {
             if (lightboxTitle)   lightboxTitle.textContent = data.title;
             if (lightboxCaption) lightboxCaption.textContent = data.caption;
             if (lightboxDate)    lightboxDate.textContent = data.date;
+            if (lightboxLocation) {
+                lightboxLocation.textContent = data.location ? `\u2022 ${data.location}` : "";
+            }
             if (lightboxCounter) lightboxCounter.textContent = `${currentIndex + 1} / ${imageData.length}`;
 
             // Show/hide caption & date
             if (lightboxCaption) lightboxCaption.style.display = data.caption ? "block" : "none";
             if (lightboxDate)    lightboxDate.style.display = data.date ? "inline" : "none";
+            if (lightboxLocation) lightboxLocation.style.display = data.location ? "inline" : "none";
 
             // Show/hide nav buttons
             if (lightboxPrev) lightboxPrev.style.display = imageData.length > 1 ? "flex" : "none";
             if (lightboxNext) lightboxNext.style.display = imageData.length > 1 ? "flex" : "none";
 
+
+            // Update filmstrip active state
+            if (filmstripTrack) {
+                const thumbs = filmstripTrack.querySelectorAll(".filmstrip-thumb");
+                thumbs.forEach((t, i) => {
+                    if (i === currentIndex) {
+                        t.classList.add("active");
+                        t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                    } else {
+                        t.classList.remove("active");
+                    }
+                });
+            }
+
             // Fade in once loaded
+
             lightboxImg.onload = () => {
                 lightboxImg.style.opacity = "1";
             };
@@ -211,10 +249,16 @@ document.addEventListener("DOMContentLoaded", () => {
        ────────────────────────────────────────── */
 
     // Open lightbox from gallery cards
-    document.querySelectorAll(".gallery-card-img, .gallery-card-zoom-btn").forEach((el) => {
+    document.querySelectorAll(".gallery-card-img, .gallery-card-zoom-btn, .polaroid-card").forEach((el) => {
         el.addEventListener("click", (e) => {
+            if (e.target.closest(".polaroid-card") && !el.classList.contains("polaroid-card")) return; // handled by card
             e.stopPropagation();
-            const index = parseInt(el.getAttribute("data-index"), 10);
+            let indexStr = el.getAttribute("data-index");
+            if (!indexStr && el.classList.contains("polaroid-card")) {
+                const img = el.querySelector(".gallery-card-img");
+                if (img) indexStr = img.getAttribute("data-index");
+            }
+            const index = parseInt(indexStr, 10);
             if (!isNaN(index)) openLightbox(index);
         });
     });
@@ -335,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* ──────────────────────────────────────────
        7. LAZY LOADING ANIMATIONS
        ────────────────────────────────────────── */
-    const lazyItems = document.querySelectorAll(".masonry-item");
+    const lazyItems = document.querySelectorAll(".scrapbook-item");
 
     if (lazyItems.length > 0) {
         const lazyObserver = new IntersectionObserver(

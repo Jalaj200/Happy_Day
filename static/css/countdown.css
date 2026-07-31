@@ -73,33 +73,18 @@
     font-size: clamp(1rem, 2.3vw, 1.3rem);
     color: rgba(255, 255, 255, 0.8);
     max-width: 650px;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto 2rem;
     line-height: 1.8;
 }
 
-.countdown-target-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.5rem 1.25rem;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-    font-size: 0.95rem;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-}
-
-
 /* ──────────────────────────────────────────────
-   2. SIMULATION CONTROLS
+   2. SIMULATION CONTROLS & STATUS
    ────────────────────────────────────────────── */
 .countdown-controls-section {
     position: relative;
     z-index: 10;
-    margin-top: -1.5rem;
-    margin-bottom: 3rem;
+    margin-top: 0;
+    margin-bottom: 3.5rem;
 }
 
 .countdown-controls {
@@ -119,6 +104,21 @@
     color: var(--text-primary);
     display: flex;
     align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+#timerStatusText {
+    transition: opacity 0.8s ease-in-out;
+    opacity: 1;
+}
+
+#timerStatusText.fade-out {
+    opacity: 0;
+}
+
+#timerStatusText.fade-in-start {
+    opacity: 0;
 }
 
 .controls-actions {
@@ -206,14 +206,20 @@
     min-height: 250px;
     background: linear-gradient(145deg, rgba(40, 15, 50, 0.75), rgba(75, 20, 70, 0.55));
     border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.4), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 0 20px rgba(255, 255, 255, 0.05);
     overflow: hidden;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s ease;
 }
 
 .time-box:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 20px 45px rgba(233, 30, 99, 0.35), 0 0 30px rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 
+        0 20px 45px rgba(233, 30, 99, 0.25), 
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 0 40px rgba(233, 30, 99, 0.15);
     border-color: rgba(255, 255, 255, 0.35);
 }
 
@@ -241,12 +247,16 @@
     line-height: 1;
     display: inline-block;
     text-shadow: 0 2px 20px rgba(233, 30, 99, 0.6), 0 0 40px rgba(255, 255, 255, 0.2);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Number pop when ticking */
+/* Number slide transition when ticking */
 .time-number.pop-tick {
-    transform: scale(1.15);
+    animation: numberSlide 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes numberSlide {
+    0% { opacity: 0; transform: translateY(-12px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .time-label {
@@ -261,13 +271,57 @@
     position: absolute;
     inset: 0;
     background: radial-gradient(circle at 50% 100%, rgba(233, 30, 99, 0.25) 0%, transparent 70%);
-    opacity: 0.6;
-    transition: opacity 0.4s ease;
+    opacity: 0.5;
+    transition: opacity 0.6s ease;
     pointer-events: none;
 }
 
 .time-box:hover .time-box-glow {
-    opacity: 1;
+    opacity: 0.8;
+}
+
+/* Seconds Pulse Glow */
+.time-box-glow--pulse {
+    animation: secondsPulse 2s infinite ease-in-out alternate;
+}
+
+@keyframes secondsPulse {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.7; }
+}
+
+/* Minutes Shimmer Overlay */
+.time-box.shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    background-size: 200% 200%;
+    animation: shimmerSweep 1s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes shimmerSweep {
+    0% { background-position: -100% -100%; opacity: 0; }
+    50% { opacity: 1; }
+    100% { background-position: 100% 100%; opacity: 0; }
+}
+
+/* Hours Light Pulse Overlay */
+.time-box.hour-pulse::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+    opacity: 0;
+    animation: hourLightPulse 1.5s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes hourLightPulse {
+    0% { transform: scale(0.8); opacity: 0; }
+    30% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.1); opacity: 0; }
 }
 
 /* ── Special Seconds Box Styling ── */
@@ -407,6 +461,8 @@
 }
 
 
+
+
 /* ──────────────────────────────────────────────
    5. BOTTOM CTA SECTION
    ────────────────────────────────────────────── */
@@ -444,9 +500,20 @@
     margin: 0 auto 2.5rem;
 }
 
+/* ──────────────────────────────────────────────
+   6. COUNTDOWN TEASER
+   ────────────────────────────────────────────── */
+.countdown-teaser {
+    animation: slowBreathe 6s ease-in-out infinite alternate;
+}
+
+@keyframes slowBreathe {
+    0% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
 
 /* ──────────────────────────────────────────────
-   6. RESPONSIVE BREAKPOINTS
+   7. RESPONSIVE BREAKPOINTS
    ────────────────────────────────────────────── */
 
 /* ── Large Tablets & Small Laptops ── */
@@ -528,5 +595,30 @@
 
     .celebration-card {
         padding: 2rem 1.25rem;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   7. ACCESSIBILITY (Reduced Motion)
+   ────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .time-box:hover {
+        transform: none;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+    
+    .time-box-glow--pulse,
+    .time-box.shimmer::after,
+    .time-box.hour-pulse::before,
+    .countdown-teaser {
+        display: none !important;
+        animation: none !important;
     }
 }

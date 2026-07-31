@@ -123,54 +123,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const musicIcon = document.getElementById("musicIcon");
     const bgMusic = document.getElementById("bgMusic");
 
-    // Key for localStorage
-    const MUSIC_KEY = "forever_us_music";
-
-    let isMusicPlaying = false;
-
-    /**
-     * Update the music icon and button state.
-     * @param {boolean} playing - Whether music is currently playing.
-     */
-    function updateMusicUI(playing) {
-        if (!musicIcon || !musicToggle) return;
-
-        if (playing) {
-            musicIcon.classList.remove("fa-volume-xmark");
-            musicIcon.classList.add("fa-volume-high");
-            musicToggle.classList.add("playing");
-            musicToggle.setAttribute("title", "Pause music");
-        } else {
-            musicIcon.classList.remove("fa-volume-high");
-            musicIcon.classList.add("fa-volume-xmark");
-            musicToggle.classList.remove("playing");
-            musicToggle.setAttribute("title", "Play music");
-        }
-    }
-
     if (musicToggle && bgMusic) {
         musicToggle.addEventListener("click", () => {
-            if (isMusicPlaying) {
-                bgMusic.pause();
-                isMusicPlaying = false;
-                localStorage.setItem(MUSIC_KEY, "paused");
+            if (bgMusic.paused) {
+                if (window.foreverUsFadeIn) window.foreverUsFadeIn();
+                else bgMusic.play().catch(()=>{});
             } else {
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    localStorage.setItem(MUSIC_KEY, "playing");
-                }).catch((err) => {
-                    // Browser may block autoplay — user interaction required
-                    console.warn("Music playback blocked:", err.message);
-                });
+                if (window.foreverUsFadeOut) window.foreverUsFadeOut();
+                else bgMusic.pause();
             }
-            updateMusicUI(isMusicPlaying);
         });
 
-        // Restore music state (browsers require user gesture, so we just set UI)
-        const savedMusicState = localStorage.getItem(MUSIC_KEY);
-        if (savedMusicState === "playing") {
-            // Can't autoplay without gesture, but we prep the UI
-            updateMusicUI(false);
+        document.addEventListener("foreverus:playstate", (e) => {
+            const isPlaying = e.detail.playing;
+            if (musicIcon) {
+                musicIcon.className = isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
+            }
+            if (isPlaying) {
+                musicToggle.classList.add("playing");
+                musicToggle.setAttribute("title", "Pause music");
+            } else {
+                musicToggle.classList.remove("playing");
+                musicToggle.setAttribute("title", "Play music");
+            }
+        });
+        
+        // Initialize UI
+        if (!bgMusic.paused) {
+            if (musicIcon) musicIcon.className = "fa-solid fa-pause";
+            musicToggle.classList.add("playing");
+            musicToggle.setAttribute("title", "Pause music");
         }
     }
 

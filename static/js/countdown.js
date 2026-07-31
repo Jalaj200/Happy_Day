@@ -55,11 +55,68 @@ document.addEventListener("DOMContentLoaded", () => {
     let confettiId = null;
     let heartsInterval = null;
 
-    // Previous values to animate only changed numbers
     let prevDays = -1;
     let prevHours = -1;
     let prevMinutes = -1;
     let prevSeconds = -1;
+
+    // ──────────────────────────────────────────
+    // DYNAMIC STATUS MESSAGES & GREETINGS
+    // ──────────────────────────────────────────
+    const statusMessages = [
+        "💙 Every heartbeat brings us closer.",
+        "✨ Only a little longer until your special day.",
+        "🌸 Every second brings me closer to celebrating you.",
+        "💖 Time keeps moving, but my love only grows stronger.",
+        "💌 Counting down to another beautiful memory together.",
+        "❤️ Every moment is worth waiting for.",
+        "🌙 Another day closer to making you smile.",
+        "✨ Forever begins with moments like these."
+    ];
+    let currentStatusMsgIndex = -1;
+    let statusInterval = null;
+
+    function getTimeBasedGreeting() {
+        const hour = new Date().getHours();
+        if (hour >= 5 && hour < 12) return "☀️ Good morning, beautiful.";
+        if (hour >= 12 && hour < 17) return "🌸 Hope your day is as lovely as your smile.";
+        if (hour >= 17 && hour < 22) return "🌙 Another beautiful sunset brings us closer.";
+        return "✨ Sleep peacefully. Tomorrow brings us one step closer.";
+    }
+
+    function rotateStatusMessage() {
+        if (isCelebrating || !timerStatusText) return;
+        
+        currentStatusMsgIndex++;
+        let msg = "";
+        
+        if (currentStatusMsgIndex % 3 === 0) {
+            msg = getTimeBasedGreeting();
+        } else {
+            const index = (currentStatusMsgIndex % statusMessages.length);
+            msg = statusMessages[index];
+        }
+
+        timerStatusText.classList.add("fade-out");
+        
+        setTimeout(() => {
+            if (isCelebrating) return;
+            timerStatusText.textContent = msg;
+            
+            setTimeout(() => {
+                if (isCelebrating) return;
+                timerStatusText.classList.remove("fade-out");
+            }, 300);
+            
+        }, 800);
+    }
+
+    function startStatusRotation() {
+        if (statusInterval) clearInterval(statusInterval);
+        if (!timerStatusText) return;
+        timerStatusText.classList.remove("fade-out", "fade-in-start");
+        statusInterval = setInterval(rotateStatusMessage, 10000);
+    }
 
 
     /* ──────────────────────────────────────────
@@ -98,17 +155,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const minStr = String(minutes).padStart(2, "0");
         const secStr = String(seconds).padStart(2, "0");
 
-        // Update DOM with micro pop animation on change
+        // Update DOM with slide/fade transition and subtle alive animations
         if (days !== prevDays) {
             setNumberWithPop(daysEl, daysStr, prevDays !== -1);
+            if (prevDays !== -1) triggerDaysHeartBurst(daysEl);
             prevDays = days;
         }
         if (hours !== prevHours) {
             setNumberWithPop(hoursEl, hoursStr, prevHours !== -1);
+            if (prevHours !== -1) triggerCardAnimation(hoursEl, "hour-pulse", 1500);
             prevHours = hours;
         }
         if (minutes !== prevMinutes) {
             setNumberWithPop(minutesEl, minStr, prevMinutes !== -1);
+            if (prevMinutes !== -1) triggerCardAnimation(minutesEl, "shimmer", 1000);
             prevMinutes = minutes;
         }
         if (seconds !== prevSeconds) {
@@ -119,15 +179,123 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function setNumberWithPop(element, text, animate) {
         if (!element) return;
-        element.textContent = text;
+        
         if (animate) {
             element.classList.remove("pop-tick");
             void element.offsetWidth; // Trigger reflow
+            element.textContent = text;
             element.classList.add("pop-tick");
             setTimeout(() => {
                 element.classList.remove("pop-tick");
-            }, 300);
+            }, 400);
+        } else {
+            element.textContent = text;
         }
+    }
+
+    function triggerCardAnimation(textElement, className, duration) {
+        const box = textElement.closest('.time-box');
+        if (!box) return;
+        box.classList.remove(className);
+        void box.offsetWidth;
+        box.classList.add(className);
+        setTimeout(() => box.classList.remove(className), duration);
+    }
+
+    function triggerDaysHeartBurst(textElement) {
+        const box = textElement.closest('.time-box');
+        if (!box) return;
+        const rect = box.getBoundingClientRect();
+        const x = rect.width / 2;
+        const y = rect.height / 2;
+        
+        for (let i = 0; i < 3; i++) {
+            const span = document.createElement("span");
+            span.textContent = "💖";
+            span.style.position = "absolute";
+            span.style.left = `${x}px`;
+            span.style.top = `${y}px`;
+            span.style.fontSize = "1.2rem";
+            span.style.pointerEvents = "none";
+            span.style.zIndex = "20";
+            span.style.transition = "all 0.8s cubic-bezier(0.16, 1, 0.3, 1)";
+            span.style.opacity = "1";
+            box.appendChild(span);
+
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 20 + Math.random() * 30;
+            const destX = x + Math.cos(angle) * distance;
+            const destY = y + Math.sin(angle) * distance - 20;
+
+            requestAnimationFrame(() => {
+                span.style.transform = `translate(${destX - x}px, ${destY - y}px) scale(0.5)`;
+                span.style.opacity = "0";
+            });
+
+            setTimeout(() => {
+                if (span.parentNode) span.parentNode.removeChild(span);
+            }, 800);
+        }
+    }
+
+    /* ──────────────────────────────────────────
+       SUBTLE ROSE PETAL GENERATOR
+       ────────────────────────────────────────── */
+    const petalSVG = `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M50 90 C 20 90, 10 60, 20 30 C 30 10, 70 10, 80 30 C 90 60, 80 90, 50 90 Z" fill="url(#petalGradient)" opacity="0.65"/><defs><linearGradient id="petalGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff758c"/><stop offset="100%" stop-color="#ff7eb3"/></linearGradient></defs></svg>`;
+    
+    let petalInterval = null;
+    
+    function startFloatingPetals() {
+        if (petalInterval) clearInterval(petalInterval);
+        
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (prefersReducedMotion.matches) return;
+
+        const timerSection = document.getElementById("timerSection");
+        if (!timerSection) return;
+        
+        let petalContainer = document.getElementById("petalContainer");
+        if (!petalContainer) {
+            petalContainer = document.createElement("div");
+            petalContainer.id = "petalContainer";
+            petalContainer.style.position = "absolute";
+            petalContainer.style.inset = "0";
+            petalContainer.style.pointerEvents = "none";
+            petalContainer.style.overflow = "hidden";
+            petalContainer.style.zIndex = "1";
+            timerSection.appendChild(petalContainer);
+            timerSection.style.position = "relative";
+        }
+        
+        petalInterval = setInterval(() => {
+            if (isCelebrating || prefersReducedMotion.matches) return;
+            if (petalContainer.childElementCount >= 5) return;
+            
+            const petal = document.createElement("div");
+            petal.innerHTML = petalSVG;
+            petal.style.position = "absolute";
+            petal.style.top = "-30px";
+            petal.style.left = `${Math.random() * 100}%`;
+            petal.style.opacity = "0";
+            petal.style.transform = `translate3d(0, 0, 0) rotate3d(1, 1, 1, 0deg)`;
+            
+            const duration = 12000 + Math.random() * 8000;
+            petal.style.transition = `transform ${duration}ms linear, opacity ${duration/4}ms ease-in-out`;
+            
+            petalContainer.appendChild(petal);
+            void petal.offsetWidth;
+            
+            const destY = timerSection.offsetHeight + 50;
+            const destX = (Math.random() - 0.5) * 150;
+            const destRotate = Math.random() * 360;
+            
+            petal.style.opacity = "1";
+            petal.style.transform = `translate3d(${destX}px, ${destY}px, 0) rotate3d(1, 1, 1, ${destRotate}deg)`;
+            
+            setTimeout(() => { petal.style.opacity = "0"; }, duration * 0.75);
+            setTimeout(() => { if (petal.parentNode) petal.parentNode.removeChild(petal); }, duration);
+            
+        }, 3000);
     }
 
     function startLiveTimer() {
@@ -143,6 +311,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (countdownInterval) clearInterval(countdownInterval);
         updateCountdown();
         countdownInterval = setInterval(updateCountdown, 1000);
+        
+        startStatusRotation();
+        startFloatingPetals();
     }
 
 
@@ -153,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCelebrating) return;
         isCelebrating = true;
         if (countdownInterval) clearInterval(countdownInterval);
+        if (statusInterval) clearInterval(statusInterval);
 
         if (simulateBtn) simulateBtn.style.display = "none";
         if (resetTimerBtn) resetTimerBtn.style.display = "inline-flex";
@@ -173,11 +345,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (fireworksId) cancelAnimationFrame(fireworksId);
         if (confettiId) cancelAnimationFrame(confettiId);
         if (heartsInterval) clearInterval(heartsInterval);
+        if (petalInterval) clearInterval(petalInterval);
         
         if (celebrationHearts) celebrationHearts.innerHTML = "";
+        const petalContainer = document.getElementById("petalContainer");
+        if (petalContainer) petalContainer.innerHTML = "";
+        
         if (celebrationScreen) {
-            celebrationScreen.style.display = "none";
-            celebrationScreen.setAttribute("aria-hidden", "true");
+            // Apply a quick fade out transition before hiding
+            celebrationScreen.style.transition = "opacity 0.5s ease";
+            celebrationScreen.style.opacity = "0";
+            setTimeout(() => {
+                celebrationScreen.style.display = "none";
+                celebrationScreen.style.opacity = "";
+                celebrationScreen.style.transition = "";
+                celebrationScreen.setAttribute("aria-hidden", "true");
+            }, 500);
         }
     }
 

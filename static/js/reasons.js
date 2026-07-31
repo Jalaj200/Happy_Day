@@ -14,12 +14,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const reasonCards = document.querySelectorAll(".reason-card");
     const flipCountEl = document.getElementById("flipCount");
-    const flipAllBtn = document.getElementById("flipAllBtn");
+    const openAllBtn = document.getElementById("openAllBtn");
     const resetAllBtn = document.getElementById("resetAllBtn");
     
     const discoveredSet = new Set();
     const totalCards = reasonCards.length;
-    let isAllFlipped = false;
+    let isAllDiscovered = false;
+    let isBulkOpening = false;
+    let hasCelebrated = false;
+    let currentModalCardIndex = -1;
+    let loveNoteModalInstance = null;
+    let celebrationModalInstance = null;
+
+    if (document.getElementById("loveNoteModal")) {
+        // Initialize without auto-show
+        loveNoteModalInstance = new bootstrap.Modal(document.getElementById("loveNoteModal"));
+    }
+
+    if (document.getElementById("celebrationModal")) {
+        celebrationModalInstance = new bootstrap.Modal(document.getElementById("celebrationModal"));
+    }
 
     /**
      * Update the discovered counter in the UI.
@@ -28,9 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!flipCountEl) return;
         
         // Count cards that are currently flipped OR were previously discovered
-        let currentFlippedCount = 0;
+        let currentDiscoveredCount = 0;
         reasonCards.forEach((card) => {
-            if (card.classList.contains("is-flipped") || card.matches(":hover")) {
+            if (card.classList.contains("is-discovered") || card.matches(":hover")) {
                 const id = card.getAttribute("data-reason-id");
                 if (id) discoveredSet.add(id);
             }
@@ -45,6 +59,25 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             flipCountEl.style.transform = "scale(1)";
         }, 200);
+
+        // Check for natural completion
+        if (count === totalCards && !isBulkOpening && !hasCelebrated && celebrationModalInstance) {
+            hasCelebrated = true;
+            setTimeout(() => {
+                // If love note modal is open, close it first before celebration
+                if (loveNoteModalInstance) {
+                    const loveNoteEl = document.getElementById("loveNoteModal");
+                    if (loveNoteEl.classList.contains("show")) {
+                        loveNoteModalInstance.hide();
+                    }
+                }
+                
+                // Allow a small beat before celebration pops up
+                setTimeout(() => {
+                    celebrationModalInstance.show();
+                }, 400);
+            }, 600);
+        }
     }
 
 
@@ -63,16 +96,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // Click / Tap toggle (essential for mobile devices & tablets)
         card.addEventListener("click", (e) => {
             e.stopPropagation();
-            const wasFlipped = card.classList.contains("is-flipped");
+            const wasDiscovered = card.classList.contains("is-discovered");
             
-            if (!wasFlipped) {
-                card.classList.add("is-flipped");
+            if (!wasDiscovered) {
+                card.classList.add("is-discovered");
                 if (id) discoveredSet.add(id);
                 createHeartBurst(e, card);
-            } else {
-                card.classList.remove("is-flipped");
+                updateCounter();
             }
-            updateCounter();
+            
+            // Wait 200ms before opening modal for a premium feel
+            setTimeout(() => {
+                openLoveNote(card);
+            }, 200);
         });
 
         // Keyboard accessibility (Space or Enter to flip)
@@ -90,31 +126,88 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ──────────────────────────────────────────
-       2. FLIP ALL BUTTON (Staggered Wave Effect)
+       2. LOVE NOTE MODAL LOGIC
        ────────────────────────────────────────── */
-    if (flipAllBtn) {
-        flipAllBtn.addEventListener("click", () => {
-            if (isAllFlipped) {
-                // If already all flipped, reset
+    function openLoveNote(card) {
+        if (!loveNoteModalInstance) return;
+        
+        currentModalCardIndex = Array.from(reasonCards).indexOf(card);
+        
+        document.getElementById("modalReasonNumber").textContent = "#" + card.getAttribute("data-order");
+        document.getElementById("modalReasonEmoji").textContent = card.getAttribute("data-emoji");
+        document.getElementById("modalReasonTitle").textContent = card.getAttribute("data-title");
+        document.getElementById("modalReasonDesc").textContent = card.getAttribute("data-desc");
+        
+        const prevBtn = document.getElementById("modalPrevBtn");
+        const nextBtn = document.getElementById("modalNextBtn");
+        
+        if (prevBtn) prevBtn.style.visibility = (currentModalCardIndex <= 0) ? "hidden" : "visible";
+        if (nextBtn) nextBtn.style.visibility = (currentModalCardIndex >= totalCards - 1) ? "hidden" : "visible";
+        
+        loveNoteModalInstance.show();
+    }
+
+    const prevBtn = document.getElementById("modalPrevBtn");
+    const nextBtn = document.getElementById("modalNextBtn");
+    
+    if (prevBtn) {
+        prevBtn.addEventListener("click", () => {
+            if (currentModalCardIndex > 0) {
+                const prevCard = reasonCards[currentModalCardIndex - 1];
+                if (!prevCard.classList.contains("is-discovered")) {
+                    prevCard.classList.add("is-discovered");
+                    const id = prevCard.getAttribute("data-reason-id");
+                    if (id) discoveredSet.add(id);
+                    updateCounter();
+                }
+                openLoveNote(prevCard);
+            }
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener("click", () => {
+            if (currentModalCardIndex < totalCards - 1) {
+                const nextCard = reasonCards[currentModalCardIndex + 1];
+                if (!nextCard.classList.contains("is-discovered")) {
+                    nextCard.classList.add("is-discovered");
+                    const id = nextCard.getAttribute("data-reason-id");
+                    if (id) discoveredSet.add(id);
+                    updateCounter();
+                }
+                openLoveNote(nextCard);
+            }
+        });
+    }
+
+    /* ──────────────────────────────────────────
+       3. BULK OPEN BUTTON (Staggered Wave Effect)
+       ────────────────────────────────────────── */
+    if (openAllBtn) {
+        openAllBtn.addEventListener("click", () => {
+            if (isAllDiscovered) {
+                // If already all discovered, reset
                 resetAllCards();
                 return;
             }
 
-            flipAllBtn.disabled = true;
-            flipAllBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Revealing...';
+            isBulkOpening = true;
+            openAllBtn.disabled = true;
+            openAllBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin me-1"></i> Opening Notes...';
 
             reasonCards.forEach((card, index) => {
                 setTimeout(() => {
-                    card.classList.add("is-flipped");
+                    card.classList.add("is-discovered");
                     const id = card.getAttribute("data-reason-id");
                     if (id) discoveredSet.add(id);
                     
                     if (index === totalCards - 1) {
                         updateCounter();
-                        isAllFlipped = true;
-                        flipAllBtn.disabled = false;
-                        flipAllBtn.innerHTML = '<i class="fa-solid fa-check-double me-1"></i> All Revealed';
-                        flipAllBtn.classList.replace("control-btn", "control-btn--outline");
+                        isAllDiscovered = true;
+                        openAllBtn.disabled = false;
+                        openAllBtn.innerHTML = '<i class="fa-solid fa-check-double me-1"></i> All Opened';
+                        openAllBtn.classList.replace("control-btn", "control-btn--outline");
+                        isBulkOpening = false;
                     }
                 }, index * 60); // 60ms stagger ripple
             });
@@ -123,21 +216,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* ──────────────────────────────────────────
-       3. RESET ALL BUTTON
+       4. RESET ALL BUTTON
        ────────────────────────────────────────── */
     function resetAllCards() {
-        if (flipAllBtn) {
-            flipAllBtn.disabled = false;
-            flipAllBtn.innerHTML = '<i class="fa-solid fa-layer-group me-1"></i> Flip All Cards';
-            if (flipAllBtn.classList.contains("control-btn--outline")) {
-                flipAllBtn.classList.replace("control-btn--outline", "control-btn");
+        if (openAllBtn) {
+            openAllBtn.disabled = false;
+            openAllBtn.innerHTML = '<i class="fa-solid fa-envelope-open-text me-1"></i> Open Every Love Note';
+            if (openAllBtn.classList.contains("control-btn--outline")) {
+                openAllBtn.classList.replace("control-btn--outline", "control-btn");
             }
         }
-        isAllFlipped = false;
+        isAllDiscovered = false;
+        hasCelebrated = false;
 
         reasonCards.forEach((card, index) => {
             setTimeout(() => {
-                card.classList.remove("is-flipped");
+                card.classList.remove("is-discovered");
             }, index * 35);
         });
 

@@ -137,78 +137,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* ──────────────────────────────────────────
-       4. THE RUNAWAY NO BUTTON (CURSOR EVASION)
+       4. THE NO BUTTON → PROGRESSIVE DIALOG
        ────────────────────────────────────────── */
     if (noBtn) {
-        let dodgeCount = 0;
-        const teaseMessages = [
-            "Nice try! 😉",
-            "Still YES! 💕",
-            "Can't escape! 🌹",
-            "No option! ❤️",
-            "Forever Us! 👑",
-            "Too slow! ✨",
-            "Always YES! 💖",
-        ];
+        const dialog = document.getElementById("proposalConfirmDialog");
+        const dialogMessage = document.getElementById("dialogMessage");
+        const dialogPrimaryBtn = document.getElementById("dialogPrimaryBtn");
+        const dialogSecondaryBtn = document.getElementById("dialogSecondaryBtn");
+        
+        let confirmStage = 1;
 
-        function escapeCursor() {
-            if (isSuccess || !isRevealed) return;
-            dodgeCount++;
-            playDodgeChirp();
-
-            // Ensure fixed positioning is active
-            if (!noBtn.classList.contains("is-running")) {
-                noBtn.classList.add("is-running");
-            }
-
-            // Calculate safe bounding box within viewport
-            const btnWidth = noBtn.offsetWidth || 140;
-            const btnHeight = noBtn.offsetHeight || 50;
-            const maxLeft = window.innerWidth - btnWidth - 40;
-            const maxTop = window.innerHeight - btnHeight - 40;
-
-            const randomLeft = Math.max(30, Math.floor(Math.random() * maxLeft));
-            const randomTop = Math.max(80, Math.floor(Math.random() * maxTop));
-
-            noBtn.style.left = `${randomLeft}px`;
-            noBtn.style.top = `${randomTop}px`;
-
-            // Update text playfully after multiple dodges
-            if (dodgeCount % 2 === 0) {
-                const msg = teaseMessages[Math.floor(Math.random() * teaseMessages.length)];
-                noBtn.innerHTML = `<i class="fa-solid fa-heart-pulse me-1"></i> ${msg}`;
+        function updateDialogContent() {
+            if (confirmStage === 1) {
+                dialogMessage.innerHTML = "Are you sure? 🥺❤️";
+                dialogPrimaryBtn.innerHTML = "Yes ❤️";
+                dialogSecondaryBtn.innerHTML = "No 💔";
+                dialogSecondaryBtn.style.display = "block";
+            } else if (confirmStage === 2) {
+                dialogMessage.innerHTML = "Are you really sure? 🥹💕";
+                dialogPrimaryBtn.innerHTML = "Yes ❤️";
+                dialogSecondaryBtn.innerHTML = "Still No 💔";
+                dialogSecondaryBtn.style.display = "block";
+            } else if (confirmStage === 3) {
+                dialogMessage.innerHTML = "There is no option... You have to say Yes! ❤️😊";
+                dialogPrimaryBtn.innerHTML = "Okay ❤️";
+                dialogSecondaryBtn.style.display = "none";
             }
         }
 
-        // Trigger on hover, enter, touch, or proximity
-        noBtn.addEventListener("mouseover", escapeCursor);
-        noBtn.addEventListener("mouseenter", escapeCursor);
-        noBtn.addEventListener("touchstart", (e) => {
-            e.preventDefault();
-            escapeCursor();
-        }, { passive: false });
+        // Open Dialog 1 when No button on proposal page is clicked
         noBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            escapeCursor();
+            if (isSuccess || !isRevealed) return;
+            
+            confirmStage = 1;
+            updateDialogContent();
+            
+            if (dialog) {
+                dialog.showModal();
+                // Focus the primary button automatically for accessibility
+                dialogPrimaryBtn.focus();
+            }
         });
 
-        // Mouse proximity tracker (escapes when cursor gets within 130px)
-        let proxTicking = false;
-        window.addEventListener("mousemove", (e) => {
-            if (!isRevealed || isSuccess || proxTicking || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-            proxTicking = true;
-            requestAnimationFrame(() => {
-                const rect = noBtn.getBoundingClientRect();
-                const btnCenterX = rect.left + rect.width / 2;
-                const btnCenterY = rect.top + rect.height / 2;
-
-                const dist = Math.hypot(e.clientX - btnCenterX, e.clientY - btnCenterY);
-                if (dist < 135) {
-                    escapeCursor();
+        if (dialog && dialogPrimaryBtn && dialogSecondaryBtn) {
+            // Handle primary button click (Yes / Okay)
+            dialogPrimaryBtn.addEventListener("click", () => {
+                dialog.close();
+                // On stage 3, "Okay ❤️" triggers the full acceptance celebration
+                if (confirmStage === 3) {
+                    handleYesClick();
                 }
-                proxTicking = false;
             });
-        }, { passive: true });
+
+            // Handle secondary button click (No / Still No)
+            dialogSecondaryBtn.addEventListener("click", () => {
+                if (confirmStage < 3) {
+                    confirmStage++;
+                    dialog.close();
+                    
+                    // Wait for the close animation/event before reopening
+                    // We can use a short requestAnimationFrame sequence to ensure the browser registers the close
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            updateDialogContent();
+                            dialog.showModal();
+                            dialogPrimaryBtn.focus();
+                        });
+                    });
+                }
+            });
+            
+            // Restore focus when dialog fully closes
+            dialog.addEventListener("close", () => {
+                // Only restore focus if we are fully closing back to the proposal page
+                // If it's closed just to immediately reopen for the next stage, focus will be hijacked by the new showModal()
+                // If `dialog.open` is false after a short delay, it means it's truly closed.
+                setTimeout(() => {
+                    if (!dialog.open) {
+                        noBtn.focus();
+                    }
+                }, 50);
+            });
+        }
     }
 
     /* ──────────────────────────────────────────

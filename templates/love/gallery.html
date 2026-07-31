@@ -4,7 +4,7 @@
 {% block title %}{{ site_name }} — Gallery 📸{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}?v=photo_first">
 {% endblock %}
 
 {% block content %}
@@ -32,178 +32,52 @@
 
 
 <!-- ═══════════════════════════════════════════════
-     CATEGORY FILTER BAR
-     ═══════════════════════════════════════════════ -->
-<section class="gallery-filters-section">
-    <div class="container">
-        <div class="gallery-filters glass-strong" id="galleryFilters">
-            <div class="gallery-filters-scroll">
-
-                <!-- "All" Button -->
-                <a href="{% url 'love:gallery' %}"
-                   class="filter-btn {% if current_category == 'all' %}filter-btn--active{% endif %}"
-                   data-category="all">
-                    <i class="fa-solid fa-border-all me-1"></i>
-                    All Photos
-                    {% if current_category == 'all' %}
-                    <span class="filter-badge">{{ total_images }}</span>
-                    {% endif %}
-                </a>
-
-                <!-- Dynamic Category Buttons -->
-                {% for cat in categories %}
-                <a href="{% url 'love:gallery' %}?category={{ cat.slug }}"
-                   class="filter-btn {% if current_category == cat.slug %}filter-btn--active{% endif %}"
-                   data-category="{{ cat.slug }}">
-                    {% if cat.icon %}<i class="{{ cat.icon }} me-1"></i>{% endif %}
-                    {{ cat.name }}
-                </a>
-                {% endfor %}
-
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════
-     MASONRY GALLERY GRID
+     HANDCRAFTED POLAROID SCRAPBOOK
      ═══════════════════════════════════════════════ -->
 <section class="gallery-grid-section" id="galleryGrid">
     <div class="container">
 
-        {% if page_obj.object_list %}
-        <!-- Masonry Grid -->
-        <div class="masonry-grid" id="masonryGrid">
+        <div class="scrapbook-grid" id="scrapbookGrid">
 
-            {% for image in page_obj %}
-            <div class="masonry-item {% if image.is_featured %}masonry-item--featured{% endif %}"
-                 data-category="{{ image.category.slug|default:'uncategorized' }}">
-
-                <!-- Image Card -->
-                <div class="gallery-card glass-card">
-
-                    <!-- Image Container -->
-                    <div class="gallery-card-img-wrapper">
-                        <img src="{{ image.display_image.url }}"
-                             alt="{{ image.title }}"
-                             class="gallery-card-img"
-                             loading="lazy"
-                             decoding="async"
-                             data-full-src="{{ image.image.url }}"
-                             data-title="{{ image.title }}"
-                             data-caption="{{ image.caption }}"
-                             data-date="{{ image.date_taken|default:'' }}"
-                             data-index="{{ forloop.counter0 }}">
-
-                        <!-- Hover Overlay -->
-                        <div class="gallery-card-overlay">
-                            <div class="gallery-card-overlay-content">
-                                <h4 class="gallery-card-overlay-title">{{ image.title }}</h4>
-                                {% if image.caption %}
-                                <p class="gallery-card-overlay-caption font-elegant">{{ image.caption }}</p>
-                                {% endif %}
-                                <div class="gallery-card-overlay-actions">
-                                    <button class="gallery-card-zoom-btn" title="View full image"
-                                            data-index="{{ forloop.counter0 }}">
+            {% for item in items %}
+                {% if item.type == 'divider' %}
+                    <!-- ── Scrapbook Divider ── -->
+                    <div class="scrapbook-item scrapbook-divider-wrap">
+                        <div class="scrapbook-divider {{ item.divider_class }}"></div>
+                    </div>
+                {% else %}
+                    <!-- ── Polaroid {{ item.index|add:1 }} ── -->
+                    <div class="scrapbook-item">
+                        <div class="polaroid-card {{ item.layout_class }}" style="--polaroid-rotation: {{ item.rotation }}deg;">
+                            
+                            {% if item.decoration != 'none' %}
+                            <div class="scrapbook-decorations">
+                                {{ item.decoration|safe }}
+                            </div>
+                            {% endif %}
+                            
+                            <div class="polaroid-img-wrapper">
+                                <img src="{% static item.img_path %}"
+                                     alt="Our beautiful memory"
+                                     class="polaroid-img gallery-card-img"
+                                     loading="lazy" decoding="async"
+                                     data-full-src="{% static item.img_path %}"
+                                     data-title="{{ item.title }}"
+                                     data-caption="{{ item.caption }}"
+                                     data-date="{{ item.date }}"
+                                     data-index="{{ item.index }}">
+                                <div class="polaroid-overlay">
+                                    <button class="gallery-card-zoom-btn" title="View full image" data-index="{{ item.index }}">
                                         <i class="fa-solid fa-expand"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Featured Badge -->
-                        {% if image.is_featured %}
-                        <span class="gallery-card-badge">
-                            <i class="fa-solid fa-star me-1"></i> Featured
-                        </span>
-                        {% endif %}
                     </div>
-
-                    <!-- Card Footer -->
-                    <div class="gallery-card-footer">
-                        <span class="gallery-card-title-sm">{{ image.title }}</span>
-                        {% if image.date_taken %}
-                        <span class="gallery-card-date font-elegant">
-                            {{ image.date_taken|date:"M d, Y" }}
-                        </span>
-                        {% endif %}
-                    </div>
-                </div>
-
-            </div>
+                {% endif %}
             {% endfor %}
 
-        </div>
-
-        <!-- ── Pagination ── -->
-        {% if page_obj.has_other_pages %}
-        <nav class="gallery-pagination" aria-label="Gallery pages">
-            <ul class="pagination-list">
-
-                <!-- Previous -->
-                {% if page_obj.has_previous %}
-                <li>
-                    <a href="?{% if current_category != 'all' %}category={{ current_category }}&{% endif %}page={{ page_obj.previous_page_number }}"
-                       class="page-btn page-btn--nav" aria-label="Previous page">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                </li>
-                {% endif %}
-
-                <!-- Page Numbers -->
-                {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                    <li>
-                        <span class="page-btn page-btn--active" aria-current="page">{{ num }}</span>
-                    </li>
-                    {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
-                    <li>
-                        <a href="?{% if current_category != 'all' %}category={{ current_category }}&{% endif %}page={{ num }}"
-                           class="page-btn">{{ num }}</a>
-                    </li>
-                    {% elif num == 1 or num == page_obj.paginator.num_pages %}
-                    <li>
-                        <a href="?{% if current_category != 'all' %}category={{ current_category }}&{% endif %}page={{ num }}"
-                           class="page-btn">{{ num }}</a>
-                    </li>
-                    {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
-                    <li><span class="page-ellipsis">…</span></li>
-                    {% endif %}
-                {% endfor %}
-
-                <!-- Next -->
-                {% if page_obj.has_next %}
-                <li>
-                    <a href="?{% if current_category != 'all' %}category={{ current_category }}&{% endif %}page={{ page_obj.next_page_number }}"
-                       class="page-btn page-btn--nav" aria-label="Next page">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </li>
-                {% endif %}
-
-            </ul>
-        </nav>
-        {% endif %}
-
-        {% else %}
-        <!-- ── Empty State ── -->
-        <div class="gallery-empty text-center reveal-scale">
-            <div class="gallery-empty-card glass-card">
-                <span class="gallery-empty-emoji" aria-hidden="true">📷</span>
-                <h3 class="gallery-empty-title font-elegant">No Memories Yet</h3>
-                <p class="gallery-empty-text">
-                    Your gallery is waiting to be filled with beautiful moments.
-                    <br>Upload your first photo through the
-                    <a href="/admin/love/galleryimage/add/" class="gallery-empty-link">Django Admin</a>.
-                </p>
-                <div class="gallery-empty-hint">
-                    <i class="fa-solid fa-lightbulb me-2"></i>
-                    <span>Tip: Add categories first, then upload images and assign them.</span>
-                </div>
-            </div>
-        </div>
-        {% endif %}
+        </div><!-- /.scrapbook-grid -->
 
     </div>
 </section>
@@ -241,8 +115,18 @@
         <div class="lightbox-info" id="lightboxInfo">
             <h3 class="lightbox-title font-elegant" id="lightboxTitle"></h3>
             <p class="lightbox-caption" id="lightboxCaption"></p>
-            <span class="lightbox-date font-elegant" id="lightboxDate"></span>
+            <div class="lightbox-meta">
+                <span class="lightbox-location" id="lightboxLocation"></span>
+                <span class="lightbox-date font-elegant" id="lightboxDate"></span>
+            </div>
             <span class="lightbox-counter" id="lightboxCounter"></span>
+        </div>
+    </div>
+
+    <!-- Thumbnail Filmstrip -->
+    <div class="lightbox-filmstrip" id="lightboxFilmstrip">
+        <div class="filmstrip-track" id="filmstripTrack">
+            <!-- Thumbnails dynamically injected by JS -->
         </div>
     </div>
 
@@ -263,5 +147,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/gallery.js' %}" defer></script>
+<script src="{% static 'js/gallery.js' %}?v=photo_first" defer></script>
 {% endblock %}

@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const letterFooter = document.getElementById("letterFooter");
     const letterPs = document.getElementById("letterPs");
     const typewriterStatus = document.getElementById("typewriterStatus");
-    const skipBtn = document.getElementById("skipBtn");
     const replayBtn = document.getElementById("replayBtn");
     const musicBtn = document.getElementById("musicBtn");
     const musicBtnText = document.getElementById("musicBtnText");
@@ -67,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         if (letterPs) letterPs.style.opacity = "0";
         if (typewriterStatus) typewriterStatus.textContent = "Writing love letter...";
-        if (skipBtn) skipBtn.disabled = false;
 
         createNewParagraph();
         typeNextCharacter();
@@ -133,34 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (typewriterStatus) typewriterStatus.textContent = "Letter complete 💕";
-        if (skipBtn) skipBtn.disabled = true;
     }
 
 
     /* ──────────────────────────────────────────
        2. CONTROLS: INSTANT REVEAL & REPLAY
        ────────────────────────────────────────── */
-    if (skipBtn) {
-        skipBtn.addEventListener("click", () => {
-            if (!isTyping) return;
-            isTyping = false;
-            if (typingTimeout) clearTimeout(typingTimeout);
-
-            // Output all paragraphs instantly
-            if (typewriterBody) {
-                typewriterBody.innerHTML = "";
-                paragraphs.forEach((text) => {
-                    const p = document.createElement("p");
-                    p.className = "letter-paragraph font-handwritten";
-                    p.textContent = text;
-                    typewriterBody.appendChild(p);
-                });
-            }
-
-            finishTypewriter();
-        });
-    }
-
     if (replayBtn) {
         replayBtn.addEventListener("click", () => {
             startTypewriter();
@@ -274,27 +250,41 @@ document.addEventListener("DOMContentLoaded", () => {
         musicBtn.addEventListener("click", () => {
             const bgAudio = document.getElementById("bgMusic") || document.getElementById("letterAudio");
             
-            isMusicPlaying = !isMusicPlaying;
+            if (bgAudio) {
+                if (bgAudio.paused) {
+                    if (window.foreverUsFadeIn) window.foreverUsFadeIn();
+                    else bgAudio.play().catch(() => startMusicBox());
+                } else {
+                    if (window.foreverUsFadeOut) window.foreverUsFadeOut();
+                    else bgAudio.pause();
+                    stopMusicBox();
+                }
+            } else {
+                if (isMusicPlaying) stopMusicBox();
+                else startMusicBox();
+                isMusicPlaying = !isMusicPlaying;
+            }
+        });
 
-            if (isMusicPlaying) {
+        document.addEventListener("foreverus:playstate", (e) => {
+            const isPlaying = e.detail.playing;
+            if (isPlaying) {
                 musicBtn.classList.add("is-playing");
                 if (musicBtnText) musicBtnText.textContent = "Pause Music";
                 musicBtn.innerHTML = '<i class="fa-solid fa-volume-high me-1"></i> <span id="musicBtnText">Pause Music</span>';
-
-                // Try playing audio element first, fall back to synthesized music box
-                if (bgAudio && bgAudio.querySelector("source")) {
-                    bgAudio.play().catch(() => startMusicBox());
-                } else {
-                    startMusicBox();
-                }
             } else {
                 musicBtn.classList.remove("is-playing");
                 if (musicBtnText) musicBtnText.textContent = "Play Music";
                 musicBtn.innerHTML = '<i class="fa-solid fa-music me-1"></i> <span id="musicBtnText">Play Music</span>';
-
-                if (bgAudio) bgAudio.pause();
-                stopMusicBox();
             }
         });
+
+        // Initialize state
+        const globalAudio = document.getElementById("bgMusic");
+        if (globalAudio && !globalAudio.paused) {
+            musicBtn.classList.add("is-playing");
+            if (musicBtnText) musicBtnText.textContent = "Pause Music";
+            musicBtn.innerHTML = '<i class="fa-solid fa-volume-high me-1"></i> <span id="musicBtnText">Pause Music</span>';
+        }
     }
 });

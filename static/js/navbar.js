@@ -153,23 +153,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const globalAudio = document.getElementById("bgMusic");
 
     function toggleMusic() {
-        if (globalAudio) {
-            if (globalAudio.paused) {
-                globalAudio.play().then(() => {
-                    updateMusicState(true);
-                }).catch(err => console.log("Audio play error:", err));
-            } else {
-                globalAudio.pause();
-                updateMusicState(false);
-            }
+        if (!globalAudio) return;
+        if (globalAudio.paused) {
+            if (window.foreverUsFadeIn) window.foreverUsFadeIn();
+            else globalAudio.play().catch(()=>{});
         } else {
-            // Fallback trigger if global audio element is handled elsewhere
-            const globalToggle = document.getElementById("musicToggle") || document.getElementById("musicToggleBtn");
-            if (globalToggle) globalToggle.click();
+            if (window.foreverUsFadeOut) window.foreverUsFadeOut();
+            else globalAudio.pause();
         }
     }
 
-    function updateMusicState(isPlaying) {
+    if (navMusicBtn) navMusicBtn.addEventListener("click", toggleMusic);
+    if (drawerMusicBtn) drawerMusicBtn.addEventListener("click", toggleMusic);
+
+    document.addEventListener("foreverus:playstate", (e) => {
+        const isPlaying = e.detail.playing;
         [navMusicBtn, drawerMusicBtn].forEach((btn) => {
             if (!btn) return;
             if (isPlaying) {
@@ -179,18 +177,19 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 btn.classList.remove("playing");
                 const icon = btn.querySelector("i");
-                if (icon) icon.className = "fa-solid fa-music";
+                if (icon) icon.className = "fa-solid fa-play";
             }
         });
-    }
+    });
 
-    if (globalAudio) {
-        globalAudio.addEventListener("play", () => updateMusicState(true));
-        globalAudio.addEventListener("pause", () => updateMusicState(false));
+    if (globalAudio && !globalAudio.paused) {
+        [navMusicBtn, drawerMusicBtn].forEach((btn) => {
+            if (!btn) return;
+            btn.classList.add("playing");
+            const icon = btn.querySelector("i");
+            if (icon) icon.className = "fa-solid fa-pause";
+        });
     }
-
-    if (navMusicBtn) navMusicBtn.addEventListener("click", toggleMusic);
-    if (drawerMusicBtn) drawerMusicBtn.addEventListener("click", toggleMusic);
 
 
     /* ──────────────────────────────────────────

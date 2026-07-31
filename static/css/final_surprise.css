@@ -61,7 +61,7 @@
 .surprise-section {
     position: relative;
     z-index: 10;
-    min-height: calc(100vh - var(--navbar-height) - 70px);
+    display: flex;
     padding: calc(var(--navbar-height) + 2rem) 0 4rem;
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
@@ -344,5 +344,122 @@
     .btn-always-yes {
         width: 100%;
         max-width: 320px;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   6. CUSTOM CONFIRMATION DIALOG
+   ────────────────────────────────────────────── */
+.surprise-dialog {
+    border-radius: var(--radius-xl);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 35px 90px rgba(0, 0, 0, 0.75), 0 0 60px rgba(233, 30, 99, 0.35);
+    background: linear-gradient(145deg, rgba(28, 6, 38, 0.92), rgba(60, 12, 55, 0.85));
+    color: white;
+    padding: 2.5rem 2rem;
+    max-width: min(90vw, 480px);
+    min-width: 320px;
+    width: fit-content;
+    text-align: center;
+    margin: auto;
+}
+
+/* Dialog Button Container */
+.dialog-buttons-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* Consistent button sizing inside the dialog */
+.dialog-buttons-wrap .btn-romantic,
+.dialog-buttons-wrap .btn-glass-secondary {
+    min-width: 130px;
+    max-width: 100%;
+    white-space: nowrap;
+    text-align: center;
+    justify-content: center;
+}
+
+/* Stack vertically on very narrow viewports */
+@media (max-width: 400px) {
+    .dialog-buttons-wrap {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dialog-buttons-wrap .btn-romantic,
+    .dialog-buttons-wrap .btn-glass-secondary {
+        width: 100%;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   7. CELEBRATION ACTION BUTTONS
+   ────────────────────────────────────────────── */
+.celebration-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    width: 100%;
+}
+
+.celebration-actions .btn-glass-secondary,
+.celebration-actions .btn-romantic-outline {
+    min-width: 180px;
+    max-width: 100%;
+    white-space: nowrap;
+    text-align: center;
+    justify-content: center;
+}
+
+@media (max-width: 480px) {
+    .celebration-actions .btn-glass-secondary,
+    .celebration-actions .btn-romantic-outline {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+.surprise-dialog::backdrop {
+    background: rgba(10, 2, 15, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Entrance Animations */
+.surprise-dialog[open] {
+    animation: dialogEnter 0.3s ease-out forwards;
+}
+
+.surprise-dialog[open]::backdrop {
+    animation: backdropEnter 0.3s ease-out forwards;
+}
+
+@keyframes dialogEnter {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes backdropEnter {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+    .surprise-dialog[open] {
+        animation: dialogEnterReduced 0.3s ease-out forwards;
+    }
+    
+    @keyframes dialogEnterReduced {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
     }
 }
