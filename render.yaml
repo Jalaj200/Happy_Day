@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: forever-us
+    env: python
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn forever_us.wsgi:application"
+    envVars:
+      - key: DJANGO_ENV
+        value: production
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_HOSTS
+        value: forever-us.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://forever-us.onrender.com
+      # The database variables should be connected via Render Dashboard 
+      # or automatically injected if using a Render Database
+      - key: DB_NAME
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false

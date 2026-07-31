@@ -18,6 +18,7 @@ DEBUG = False
 # Allowed Hosts (loaded from .env)
 # ──────────────────────────────────────────────
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 
 # ──────────────────────────────────────────────

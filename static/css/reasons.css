@@ -712,3 +712,53 @@
     font-size: 1.8rem;
     color: #e91e63;
 }
+
+/* ----------------------------------------------
+   9. CELEBRATION MODAL (Finale UI Refinement)
+   ---------------------------------------------- */
+.celebration-modal-content {
+    background: rgba(18, 5, 25, 0.8) !important;
+    backdrop-filter: blur(30px) !important;
+    -webkit-backdrop-filter: blur(30px) !important;
+    border: 1px solid rgba(255, 105, 180, 0.25) !important;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(233, 30, 99, 0.15) !important;
+    border-radius: 20px !important;
+}
+
+.celebration-icon-glow {
+    filter: drop-shadow(0 0 20px rgba(233, 30, 99, 0.5));
+}
+
+/* Floating Decorative Particles */
+.floating-particle {
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+    animation: floatParticle 6s ease-in-out infinite;
+}
+.floating-particle.p1 { top: 15%; left: 10%; font-size: 1.2rem; animation-delay: 0s; }
+.floating-particle.p2 { top: 25%; right: 15%; font-size: 1.5rem; animation-delay: 1.5s; }
+.floating-particle.p3 { bottom: 20%; left: 15%; font-size: 1.4rem; animation-delay: 3s; }
+.floating-particle.p4 { bottom: 15%; right: 10%; font-size: 1.1rem; animation-delay: 4.5s; }
+
+@keyframes floatParticle {
+    0%, 100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.5; }
+    50% { transform: translateY(-20px) scale(1.2) rotate(10deg); opacity: 0.8; }
+}
+
+/* Ensure buttons scale cleanly on mobile */
+@media (max-width: 575.98px) {
+    .celebration-modal-content .d-flex {
+        gap: 1rem !important;
+    }
+    .celebration-modal-content .btn-glass-secondary,
+    .celebration-modal-content .btn-romantic {
+        min-width: 100% !important;
+    }
+    .celebration-modal-content h2 {
+        font-size: 2.5rem !important;
+    }
+    .floating-particle {
+        display: none;
+    }
+}
