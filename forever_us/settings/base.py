@@ -93,17 +93,24 @@ ASGI_APPLICATION = "forever_us.asgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("DB_NAME", "forever_us_db"),
-        "USER": os.getenv("DB_USER", "root"),
-        "PASSWORD": os.getenv("DB_PASSWORD", ""),
-        "HOST": os.getenv("DB_HOST", "localhost"),
-        "PORT": os.getenv("DB_PORT", "3306"),
+        "NAME": os.getenv("DB_NAME") or "forever_us_db",
+        "USER": os.getenv("DB_USER") or "root",
+        "PASSWORD": os.getenv("DB_PASSWORD") or "",
+        "HOST": os.getenv("DB_HOST") or "localhost",
+        "PORT": os.getenv("DB_PORT") or "3306",
         "OPTIONS": {
             "charset": "utf8mb4",
             "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
+
+# Aiven MySQL requires an encrypted SSL connection.
+# In production on Render, we securely point mysqlclient to the system's root CA certificates.
+if os.getenv("DJANGO_ENV", "development").lower() == "production":
+    DATABASES["default"]["OPTIONS"]["ssl"] = {
+        "ca": "/etc/ssl/certs/ca-certificates.crt"
+    }
 
 
 # ──────────────────────────────────────────────
