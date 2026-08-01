@@ -330,6 +330,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (resetTimerBtn) resetTimerBtn.style.display = "inline-flex";
         if (timerStatusText) timerStatusText.textContent = "✨ Celebrating Girlfriend's Day! ✨";
 
+        const celebrateAgainWrapper = document.getElementById("celebrateAgainWrapper");
+        if (celebrateAgainWrapper) celebrateAgainWrapper.style.display = "block";
+
         if (celebrationScreen) {
             celebrationScreen.style.display = "flex";
             celebrationScreen.setAttribute("aria-hidden", "false");
@@ -342,6 +345,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function stopCelebration() {
+        isCelebrating = false; // Prevent memory leaks in rAF loops
         if (fireworksId) cancelAnimationFrame(fireworksId);
         if (confettiId) cancelAnimationFrame(confettiId);
         if (heartsInterval) clearInterval(heartsInterval);
@@ -351,6 +355,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const petalContainer = document.getElementById("petalContainer");
         if (petalContainer) petalContainer.innerHTML = "";
         
+        // Clear canvases directly for immediate cleanup
+        const fCanvas = document.getElementById("fireworksCanvas");
+        if (fCanvas) fCanvas.getContext("2d").clearRect(0, 0, fCanvas.width, fCanvas.height);
+        const cCanvas = document.getElementById("confettiCanvas");
+        if (cCanvas) cCanvas.getContext("2d").clearRect(0, 0, cCanvas.width, cCanvas.height);
+
         if (celebrationScreen) {
             // Apply a quick fade out transition before hiding
             celebrationScreen.style.transition = "opacity 0.5s ease";
@@ -372,18 +382,111 @@ document.addEventListener("DOMContentLoaded", () => {
             setNumberWithPop(minutesEl, "00", true);
             setNumberWithPop(secondsEl, "00", true);
             startCelebration();
+            
+            const celebrateAgainWrapper = document.getElementById("celebrateAgainWrapper");
+            if (celebrateAgainWrapper) celebrateAgainWrapper.style.display = "block";
         });
     }
 
     if (resetTimerBtn) {
         resetTimerBtn.addEventListener("click", () => {
             startLiveTimer();
+            const celebrateAgainWrapper = document.getElementById("celebrateAgainWrapper");
+            if (celebrateAgainWrapper) celebrateAgainWrapper.style.display = "none";
         });
     }
 
     if (closeCelebrationBtn) {
         closeCelebrationBtn.addEventListener("click", () => {
             stopCelebration();
+        });
+    }
+
+    // --- CELEBRATE AGAIN FEATURE ---
+    const celebrateAgainBtn = document.getElementById("celebrateAgainBtn");
+    if (celebrateAgainBtn) {
+        celebrateAgainBtn.addEventListener("click", () => {
+            celebrateAgainBtn.disabled = true;
+            celebrateAgainBtn.innerHTML = "❤️ Replaying the celebration...";
+            
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            
+            // Handle Music Reset while preserving user preferences
+            const audio = document.getElementById("bgMusic");
+            if (audio) {
+                const prevVol = audio.volume;
+                const prevMute = audio.muted;
+                audio.currentTime = 0;
+                
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => { /* Respect autoplay restrictions */ });
+                }
+                
+                // Restore settings
+                audio.volume = prevVol;
+                audio.muted = prevMute;
+            }
+
+            // Stop any currently running celebration and reset
+            stopCelebration();
+            
+            // Short delay to let DOM settle, then restart
+            setTimeout(() => {
+                startCelebration();
+                
+                // Replay CSS Entrance Animations
+                const animClasses = [".animate-fade-in", ".animate-card-entrance", ".reveal-scale", ".navbar"];
+                const elements = document.querySelectorAll(animClasses.join(", "));
+                let longestDuration = 0;
+                let longestElement = null;
+
+                elements.forEach(el => {
+                    // Temporarily remove classes to reset animation
+                    const hadFade = el.classList.contains("animate-fade-in");
+                    const hadCard = el.classList.contains("animate-card-entrance");
+                    const hadReveal = el.classList.contains("reveal-scale");
+                    
+                    if (hadFade) el.classList.remove("animate-fade-in");
+                    if (hadCard) el.classList.remove("animate-card-entrance");
+                    if (hadReveal) el.classList.remove("reveal-scale");
+
+                    // Trigger reflow
+                    void el.offsetWidth;
+                    
+                    // Re-add classes
+                    if (hadFade) el.classList.add("animate-fade-in");
+                    if (hadCard) el.classList.add("animate-card-entrance");
+                    if (hadReveal) el.classList.add("reveal-scale");
+                    
+                    // Dynamically calculate the longest animation to re-enable the button safely
+                    const computedStyle = window.getComputedStyle(el);
+                    const duration = parseFloat(computedStyle.animationDuration || "0") * 1000;
+                    const delay = parseFloat(computedStyle.animationDelay || "0") * 1000;
+                    if (duration + delay > longestDuration) {
+                        longestDuration = duration + delay;
+                        longestElement = el;
+                    }
+                });
+
+                // Re-enable button after longest animation completes
+                const enableBtn = () => {
+                    celebrateAgainBtn.innerHTML = "💖 Celebrate Again";
+                    celebrateAgainBtn.disabled = false;
+                    if (longestElement) {
+                        longestElement.removeEventListener("animationend", enableBtn);
+                    }
+                };
+
+                if (longestElement && longestDuration > 0) {
+                    longestElement.addEventListener("animationend", enableBtn, { once: true });
+                    // Fallback timeout in case event is missed
+                    setTimeout(enableBtn, longestDuration + 500);
+                } else {
+                    setTimeout(enableBtn, 2000);
+                }
+                
+            }, 500);
         });
     }
 
@@ -402,10 +505,18 @@ document.addEventListener("DOMContentLoaded", () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        if (!canvas.dataset.resizeBound) {
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const cCanvas = document.getElementById("confettiCanvas");
+                if (cCanvas) {
+                    cCanvas.width = window.innerWidth;
+                    cCanvas.height = window.innerHeight;
+                }
+            });
+            canvas.dataset.resizeBound = "true";
+        }
 
         const particles = [];
         const colors = [

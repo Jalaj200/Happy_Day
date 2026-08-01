@@ -599,7 +599,32 @@
 }
 
 /* ──────────────────────────────────────────────
-   7. ACCESSIBILITY (Reduced Motion)
+   7. CELEBRATE AGAIN BUTTON
+   ────────────────────────────────────────────── */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 10px rgba(255, 117, 140, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 117, 140, 0.8), 0 0 10px rgba(255, 126, 179, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(255, 117, 140, 0.4);
+    }
+}
+
+.pulse-glow {
+    animation: pulse-glow 2s infinite alternate;
+    transition: all 0.3s ease;
+}
+
+.pulse-glow:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 117, 140, 1), 0 0 15px rgba(255, 126, 179, 0.8) !important;
+}
+
+/* ──────────────────────────────────────────────
+   8. ACCESSIBILITY (Reduced Motion)
    ────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
     * {
@@ -617,7 +642,8 @@
     .time-box-glow--pulse,
     .time-box.shimmer::after,
     .time-box.hour-pulse::before,
-    .countdown-teaser {
+    .countdown-teaser,
+    .pulse-glow {
         display: none !important;
         animation: none !important;
     }
