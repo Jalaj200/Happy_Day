@@ -31,7 +31,8 @@ def forever_us_context(request):
         class DummyMusic:
             title = "Our Romantic Symphony"
             artist = "Forever Us Orchestra"
-            get_audio_url = "https://cdn.pixabay.com/download/audio/2022/05/16/audio_c2b8798db6.mp3?filename=romantic-piano-110023.mp3"
+            from django.templatetags.static import static
+            get_audio_url = static("music/Tum_Se_Hi_Jab_We_Met_320_Kbps.mp3")
         bg_music = DummyMusic()
 
     return {

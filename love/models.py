@@ -413,15 +413,23 @@ class BackgroundMusic(models.Model):
 
     @property
     def get_audio_url(self):
+        from django.templatetags.static import static
+        import os
+        
         if self.audio_file:
             try:
-                return self.audio_file.url
+                # The file field saves as 'music/filename.mp3'
+                # We strip any path parts to get just the filename, 
+                # then ask Django to resolve it from the static pipeline
+                filename = os.path.basename(self.audio_file.name)
+                return static(f"music/{filename}")
             except Exception:
                 pass
         if self.audio_url:
             return self.audio_url
-        # Fallback royalty-free ambient romantic piano
-        return "https://cdn.pixabay.com/download/audio/2022/05/16/audio_c2b8798db6.mp3?filename=romantic-piano-110023.mp3"
+            
+        # Fallback to the bundled static MP3 file
+        return static("music/Tum_Se_Hi_Jab_We_Met_320_Kbps.mp3")
 
 
 # ──────────────────────────────────────────────
