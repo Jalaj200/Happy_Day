@@ -108,9 +108,7 @@ DATABASES = {
 # Aiven MySQL requires an encrypted SSL connection.
 # In production on Render, we securely point mysqlclient to the system's root CA certificates.
 if os.getenv("DJANGO_ENV", "development").lower() == "production":
-    DATABASES["default"]["OPTIONS"]["ssl"] = {
-        "ca": "/etc/ssl/certs/ca-certificates.crt"
-    }
+    DATABASES["default"]["OPTIONS"]["ssl_mode"] = "REQUIRED"
 
 
 # ──────────────────────────────────────────────
