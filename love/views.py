@@ -858,16 +858,22 @@ def secret_page(request):
 
     # Handle password form submission
     if request.method == "POST":
-        submitted_pass = request.POST.get("password", "").strip()
-        
-        # If it's a JSON request body, parse it
-        if not submitted_pass and request.content_type == "application/json":
-            import json
+        import json
+
+        submitted_pass = ""
+
+        # Try JSON body first (AJAX path sends Content-Type: application/json)
+        # Must read request.body BEFORE request.POST to avoid stream consumption
+        if request.content_type == "application/json":
             try:
                 data = json.loads(request.body)
                 submitted_pass = data.get("password", "").strip()
             except Exception:
                 pass
+
+        # Fall back to standard form POST data
+        if not submitted_pass:
+            submitted_pass = request.POST.get("password", "").strip()
 
         valid_passwords = [config["password"].strip(), "forever0801", "iloveyou"]
         if submitted_pass.lower() in [p.lower() for p in valid_passwords]:

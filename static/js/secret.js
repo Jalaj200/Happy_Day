@@ -427,6 +427,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const res = await fetch(dom.unlockForm.action, {
                     method: "POST",
+                    credentials: "same-origin",
                     headers: {
                         "X-Requested-With": "XMLHttpRequest",
                         "Content-Type": "application/json",
@@ -440,6 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!success && data.error) errorMsg = data.error;
             } catch (err) {
                 console.error("AJAX failed, falling back to standard submission...", err);
+                dom.passInput.disabled = false;
                 dom.unlockForm.submit();
                 return;
             }
