@@ -112,27 +112,111 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 4000);
     }
 
-    // Intercept navigation links for smooth CSS fade-out transition
-    document.querySelectorAll("a[href]").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            const href = link.getAttribute("href");
-            if (!href || href.startsWith("#") || href.startsWith("javascript:") || link.target === "_blank" || link.hasAttribute("download")) {
-                return;
-            }
-            // Check if link is same-origin
-            try {
-                const targetUrl = new URL(link.href, window.location.origin);
-                if (targetUrl.origin === window.location.origin && targetUrl.pathname !== window.location.pathname) {
-                    e.preventDefault();
-                    document.body.classList.add("page-transitioning-out");
-                    setTimeout(() => {
-                        window.location.href = link.href;
-                    }, 350);
+    /* ──────────────────────────────────────────
+       2B. PREMIUM PAGE TRANSITION MANAGER
+       (Single source of truth for all navigation transitions)
+       ────────────────────────────────────────── */
+    const TRANSITION_DURATION = 350; // ms — must match CSS transition duration
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let isTransitioning = false;
+
+    // --- Outgoing: Intercept internal navigation links ---
+    document.addEventListener("click", (e) => {
+        // Walk up from the click target to find the nearest <a> element
+        const link = e.target.closest("a[href]");
+        if (!link) return;
+
+        // Skip if already handled, or not a normal left-click
+        if (
+            e.defaultPrevented ||
+            e.button !== 0 ||
+            e.metaKey || e.ctrlKey || e.shiftKey || e.altKey
+        ) return;
+
+        const href = link.getAttribute("href");
+        if (
+            !href ||
+            href.startsWith("#") ||
+            href.startsWith("javascript:") ||
+            link.target === "_blank" ||
+            link.hasAttribute("download")
+        ) return;
+
+        // Only same-origin, different-path navigation
+        try {
+            const targetUrl = new URL(link.href, window.location.origin);
+            if (targetUrl.origin !== window.location.origin) return;
+            if (targetUrl.pathname === window.location.pathname && !targetUrl.hash) return;
+        } catch (err) {
+            return; // Invalid URL — let browser handle it
+        }
+
+        // Guard against rapid repeated clicks during transition
+        if (isTransitioning) {
+            e.preventDefault();
+            return;
+        }
+
+        e.preventDefault();
+        isTransitioning = true;
+
+        if (prefersReducedMotion.matches) {
+            // Skip animation — navigate immediately
+            window.location.href = link.href;
+            return;
+        }
+
+        document.body.classList.add("page-transitioning-out");
+        setTimeout(() => {
+            window.location.href = link.href;
+        }, TRANSITION_DURATION);
+    });
+
+    // --- Incoming: Fade-in animation when the new page loads ---
+    if (sessionStorage.getItem("loaderShown")) {
+        // The loader is being skipped, so we animate the page entrance instead
+        if (!prefersReducedMotion.matches) {
+            document.body.classList.add("page-transitioning-in");
+
+            // Wait one frame for the browser to paint the initial hidden state,
+            // then remove the class to trigger the CSS transition to visible
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    document.body.classList.remove("page-transitioning-in");
+                });
+            });
+
+            // Cleanup fallback — ensure class is removed even if transitionend is missed
+            const cleanupFallback = setTimeout(() => {
+                document.body.classList.remove("page-transitioning-in");
+            }, TRANSITION_DURATION + 100);
+
+            document.body.addEventListener("transitionend", function onTransitionIn(e) {
+                if (e.target === document.body) {
+                    clearTimeout(cleanupFallback);
+                    document.body.removeEventListener("transitionend", onTransitionIn);
                 }
-            } catch (err) {
-                // Ignore invalid URLs
+            });
+        }
+    }
+
+    // --- Back/Forward: Handle bfcache and history navigation ---
+    window.addEventListener("pageshow", (e) => {
+        // Reset transition state when returning via back/forward
+        isTransitioning = false;
+        document.body.classList.remove("page-transitioning-out");
+
+        // If page is restored from bfcache, apply fade-in
+        if (e.persisted && sessionStorage.getItem("loaderShown")) {
+            if (!prefersReducedMotion.matches) {
+                document.body.classList.add("page-transitioning-in");
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        document.body.classList.remove("page-transitioning-in");
+                    });
+                });
             }
-        });
+        }
     });
 
     /* ──────────────────────────────────────────

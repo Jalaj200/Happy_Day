@@ -1,22 +1,37 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Forever Us — Premium Full-Screen Romantic Loader Script (Reference Match)
+   Forever Us — Premium Full-Screen Romantic Loader Script
    ═══════════════════════════════════════════════════════════════════════════
-   Features:
-     1. Rotating romantic loading messages (smooth fade transition)
-     2. 60 FPS smooth progress incrementing via requestAnimationFrame
-     3. Waits for window 'load' event (disappears only after website is loaded)
-     4. Seamless page transition handling for Django links
+   Responsibilities (loader ONLY — navigation transitions are in effects.js):
+     1. Show the premium loader on the user's FIRST visit per browser session
+     2. Skip the loader entirely on subsequent navigations / refreshes
+     3. Rotating romantic loading messages (smooth fade transition)
+     4. 60 FPS smooth progress incrementing via requestAnimationFrame
+     5. Waits for window 'load' event (disappears only after website is loaded)
    ═══════════════════════════════════════════════════════════════════════════ */
 
 document.addEventListener("DOMContentLoaded", () => {
     "use strict";
 
     const loaderEl = document.getElementById("premiumLoader");
+    if (!loaderEl) return;
+
+    /* ──────────────────────────────────────────
+       0. SESSION-BASED LOADER GATE
+       ────────────────────────────────────────── 
+       Show the loader only on the user's very first visit per browser session.
+       If the loader has already been shown, hide it immediately and skip
+       all progress animation, message rotation, rAF loops, and timers. */
+    if (sessionStorage.getItem("loaderShown")) {
+        // Use visibility: hidden first to prevent any visual flash,
+        // then display: none to remove from layout
+        loaderEl.style.visibility = "hidden";
+        loaderEl.style.display = "none";
+        return; // Exit — skip ALL loader logic below
+    }
+
     const msgTextEl = document.getElementById("loaderMessageText");
     const percentEl = document.getElementById("loaderPercentDisplay");
     const progressFillEl = document.getElementById("loaderProgressFill");
-
-    if (!loaderEl) return;
 
     /* ──────────────────────────────────────────
        1. ROTATING ROMANTIC LOADING MESSAGES
@@ -88,6 +103,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (loaderEl.parentNode) {
                         loaderEl.style.display = "none";
                     }
+                    // Mark loader as shown ONLY after the entire fade-out is complete.
+                    // If the user refreshes mid-loader, they'll see the full experience again.
+                    sessionStorage.setItem("loaderShown", "true");
                 }, 900);
             }, 450);
         } else {
@@ -112,29 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         isWebsiteLoaded = true;
     }, 4500);
 
-
-    /* ──────────────────────────────────────────
-       4. DJANGO SAME-ORIGIN PAGE TRANSITIONS
-       ────────────────────────────────────────── */
-    document.querySelectorAll("a[href]").forEach((link) => {
-        link.addEventListener("click", (e) => {
-            const href = link.getAttribute("href");
-            if (!href || href.startsWith("#") || href.startsWith("javascript:") || link.target === "_blank" || link.hasAttribute("download")) {
-                return;
-            }
-            try {
-                const targetUrl = new URL(link.href, window.location.origin);
-                if (targetUrl.origin === window.location.origin && targetUrl.pathname !== window.location.pathname) {
-                    e.preventDefault();
-                    document.body.style.opacity = "0";
-                    document.body.style.transition = "opacity 0.35s ease";
-                    setTimeout(() => {
-                        window.location.href = link.href;
-                    }, 350);
-                }
-            } catch (err) {
-                // Ignore invalid URLs
-            }
-        });
-    });
+    // NOTE: Section 4 (Django page transitions) has been REMOVED.
+    // Page transitions are now solely managed by effects.js to prevent
+    // duplicate event listeners and competing animations.
 });
