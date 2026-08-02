@@ -24,6 +24,7 @@ def forever_us_context(request):
     bg_music = None
     try:
         bg_music = BackgroundMusic.objects.filter(is_active=True).first()
+        print(f"[DEBUG] BackgroundMusic object: {bg_music}")
     except Exception:
         pass
 
@@ -31,8 +32,11 @@ def forever_us_context(request):
         class DummyMusic:
             title = "Our Romantic Symphony"
             artist = "Forever Us Orchestra"
-            from django.templatetags.static import static
-            get_audio_url = static("music/Tum_Se_Hi_Jab_We_Met_320_Kbps.mp3")
+            
+            @property
+            def get_audio_url(self):
+                from django.templatetags.static import static
+                return static("music/Tum_Se_Hi_Jab_We_Met_320_Kbps.mp3")
         bg_music = DummyMusic()
 
     return {

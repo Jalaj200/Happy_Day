@@ -11,7 +11,7 @@ from forever_us.settings.base import *  # noqa: F401, F403
 # ──────────────────────────────────────────────
 # Debug Mode — NEVER True in production
 # ──────────────────────────────────────────────
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "yes")
 
 
 # ──────────────────────────────────────────────
